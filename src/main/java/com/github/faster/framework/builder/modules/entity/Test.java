@@ -1,4 +1,4 @@
-package com.github.faster.framework.builder;
+package com.github.faster.framework.builder.modules.entity;
 
 
 import lombok.Data;
