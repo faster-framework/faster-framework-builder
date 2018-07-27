@@ -15,4 +15,5 @@ repositories {
 
 dependencies {
     compile 'com.github.faster-framework:faster-framework-core-spring-boot-starter:1.0.5.RELEASE'
+    compile 'org.freemarker:freemarker:2.3.28'
 }

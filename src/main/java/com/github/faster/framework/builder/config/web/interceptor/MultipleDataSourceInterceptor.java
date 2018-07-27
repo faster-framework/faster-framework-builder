@@ -1,6 +1,6 @@
-package com.github.faster.framework.builder.common.interceptor;
+package com.github.faster.framework.builder.config.web.interceptor;
 
-import com.github.faster.framework.builder.common.context.MultipleDataSourceContext;
+import com.github.faster.framework.builder.config.web.context.MultipleDataSourceContext;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;

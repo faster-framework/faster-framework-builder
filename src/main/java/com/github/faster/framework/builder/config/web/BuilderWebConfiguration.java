@@ -1,6 +1,6 @@
-package com.github.faster.framework.builder.common.web;
+package com.github.faster.framework.builder.config.web;
 
-import com.github.faster.framework.builder.common.interceptor.MultipleDataSourceInterceptor;
+import com.github.faster.framework.builder.config.web.interceptor.MultipleDataSourceInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

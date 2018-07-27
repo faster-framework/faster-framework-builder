@@ -1,4 +1,4 @@
-package com.github.faster.framework.builder.common.datasource;
+package com.github.faster.framework.builder.config.datasource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
