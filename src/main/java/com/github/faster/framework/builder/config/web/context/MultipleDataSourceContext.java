@@ -19,7 +19,10 @@ public class MultipleDataSourceContext {
     }
 
     public static void clear() {
-        multipleDataSourceThreadLocal.get().close();
+        DruidDataSource druidDataSource = multipleDataSourceThreadLocal.get();
+        if (druidDataSource != null) {
+            druidDataSource.close();
+        }
         multipleDataSourceThreadLocal.remove();
     }
 }

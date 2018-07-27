@@ -1,5 +1,6 @@
 package com.github.faster.framework.builder.engine;
 
+import com.github.faster.framework.builder.constants.BuilderTypeConstants;
 import com.github.faster.framework.builder.engine.adminApi.AdminApiBuilderEngine;
 import com.github.faster.framework.builder.engine.adminWeb.AdminWebBuilderEngine;
 import com.github.faster.framework.builder.engine.api.ApiBuilderEngine;
@@ -48,7 +49,7 @@ public abstract class BuilderEngine {
      */
     protected void init(BuilderRequest builderRequest, List<TableColumnModel> tableColumnList) {
         builderParam = new BuilderModel();
-        builderParam.setDependencyVersion(builderRequest.getDependencyRequest().getVersion());
+        builderParam.setDependencyVersion(builderRequest.getDependency().getVersion());
         builderParam.setProjectName(builderRequest.getBusiness().getProjectName());
         builderParam.setTableColumnList(completeTableColumn(tableColumnList));
         builderParam.setBasePackagePath(builderRequest.getBusiness().getBasePackagePath());
@@ -63,13 +64,16 @@ public abstract class BuilderEngine {
     public static BuilderEngine build(BuilderRequest builderRequest, List<TableColumnModel> tableColumnList) {
         BuilderEngine builderEngine;
         switch (builderRequest.getType()) {
-            case API:
+            case BuilderTypeConstants
+                    .API:
                 builderEngine = new ApiBuilderEngine();
                 break;
-            case ADMIN_API:
+            case BuilderTypeConstants
+                    .ADMIN_API:
                 builderEngine = new AdminApiBuilderEngine();
                 break;
-            case ADMIN_WEB:
+            case BuilderTypeConstants
+                    .ADMIN_WEB:
                 builderEngine = new AdminWebBuilderEngine();
                 break;
             default:

@@ -1,6 +1,5 @@
 package com.github.faster.framework.builder.model.request;
 
-import com.github.faster.framework.builder.constants.BuilderTypeEnum;
 import lombok.Data;
 
 import javax.validation.Valid;
@@ -12,26 +11,26 @@ public class BuilderRequest {
      * 数据库配置
      */
     @Valid
-    @NotNull
+    @NotNull(message = "数据库参数不能为空")
     private DatabaseRequest database;
 
     /**
      * 业务配置
      */
     @Valid
-    @NotNull
+    @NotNull(message = "业务参数不能为空")
     private BusinessRequest business;
 
     /**
      * 引入包的版本
      */
-    private DependencyRequest dependencyRequest;
+    private DependencyRequest dependency;
 
     /**
      * 生成类型
      */
-    @NotNull
-    private BuilderTypeEnum type;
+    @NotNull(message = "类型不能为空")
+    private Integer type;
 
 
 }

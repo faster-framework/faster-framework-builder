@@ -5,6 +5,7 @@ import com.github.faster.framework.builder.service.BuilderService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ public class BuilderController {
      * @return 压缩包
      */
     @PostMapping
-    public ResponseEntity build(@RequestBody BuilderRequest builderRequest) throws IOException {
+    public ResponseEntity build(@RequestBody @Validated BuilderRequest builderRequest) throws IOException {
         builderService.build(builderRequest);
         return new ResponseEntity(HttpStatus.OK);
     }
