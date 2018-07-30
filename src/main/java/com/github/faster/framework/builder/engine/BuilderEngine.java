@@ -52,6 +52,11 @@ public abstract class BuilderEngine {
      */
     protected void init(BuilderRequest builderRequest, List<TableColumnModel> tableColumnList) {
         builderParam = new BuilderModel();
+        builderParam.setDbHost(builderRequest.getDatabase().getHost());
+        builderParam.setDbName(builderRequest.getDatabase().getName());
+        builderParam.setDbPort(builderRequest.getDatabase().getPort());
+        builderParam.setDbPwd(builderRequest.getDatabase().getPassword());
+        builderParam.setDbUsername(builderRequest.getDatabase().getUsername());
         builderParam.setDependencyVersion(builderRequest.getDependency().getVersion());
         builderParam.setProjectName(builderRequest.getBusiness().getProjectName());
         builderParam.setTableColumnList(completeTableColumn(tableColumnList));

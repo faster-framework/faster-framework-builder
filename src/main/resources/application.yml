@@ -8,7 +8,6 @@ spring:
 spring:
   profiles: dev
 
-
 ---
 spring:
   profiles: test

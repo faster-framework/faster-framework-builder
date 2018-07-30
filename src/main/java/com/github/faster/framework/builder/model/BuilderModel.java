@@ -10,6 +10,26 @@ import java.util.List;
 @Data
 public class BuilderModel {
     /**
+     * 数据库主机名
+     */
+    private String dbHost;
+    /**
+     * 数据库端口号
+     */
+    private String dbPort;
+    /**
+     * 数据库名称
+     */
+    private String dbName;
+    /**
+     * 数据库用户
+     */
+    private String dbUsername;
+    /**
+     * 数据库密码
+     */
+    private String dbPwd;
+    /**
      * 项目名称
      */
     private String projectName;
