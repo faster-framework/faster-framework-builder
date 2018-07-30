@@ -11,7 +11,7 @@ import com.github.faster.framework.builder.model.request.BuilderRequest;
 import com.github.faster.framework.builder.utils.BuilderUtils;
 import org.springframework.util.StringUtils;
 
-import java.io.OutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +25,9 @@ public abstract class BuilderEngine {
     protected List<ColumnModel> completeColumn(List<ColumnModel> columnList) {
         return columnList.stream().peek(item -> {
             item.setColumnNameHump(BuilderUtils.hump(item.getColumnName()));
+            item.setColumnNameHumpUpFirst(BuilderUtils.firstCharToUpperCase(item.getColumnNameHump()));
+            item.setJavaType(BuilderUtils.convertToJavaType(item.getDataType()));
+            item.setJavaImportType(BuilderUtils.javaImportType(item.getJavaType()));
         }).collect(Collectors.toList());
     }
 
@@ -61,7 +64,7 @@ public abstract class BuilderEngine {
      * @param tableColumnList 要生成的数据表，携带列信息
      * @return 具体的生成器引擎
      */
-    public static BuilderEngine build(BuilderRequest builderRequest, List<TableColumnModel> tableColumnList) {
+    public static BuilderEngine build(BuilderRequest builderRequest, List<TableColumnModel> tableColumnList) throws IOException {
         BuilderEngine builderEngine;
         switch (builderRequest.getType()) {
             case BuilderTypeConstants
@@ -83,5 +86,5 @@ public abstract class BuilderEngine {
         return builderEngine;
     }
 
-    public abstract byte[] start();
+    public abstract byte[] start() throws IOException;
 }

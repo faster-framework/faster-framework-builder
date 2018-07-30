@@ -7,9 +7,10 @@
         <result column="table_comment" property="tableComment"/>
         <collection property="columnList" ofType="com.github.faster.framework.builder.model.ColumnModel">
             <result column="column_name" property="columnName"/>
-            <result column="ordinal_position" property="dataType"/>
-            <result column="ordinalPosition" property="ordinalPosition"/>
+            <result column="data_type" property="dataType"/>
+            <result column="ordinal_position" property="ordinalPosition"/>
             <result column="column_comment" property="columnComment"/>
+            <result column="is_nullable" property="isNullable"/>
         </collection>
     </resultMap>
     <!--查询携带列的数据-->
@@ -21,7 +22,8 @@
           columns.column_name,
           columns.data_type,
           columns.ordinal_position,
-          columns.column_comment
+          columns.column_comment,
+          columns.is_nullable
         FROM tables
         inner join columns
         on tables.table_schema = columns.table_schema and tables.table_name=columns.table_name

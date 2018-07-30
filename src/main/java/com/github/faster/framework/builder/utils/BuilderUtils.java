@@ -1,7 +1,10 @@
 package com.github.faster.framework.builder.utils;
 
+import com.github.faster.framework.core.entity.BaseEntity;
+import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 
+import java.beans.PropertyDescriptor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -72,4 +75,69 @@ public class BuilderUtils {
         }
         return basePackagePath.replace(".", "/");
     }
+
+    /**
+     * @param dataType 数据库类型
+     * @return Java类型
+     */
+    public static String convertToJavaType(String dataType) {
+        if (StringUtils.isEmpty(dataType)) {
+            return null;
+        }
+        switch (dataType.toUpperCase()) {
+            case "TINYINT":
+            case "SMALLINT":
+            case "MEDIUMINT":
+            case "INT":
+            case "INTEGER":
+                return "Integer";
+            case "BIGINT":
+                return "Long";
+            case "FLOAT":
+                return "Float";
+            case "DOUBLE":
+                return "Double";
+            case "DECIMAL":
+                return "BigDecimal";
+            case "DATE":
+            case "TIME":
+            case "YEAR":
+            case "DATETIME":
+            case "TIMESTAMP":
+                return "LocalDateTime";
+            default:
+                return "String";
+
+        }
+    }
+
+    /**
+     * @param javaType java类型
+     * @return 需要引入的包
+     */
+    public static String javaImportType(String javaType) {
+        if (StringUtils.isEmpty(javaType)) {
+            return null;
+        }
+        switch (javaType) {
+            case "LocalDateTime":
+                return "import java.time.LocalDateTime;";
+            case "BigDecimal":
+                return "import java.math.BigDecimal;";
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * BaseEntity是否含有属性
+     *
+     * @param property 属性
+     * @return true or false
+     */
+    public static boolean baseNotContainsProperty(String property) {
+        PropertyDescriptor propertyDescriptor = BeanUtils.getPropertyDescriptor(BaseEntity.class, property);
+        return propertyDescriptor == null;
+    }
+
 }

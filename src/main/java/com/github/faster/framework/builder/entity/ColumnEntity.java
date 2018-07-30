@@ -25,4 +25,9 @@ public class ColumnEntity {
      * 注释
      */
     private String columnComment;
+
+    /**
+     * 是否为空（NO，YES)
+     */
+    private String isNullable;
 }

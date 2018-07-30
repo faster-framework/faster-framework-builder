@@ -11,10 +11,19 @@ public class ColumnModel extends ColumnEntity {
      * 驼峰列
      */
     private String columnNameHump;
+    /**
+     * 首字母大写的驼峰
+     */
+    private String columnNameHumpUpFirst;
 
     /**
-     * 由dataType转换为java类型
+     * 转为javaType
      */
     private String javaType;
+
+    /**
+     * 需要引入的包
+     */
+    private String javaImportType;
 
 }
