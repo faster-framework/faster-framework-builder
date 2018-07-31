@@ -5,8 +5,6 @@ ${import}
  * ${businessCnName} 模型
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@Table(name = "${tableName}")
 public class ${businessEnNameUpFirst}Model{
 <#list columnList as item>
     /**

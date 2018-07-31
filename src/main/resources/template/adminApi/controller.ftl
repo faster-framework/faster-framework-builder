@@ -5,7 +5,7 @@ ${import}
  * ${businessCnName} Controller
  */
 @RestController
-@RequestMapping("/{version}/${businessEnName}")
+@RequestMapping("/${businessEnName}")
 @AllArgsConstructor
 public class ${businessEnNameUpFirst}Controller {
     private ${businessEnNameUpFirst}Service ${businessEnName}Service;
@@ -17,6 +17,7 @@ public class ${businessEnNameUpFirst}Controller {
      * @return ResponseEntity
      */
     @GetMapping
+    @RequiresPermissions("${businessEnName}:list")
     public ResponseEntity list(${businessEnNameUpFirst} ${businessEnName}) {
         return ResponseEntity.ok(${businessEnName}Service.list(${businessEnName}));
     }
@@ -28,6 +29,7 @@ public class ${businessEnNameUpFirst}Controller {
      * @return ResponseEntity
      */
     @GetMapping("/{id}")
+    @RequiresPermissions("${businessEnName}:info")
     public ResponseEntity queryById(@PathVariable Long id) {
         return ResponseEntity.ok(${businessEnName}Service.queryById(id));
     }
@@ -38,6 +40,7 @@ public class ${businessEnNameUpFirst}Controller {
      * @return ResponseEntity
      */
     @GetMapping("/query")
+    @RequiresPermissions("${businessEnName}:info")
     public ResponseEntity query(${businessEnNameUpFirst} ${businessEnName}) {
         return ResponseEntity.ok(${businessEnName}Service.query(${businessEnName}));
     }
@@ -49,7 +52,8 @@ public class ${businessEnNameUpFirst}Controller {
      * @return ResponseEntity
      */
     @PostMapping
-    public ResponseEntity add(@Validated @RequestBody ${businessEnNameUpFirst}Model request) {
+    @RequiresPermissions("${businessEnName}:add")
+    public ResponseEntity add(@Validated @RequestBody ${businessEnNameUpFirst} request) {
         return ${businessEnName}Service.add(request);
     }
 
@@ -61,8 +65,9 @@ public class ${businessEnNameUpFirst}Controller {
      * @return ResponseEntity
      */
     @PutMapping("/{id}")
-    public ResponseEntity update(@RequestBody ${businessEnNameUpFirst}Model request, @PathVariable Long id) {
-        return ${businessEnName}Service.update(request, id);
+    @RequiresPermissions("${businessEnName}:modify")
+    public ResponseEntity update(@RequestBody ${businessEnNameUpFirst} request) {
+        return ${businessEnName}Service.update(request);
     }
 
     /**
@@ -72,6 +77,7 @@ public class ${businessEnNameUpFirst}Controller {
      * @return ResponseEntity
      */
     @DeleteMapping("/{id}")
+    @RequiresPermissions("${businessEnName}:delete")
     public ResponseEntity delete(@PathVariable Long id) {
         return ${businessEnName}Service.delete(id);
     }

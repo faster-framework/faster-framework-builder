@@ -31,6 +31,7 @@
         <if test="tableName!=null">
             and tables.table_name=#{tableName}
         </if>
+        and tables.table_name not like 'sys_%'
         ORDER BY columns.ordinal_position
     </select>
 </mapper>

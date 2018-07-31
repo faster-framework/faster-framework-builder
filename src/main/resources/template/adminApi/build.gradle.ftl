@@ -15,4 +15,5 @@ repositories {
 
 dependencies {
     compile 'com.github.faster-framework:faster-framework-core-spring-boot-starter:${dependencyVersion}'
+    compile 'com.github.faster-framework:faster-framework-admin-spring-boot-starter:${dependencyVersion}'
 }

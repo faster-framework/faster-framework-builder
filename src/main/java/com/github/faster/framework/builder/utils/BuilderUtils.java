@@ -5,11 +5,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 
 import java.beans.PropertyDescriptor;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Arrays;
+import java.util.List;
 
 public class BuilderUtils {
-    private static final String TABLE_PREFIX = "tb_";
+    private static final List<String> TABLE_PREFIX_LIST = Arrays.asList("tb_");
 
     /**
      * @param str 待处理
@@ -46,9 +46,13 @@ public class BuilderUtils {
      * @return 移除前缀，变驼峰
      */
     public static String delPrefixAndHump(String str) {
-        int prefixIndex = str.indexOf(TABLE_PREFIX);
-        if (prefixIndex > -1) {
-            str = str.substring(prefixIndex + TABLE_PREFIX.length());
+        int prefixIndex = -1;
+        for (String filter : TABLE_PREFIX_LIST) {
+            prefixIndex = str.indexOf(filter);
+            if (prefixIndex > -1) {
+                str = str.substring(prefixIndex + filter.length());
+                break;
+            }
         }
         return hump(str);
     }
