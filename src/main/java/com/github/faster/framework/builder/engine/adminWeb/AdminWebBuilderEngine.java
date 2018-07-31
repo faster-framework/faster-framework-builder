@@ -25,6 +25,8 @@ public class AdminWebBuilderEngine extends BuilderEngine {
     private Template EditTemp = FreemarkerUtils.cfg.getTemplate(ADMIN_WEB_TEMPLATE_DIR + "/Edit.jsx.ftl");
     private Template ListTemp = FreemarkerUtils.cfg.getTemplate(ADMIN_WEB_TEMPLATE_DIR + "/List.jsx.ftl");
     private Template IndexTemp = FreemarkerUtils.cfg.getTemplate(ADMIN_WEB_TEMPLATE_DIR + "/index.js.ftl");
+    private Template MenuConfigTemp = FreemarkerUtils.cfg.getTemplate(ADMIN_WEB_TEMPLATE_DIR + "/menuConfig.js.ftl");
+    private Template RouterConfigTemp = FreemarkerUtils.cfg.getTemplate(ADMIN_WEB_TEMPLATE_DIR + "/routerConfig.js.ftl");
 
     public AdminWebBuilderEngine() throws IOException {
     }
@@ -59,6 +61,8 @@ public class AdminWebBuilderEngine extends BuilderEngine {
      */
     private void processProject(ZipOutputStream zipOutputStream) throws IOException {
         processPackageJson(zipOutputStream);
+        processMenuConfig(zipOutputStream);
+        processRouterConfig(zipOutputStream);
     }
 
     /**
@@ -71,6 +75,32 @@ public class AdminWebBuilderEngine extends BuilderEngine {
         String zipFileName = "package.json";
         zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
         zipOutputStream.write(FreemarkerUtils.processIntoStream(packageJsonTemp, builderParam));
+        zipOutputStream.closeEntry();
+    }
+
+    /**
+     * 生成MenuConfig文件
+     *
+     * @param zipOutputStream 压缩流
+     * @throws IOException io异常
+     */
+    private void processMenuConfig(ZipOutputStream zipOutputStream) throws IOException {
+        String zipFileName = baseModulePath + "menuConfig.js";
+        zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
+        zipOutputStream.write(FreemarkerUtils.processIntoStream(MenuConfigTemp, builderParam));
+        zipOutputStream.closeEntry();
+    }
+
+    /**
+     * 生成RouterConfig文件
+     *
+     * @param zipOutputStream 压缩流
+     * @throws IOException io异常
+     */
+    private void processRouterConfig(ZipOutputStream zipOutputStream) throws IOException {
+        String zipFileName = baseModulePath + "routerConfig.js";
+        zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
+        zipOutputStream.write(FreemarkerUtils.processIntoStream(RouterConfigTemp, builderParam));
         zipOutputStream.closeEntry();
     }
 
