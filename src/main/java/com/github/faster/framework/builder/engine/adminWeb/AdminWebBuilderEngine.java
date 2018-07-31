@@ -7,14 +7,22 @@ import com.github.faster.framework.builder.utils.BuilderUtils;
 import com.github.faster.framework.builder.utils.FreemarkerUtils;
 import com.github.faster.framework.core.utils.Utils;
 import freemarker.template.Template;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 public class AdminWebBuilderEngine extends BuilderEngine {
@@ -27,6 +35,7 @@ public class AdminWebBuilderEngine extends BuilderEngine {
     private Template IndexTemp = FreemarkerUtils.cfg.getTemplate(ADMIN_WEB_TEMPLATE_DIR + "/index.js.ftl");
     private Template MenuConfigTemp = FreemarkerUtils.cfg.getTemplate(ADMIN_WEB_TEMPLATE_DIR + "/menuConfig.js.ftl");
     private Template RouterConfigTemp = FreemarkerUtils.cfg.getTemplate(ADMIN_WEB_TEMPLATE_DIR + "/routerConfig.js.ftl");
+    private List<String> skipFileNames = Arrays.asList("menuConfig.js", "package.json", "routerConfig.js");
 
     public AdminWebBuilderEngine() throws IOException {
     }
@@ -36,8 +45,7 @@ public class AdminWebBuilderEngine extends BuilderEngine {
     public byte[] start() throws IOException {
         baseModulePath = "/src/modules/";
         //创建压缩文件
-//        File  zipFile= File.createTempFile("builderParam.getProjectName()", "zip");
-        File zipFile = new File("/Users/zhangbowen/Documents", builderParam.getProjectName() + ".zip");
+        File  zipFile= File.createTempFile(builderParam.getProjectName(), ".zip");
         //创建模板
         List<TableColumnModel> columnModelList = builderParam.getTableColumnList();
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(zipFile))) {
@@ -49,8 +57,7 @@ public class AdminWebBuilderEngine extends BuilderEngine {
                 this.processList(tableColumnModel, zipOutputStream);
             }
         }
-
-        return new byte[0];
+        return Utils.inputStreamToByteArray(new FileInputStream(zipFile));
     }
 
     /**
@@ -60,9 +67,42 @@ public class AdminWebBuilderEngine extends BuilderEngine {
      * @throws IOException io异常
      */
     private void processProject(ZipOutputStream zipOutputStream) throws IOException {
+        processProjectFramework(zipOutputStream);
         processPackageJson(zipOutputStream);
         processMenuConfig(zipOutputStream);
         processRouterConfig(zipOutputStream);
+
+    }
+
+    private void processProjectFramework(ZipOutputStream zipOutputStream) throws IOException {
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<byte[]> response = restTemplate.exchange(
+                builderParam.getDependencyUrl(),
+                HttpMethod.GET,
+                new HttpEntity<byte[]>(new HttpHeaders()),
+                byte[].class);
+        File downloadTempFile = File.createTempFile(System.currentTimeMillis() + "", ".zip");
+        try (FileOutputStream outputStream = new FileOutputStream(downloadTempFile)) {
+            outputStream.write(response.getBody());
+        }
+        ZipFile zipFile = new ZipFile(downloadTempFile);
+        zipFile.stream().filter(ze -> {
+            boolean isNotDirectory = !ze.isDirectory();
+            int index = ze.getName().lastIndexOf("/");
+            boolean isNotNeedSkip = !skipFileNames.contains(ze.getName().substring(index + 1));
+            return isNotDirectory && isNotNeedSkip;
+        }).forEach(ze -> {
+            String fileName = ze.getName();
+            int index = fileName.indexOf("/");
+            fileName = fileName.substring(index);
+            try {
+                zipOutputStream.putNextEntry(new ZipEntry(fileName));
+                zipOutputStream.write(Utils.inputStreamToByteArray(zipFile.getInputStream(ze)));
+                zipOutputStream.closeEntry();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     /**
@@ -169,5 +209,9 @@ public class AdminWebBuilderEngine extends BuilderEngine {
         zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
         zipOutputStream.write(FreemarkerUtils.processIntoStream(ListTemp, map));
         zipOutputStream.closeEntry();
+    }
+
+    public static void main(String[] args) throws IOException {
+
     }
 }

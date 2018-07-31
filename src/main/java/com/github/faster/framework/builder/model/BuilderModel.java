@@ -47,6 +47,11 @@ public class BuilderModel {
     private String dependencyVersion;
 
     /**
+     * 依赖下载地址
+     */
+    private String dependencyUrl;
+
+    /**
      * 表以及列数据
      */
     private List<TableColumnModel> tableColumnList;

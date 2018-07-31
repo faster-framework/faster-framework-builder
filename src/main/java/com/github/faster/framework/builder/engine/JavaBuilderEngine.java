@@ -39,6 +39,12 @@ public abstract class JavaBuilderEngine extends BuilderEngine {
      */
     protected abstract String getBaseModulePackage();
 
+    @Override
+    protected void init(BuilderRequest builderRequest, List<TableColumnModel> tableColumnList) {
+        super.init(builderRequest, tableColumnList);
+        super.builderParam.setDependencyVersion(builderParam.getDependencyVersion().replace("v",""));
+    }
+
     /**
      * 处理mapper
      *

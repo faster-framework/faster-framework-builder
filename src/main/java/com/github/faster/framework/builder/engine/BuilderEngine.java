@@ -62,6 +62,7 @@ public abstract class BuilderEngine {
         builderParam.setTableColumnList(completeTableColumn(tableColumnList));
         builderParam.setBasePackagePath(builderRequest.getBusiness().getBasePackagePath());
         builderParam.setBasePath(BuilderUtils.packagePathToPath(builderRequest.getBusiness().getBasePackagePath()));
+        builderParam.setDependencyUrl(builderRequest.getDependency().getUrl());
     }
 
     /**

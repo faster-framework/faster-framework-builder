@@ -10,6 +10,7 @@ import freemarker.template.Template;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -46,8 +47,7 @@ public class AdminApiBuilderEngine extends JavaBuilderEngine {
         baseModulePath = JAVA_PATH + super.builderParam.getBasePath() + "/modules/";
         baseModulePackage = super.builderParam.getBasePackagePath() + ".modules";
         //创建压缩文件
-//        File  zipFile= File.createTempFile("builderParam.getProjectName()", "zip");
-        File zipFile = new File("/Users/zhangbowen/Documents", builderParam.getProjectName() + ".zip");
+        File  zipFile= File.createTempFile(builderParam.getProjectName(), ".zip");
         //创建模板
         List<TableColumnModel> columnModelList = builderParam.getTableColumnList();
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(zipFile))) {
@@ -59,8 +59,7 @@ public class AdminApiBuilderEngine extends JavaBuilderEngine {
                 this.processController(controllerTemp, tableColumnModel, zipOutputStream);
             }
         }
-
-        return new byte[0];
+        return Utils.inputStreamToByteArray(new FileInputStream(zipFile));
     }
 
     /**

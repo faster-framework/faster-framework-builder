@@ -9,9 +9,7 @@ import com.github.faster.framework.core.utils.Utils;
 import freemarker.template.Template;
 import org.springframework.util.StringUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -48,8 +46,7 @@ public class ApiBuilderEngine extends JavaBuilderEngine {
         baseModulePath = JAVA_PATH + super.builderParam.getBasePath() + "/modules/v1/";
         baseModulePackage = super.builderParam.getBasePackagePath() + ".modules.v1";
         //创建压缩文件
-//        File  zipFile= File.createTempFile("builderParam.getProjectName()", "zip");
-        File zipFile = new File("/Users/zhangbowen/Documents", builderParam.getProjectName() + ".zip");
+        File  zipFile= File.createTempFile(builderParam.getProjectName(), ".zip");
         //创建模板
         List<TableColumnModel> columnModelList = builderParam.getTableColumnList();
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(zipFile))) {
@@ -62,8 +59,7 @@ public class ApiBuilderEngine extends JavaBuilderEngine {
                 this.processController(controllerTemp, tableColumnModel, zipOutputStream);
             }
         }
-
-        return new byte[0];
+        return Utils.inputStreamToByteArray(new FileInputStream(zipFile));
     }
 
     /**
