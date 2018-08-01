@@ -210,8 +210,4 @@ public class AdminWebBuilderEngine extends BuilderEngine {
         zipOutputStream.write(FreemarkerUtils.processIntoStream(ListTemp, map));
         zipOutputStream.closeEntry();
     }
-
-    public static void main(String[] args) throws IOException {
-
-    }
 }

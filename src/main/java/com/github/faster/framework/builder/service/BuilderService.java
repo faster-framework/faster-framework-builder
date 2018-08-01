@@ -45,6 +45,7 @@ public class BuilderService {
         httpServletResponse.setContentType("application/octet-stream; charset=utf-8");
         httpServletResponse.setHeader("Content-Disposition", "attachment;filename="
                 .concat(String.valueOf(URLEncoder.encode(fileName, "UTF-8"))));
+        httpServletResponse.setStatus(201);
         try (OutputStream outputStream = httpServletResponse.getOutputStream()) {
             outputStream.write(outputBytes);
             outputStream.flush();

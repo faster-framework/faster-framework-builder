@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 /**
  * 数据库配置请求
@@ -19,6 +20,7 @@ public class DatabaseRequest {
      * 端口
      */
     @NotBlank(message = "数据库端口号不能为空")
+    @Pattern(message = "端口号格式错误", regexp = "\\d+")
     private String port;
     /**
      * 数据库名称
