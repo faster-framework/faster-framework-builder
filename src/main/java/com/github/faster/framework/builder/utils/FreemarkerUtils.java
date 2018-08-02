@@ -3,22 +3,24 @@ package com.github.faster.framework.builder.utils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import freemarker.template.TemplateExceptionHandler;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.ui.freemarker.FreeMarkerConfigurationFactory;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 public class FreemarkerUtils {
-    public static final Configuration cfg = new Configuration(Configuration.VERSION_2_3_22);
+    public static Configuration cfg;
 
     static {
         try {
-            cfg.setDirectoryForTemplateLoading(new ClassPathResource("template").getFile());
-        } catch (IOException e) {
+            FreeMarkerConfigurationFactory configurationFactory = new FreeMarkerConfigurationFactory();
+            configurationFactory.setTemplateLoaderPath("classpath:/template");
+            cfg = configurationFactory.createConfiguration();
+        } catch (IOException | TemplateException e) {
             e.printStackTrace();
         }
-        cfg.setDefaultEncoding("UTF-8");
-        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
     }
 
     /**
