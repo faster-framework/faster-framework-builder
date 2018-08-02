@@ -16,19 +16,19 @@
     <!--查询携带列的数据-->
     <select id="selectWithColumn" resultMap="selectWithColumnMap">
         SELECT
-          tables.table_schema,
-          tables.table_name,
-          tables.table_comment,
-          columns.column_name,
-          columns.data_type,
-          columns.ordinal_position,
-          columns.column_comment,
-          columns.is_nullable
+        tables.table_schema,
+        tables.table_name,
+        tables.table_comment,
+        columns.column_name,
+        columns.data_type,
+        columns.ordinal_position,
+        columns.column_comment,
+        columns.is_nullable
         FROM tables
         inner join columns
         on tables.table_schema = columns.table_schema and tables.table_name=columns.table_name
         WHERE tables.table_schema = #{tableSchema}
-        <if test="tableName!=null">
+        <if test="tableName!=null and tableName!=''">
             and tables.table_name=#{tableName}
         </if>
         and tables.table_name not like 'sys_%'

@@ -10,7 +10,7 @@ spring:
   profiles: dev
   datasource:
     druid:
-        url: jdbc:mysql://${dbHost}:${dbPort}/${dbName}?allowMultiQueries=true&useSSL=true
+        url: jdbc:mysql://${dbHost}:${dbPort}/${dbName}?allowMultiQueries=true&useSSL=false
         username: ${dbUsername}
         password: ${dbPwd}
 #faster:
@@ -27,7 +27,7 @@ spring:
   profiles: test
   datasource:
     druid:
-        url: jdbc:mysql://${dbHost}:${dbPort}/${dbName}?allowMultiQueries=true&useSSL=true
+        url: jdbc:mysql://${dbHost}:${dbPort}/${dbName}?allowMultiQueries=true&useSSL=false
         username: ${dbUsername}
         password: ${dbPwd}
 
@@ -42,7 +42,7 @@ spring:
   profiles: prod
   datasource:
     druid:
-        url: jdbc:mysql://${dbHost}:${dbPort}/${dbName}?allowMultiQueries=true&useSSL=true
+        url: jdbc:mysql://${dbHost}:${dbPort}/${dbName}?allowMultiQueries=true&useSSL=false
         username: ${dbUsername}
         password: ${dbPwd}
 #faster:

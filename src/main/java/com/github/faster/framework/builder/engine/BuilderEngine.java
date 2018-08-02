@@ -24,6 +24,7 @@ public abstract class BuilderEngine {
      */
     protected List<ColumnModel> completeColumn(List<ColumnModel> columnList) {
         return columnList.stream().peek(item -> {
+            item.setColumnComment(item.getColumnComment().replaceAll("\\s",""));
             item.setColumnNameHump(BuilderUtils.hump(item.getColumnName()));
             item.setColumnNameHumpUpFirst(BuilderUtils.firstCharToUpperCase(item.getColumnNameHump()));
             item.setJavaType(BuilderUtils.convertToJavaType(item.getDataType()));

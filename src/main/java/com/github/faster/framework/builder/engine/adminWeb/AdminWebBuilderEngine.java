@@ -35,7 +35,9 @@ public class AdminWebBuilderEngine extends BuilderEngine {
     private Template IndexTemp = FreemarkerUtils.cfg.getTemplate(ADMIN_WEB_TEMPLATE_DIR + "/index.js.ftl");
     private Template MenuConfigTemp = FreemarkerUtils.cfg.getTemplate(ADMIN_WEB_TEMPLATE_DIR + "/menuConfig.js.ftl");
     private Template RouterConfigTemp = FreemarkerUtils.cfg.getTemplate(ADMIN_WEB_TEMPLATE_DIR + "/routerConfig.js.ftl");
-    private List<String> skipFileNames = Arrays.asList("menuConfig.js", "package.json", "routerConfig.js");
+    private Template WebpackRcDevTemp = FreemarkerUtils.cfg.getTemplate(ADMIN_WEB_TEMPLATE_DIR + "/.webpackrc.dev.js.ftl");
+    private Template WebpackRcProdTemp = FreemarkerUtils.cfg.getTemplate(ADMIN_WEB_TEMPLATE_DIR + "/.webpackrc.prod.js.ftl");
+    private List<String> skipFileNames = Arrays.asList("/src/modules/menuConfig.js", "/package.json", "/src/modules/routerConfig.js", "/config/.webpackrc.dev.js", "/config/.webpackrc.prod.js");
 
     public AdminWebBuilderEngine() throws IOException {
     }
@@ -45,7 +47,7 @@ public class AdminWebBuilderEngine extends BuilderEngine {
     public byte[] start() throws IOException {
         baseModulePath = "/src/modules/";
         //创建压缩文件
-        File  zipFile= File.createTempFile(builderParam.getProjectName(), ".zip");
+        File zipFile = File.createTempFile(builderParam.getProjectName(), ".zip");
         //创建模板
         List<TableColumnModel> columnModelList = builderParam.getTableColumnList();
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(zipFile))) {
@@ -71,9 +73,17 @@ public class AdminWebBuilderEngine extends BuilderEngine {
         processPackageJson(zipOutputStream);
         processMenuConfig(zipOutputStream);
         processRouterConfig(zipOutputStream);
-
+        processWebpackRcDev(zipOutputStream);
+        processWebpackRcProd(zipOutputStream);
     }
 
+
+    /**
+     * 生成项目主框架
+     *
+     * @param zipOutputStream 压缩流
+     * @throws IOException io异常
+     */
     private void processProjectFramework(ZipOutputStream zipOutputStream) throws IOException {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<byte[]> response = restTemplate.exchange(
@@ -88,8 +98,10 @@ public class AdminWebBuilderEngine extends BuilderEngine {
         ZipFile zipFile = new ZipFile(downloadTempFile);
         zipFile.stream().filter(ze -> {
             boolean isNotDirectory = !ze.isDirectory();
-            int index = ze.getName().lastIndexOf("/");
-            boolean isNotNeedSkip = !skipFileNames.contains(ze.getName().substring(index + 1));
+            String fileName = ze.getName();
+            int index = fileName.indexOf("/");
+            fileName = fileName.substring(index);
+            boolean isNotNeedSkip = !skipFileNames.contains(fileName);
             return isNotDirectory && isNotNeedSkip;
         }).forEach(ze -> {
             String fileName = ze.getName();
@@ -141,6 +153,32 @@ public class AdminWebBuilderEngine extends BuilderEngine {
         String zipFileName = baseModulePath + "routerConfig.js";
         zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
         zipOutputStream.write(FreemarkerUtils.processIntoStream(RouterConfigTemp, builderParam));
+        zipOutputStream.closeEntry();
+    }
+
+    /**
+     * 生成WebpackRcDev文件
+     *
+     * @param zipOutputStream 压缩流
+     * @throws IOException io异常
+     */
+    private void processWebpackRcDev(ZipOutputStream zipOutputStream) throws IOException {
+        String zipFileName = "/config/.webpackrc.dev.js";
+        zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
+        zipOutputStream.write(FreemarkerUtils.processIntoStream(WebpackRcDevTemp, builderParam));
+        zipOutputStream.closeEntry();
+    }
+
+    /**
+     * 生成WebpackRcProd文件
+     *
+     * @param zipOutputStream 压缩流
+     * @throws IOException io异常
+     */
+    private void processWebpackRcProd(ZipOutputStream zipOutputStream) throws IOException {
+        String zipFileName = "/config/.webpackrc.prod.js";
+        zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
+        zipOutputStream.write(FreemarkerUtils.processIntoStream(WebpackRcProdTemp, builderParam));
         zipOutputStream.closeEntry();
     }
 

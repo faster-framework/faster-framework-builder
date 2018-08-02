@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -41,7 +39,7 @@ public class BuilderService {
      * @throws IOException 写回下载流
      */
     private void outputDownloadStream(String projectName, byte[] outputBytes) throws IOException {
-        String fileName = projectName + "-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + ".zip";
+        String fileName = projectName + ".zip";
         httpServletResponse.setContentType("application/octet-stream; charset=utf-8");
         httpServletResponse.setHeader("Content-Disposition", "attachment;filename="
                 .concat(String.valueOf(URLEncoder.encode(fileName, "UTF-8"))));

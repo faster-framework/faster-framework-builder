@@ -41,7 +41,7 @@ export default class ${businessEnNameUpFirst}Add extends Component {
                 <#list columnList as item>
                 <Row wrap>
                     <FormItem {...formItemLayout} label=" ${item.columnComment}：">
-                        <Input placeholder="请输入${item.columnNameHump}" {...init("${item.columnNameHump}", { rules: { required: <#if item.isNullable=='NO'>true<#else>false</#if>}, message: "请填写${item.columnComment}" })} />
+                        <Input placeholder="请输入${item.columnNameHump}" {...init("${item.columnNameHump}", { <#if item.isNullable=='NO'> rules: { required: true },</#if> message: "请填写${item.columnComment}" })} />
                     </FormItem>
                 </Row>
                 </#list>

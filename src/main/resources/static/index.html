@@ -22,7 +22,7 @@
 <body>
 
 <div id="app" class="container" style="padding: 10px;">
-    <h2 class="text-center">Faster-Framework-Builder<br/>代码生成器</h2>
+    <h2 class="text-center">Faster-Framework代码生成器</h2>
     <div style="width: 450px;margin: 50px auto 0;">
         <div class="form-horizontal">
             <div class="form-group">
@@ -147,6 +147,7 @@
                 url += "/releases";
                 var self = this;
                 axios.get(url).then(function (response) {
+                    self.form.dependency = null;
                     self.dependencyList = response.data;
                 })
             }
@@ -160,26 +161,34 @@
                 var link = document.createElement('a');
                 link.style.display = 'none';
                 link.href = url;
-                link.setAttribute('download', response.headers['content-disposition'].substring(response.headers['content-disposition'].indexOf("filename=")+"filename=".length));
+                link.setAttribute('download', response.headers['content-disposition'].substring(response.headers['content-disposition'].indexOf("filename=") + "filename=".length));
                 document.body.appendChild(link)
                 link.click()
             },
             submit: function () {
                 var form = this.form;
-                form.dependency.url = form.dependency.zipball_url;
-                form.dependency.version = form.dependency.name;
+                if (form.dependency) {
+                    form.dependency.url = form.dependency.zipball_url;
+                    form.dependency.version = form.dependency.name;
+                }
+                if ((form.type === "1" || form.type === "2") && !form.business.basePackagePath) {
+                    layer.msg("请填写根包路径");
+                    return;
+                }
                 var self = this;
                 axios({
                     method: 'post',
                     url: '/builder',
                     data: form,
-                    responseType: 'blob'
+                    responseType: 'arraybuffer',
                 }).then(function (response) {
                     self.download(response);
                 }).catch(function (response) {
-                    console.error(response);
-                    if (response.data && response.data.message) {
-                        layer.msg(response.data.message);
+                    if (response.data) {
+                        var uInt8Array = new Uint8Array(response.data);
+                        var dataJson = new TextDecoder().decode(uInt8Array);
+                        var data = JSON.parse(dataJson);
+                        layer.msg(data.message);
                     } else {
                         layer.msg("网络异常");
                     }

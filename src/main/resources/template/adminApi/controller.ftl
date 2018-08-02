@@ -61,7 +61,6 @@ public class ${businessEnNameUpFirst}Controller {
      * 更新${businessCnName}
      *
      * @param request 请求参数
-     * @param id 主键id
      * @return ResponseEntity
      */
     @PutMapping("/{id}")
