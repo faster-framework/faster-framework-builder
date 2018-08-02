@@ -6,4 +6,4 @@
 
 ## 文档
 
-待完善
+[用户指南](https://faster-framework.github.io/faster-framework-guide/builder/)
