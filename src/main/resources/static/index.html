@@ -33,10 +33,11 @@
                         <option value="1">接口</option>
                         <option value="2">后台管理接口</option>
                         <option value="3">后台管理前端</option>
+                        <option value="4">后台管理权限</option>
                     </select>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" v-show="form.type!=4">
                 <label class="col-sm-4 control-label">版本号：</label>
                 <div class="col-sm-6">
                     <select v-model="form.dependency" class="form-control">
@@ -143,6 +144,8 @@
                     url += "faster-framework/faster-framework-admin";
                 } else if (type === "3") {
                     url += "faster-framework/faster-framework-admin-web";
+                } else {
+                    return;
                 }
                 url += "/releases";
                 var self = this;
@@ -173,6 +176,10 @@
                 }
                 if ((form.type === "1" || form.type === "2") && !form.business.basePackagePath) {
                     layer.msg("请填写根包路径");
+                    return;
+                }
+                if (form.type !== "4" && (!form.dependency || form.dependency.version)) {
+                    layer.msg("请选择版本");
                     return;
                 }
                 var self = this;

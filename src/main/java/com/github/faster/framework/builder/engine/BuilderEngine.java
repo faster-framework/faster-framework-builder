@@ -2,6 +2,7 @@ package com.github.faster.framework.builder.engine;
 
 import com.github.faster.framework.builder.constants.BuilderTypeConstants;
 import com.github.faster.framework.builder.engine.adminApi.AdminApiBuilderEngine;
+import com.github.faster.framework.builder.engine.adminPermission.AdminPermissionBuilderEngine;
 import com.github.faster.framework.builder.engine.adminWeb.AdminWebBuilderEngine;
 import com.github.faster.framework.builder.engine.api.ApiBuilderEngine;
 import com.github.faster.framework.builder.model.BuilderModel;
@@ -85,6 +86,10 @@ public abstract class BuilderEngine {
             case BuilderTypeConstants
                     .ADMIN_WEB:
                 builderEngine = new AdminWebBuilderEngine();
+                break;
+            case BuilderTypeConstants
+                    .ADMIN_PERMISSION:
+                builderEngine = new AdminPermissionBuilderEngine();
                 break;
             default:
                 builderEngine = new ApiBuilderEngine();
