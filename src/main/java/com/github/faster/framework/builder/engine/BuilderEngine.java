@@ -25,7 +25,7 @@ public abstract class BuilderEngine {
      */
     protected List<ColumnModel> completeColumn(List<ColumnModel> columnList) {
         return columnList.stream().peek(item -> {
-            item.setColumnComment(item.getColumnComment().replaceAll("\\s",""));
+            item.setColumnComment(item.getColumnComment().replaceAll("\\s", ""));
             item.setColumnNameHump(BuilderUtils.hump(item.getColumnName()));
             item.setColumnNameHumpUpFirst(BuilderUtils.firstCharToUpperCase(item.getColumnNameHump()));
             item.setJavaType(BuilderUtils.convertToJavaType(item.getDataType()));
@@ -59,12 +59,14 @@ public abstract class BuilderEngine {
         builderParam.setDbPort(builderRequest.getDatabase().getPort());
         builderParam.setDbPwd(builderRequest.getDatabase().getPassword());
         builderParam.setDbUsername(builderRequest.getDatabase().getUsername());
-        builderParam.setDependencyVersion(builderRequest.getDependency().getVersion());
         builderParam.setProjectName(builderRequest.getBusiness().getProjectName());
         builderParam.setTableColumnList(completeTableColumn(tableColumnList));
         builderParam.setBasePackagePath(builderRequest.getBusiness().getBasePackagePath());
         builderParam.setBasePath(BuilderUtils.packagePathToPath(builderRequest.getBusiness().getBasePackagePath()));
-        builderParam.setDependencyUrl(builderRequest.getDependency().getUrl());
+        if (builderRequest.getDependency() != null) {
+            builderParam.setDependencyVersion(builderRequest.getDependency().getVersion());
+            builderParam.setDependencyUrl(builderRequest.getDependency().getUrl());
+        }
     }
 
     /**
