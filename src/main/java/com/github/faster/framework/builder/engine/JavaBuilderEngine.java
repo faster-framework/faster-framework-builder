@@ -58,7 +58,7 @@ public abstract class JavaBuilderEngine extends BuilderEngine {
         //包名
         String packageStr = "package " + getBaseModulePackage() + "." + tableColumnModel.getBusinessEnName() + ".mapper;\n";
         StringBuffer importStr = new StringBuffer();
-        importStr.append("import com.github.faster.framework.core.mybatis.mapper.BaseMapper;\n")
+        importStr.append("import com.baomidou.mybatisplus.core.mapper.BaseMapper;\n")
                 .append("import ").append(getBaseModulePackage()).append(".").append(tableColumnModel.getBusinessEnName()).append(".entity.").append(tableColumnModel.getBusinessEnNameUpFirst()).append(";\n");
         Map<String, Object> map = Utils.beanToMap(tableColumnModel);
         map.put("package", packageStr);

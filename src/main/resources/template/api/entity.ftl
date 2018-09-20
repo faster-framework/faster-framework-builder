@@ -6,7 +6,6 @@ ${import}
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Table(name = "${tableName}")
 public class ${businessEnNameUpFirst} extends BaseEntity{
 <#list columnList as item>
     /**

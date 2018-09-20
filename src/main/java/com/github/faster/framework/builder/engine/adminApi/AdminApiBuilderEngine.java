@@ -117,15 +117,15 @@ public class AdminApiBuilderEngine extends JavaBuilderEngine {
         //包名
         String packageStr = "package " + baseModulePackage + "." + tableColumnModel.getBusinessEnName() + ".service;\n";
         StringBuffer importStr = new StringBuffer()
-                .append("import com.github.pagehelper.PageInfo;\n")
+                .append("import com.baomidou.mybatisplus.core.metadata.IPage;\n")
                 .append("import lombok.AllArgsConstructor;\n")
                 .append("import org.springframework.util.StringUtils;\n")
                 .append("import org.springframework.http.HttpStatus;\n")
                 .append("import org.springframework.http.ResponseEntity;\n")
                 .append("import org.springframework.stereotype.Service;\n")
                 .append("import org.springframework.transaction.annotation.Transactional;\n")
-                .append("import tk.mybatis.mapper.entity.Example;\n")
-                .append("import tk.mybatis.mapper.weekend.WeekendSqls;\n")
+                .append("import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;\n")
+                .append("import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;\n")
                 .append("import ").append(baseModulePackage).append(".").append(tableColumnModel.getBusinessEnName()).append(".mapper.").append(tableColumnModel.getBusinessEnNameUpFirst()).append("Mapper;\n")
                 .append("import ").append(baseModulePackage).append(".").append(tableColumnModel.getBusinessEnName()).append(".entity.").append(tableColumnModel.getBusinessEnNameUpFirst()).append(";\n");
         List<ColumnModel> columnList = tableColumnModel.getColumnList().stream()
@@ -185,7 +185,6 @@ public class AdminApiBuilderEngine extends JavaBuilderEngine {
         importStr.append("import com.github.faster.framework.core.entity.BaseEntity;\n")
                 .append("import lombok.Data;\n")
                 .append("import lombok.EqualsAndHashCode;\n")
-                .append("import javax.persistence.Table;\n")
         ;
         List<ColumnModel> columnList = tableColumnModel.getColumnList().stream()
                 .filter(item -> BuilderUtils.baseNotContainsProperty(item.getColumnNameHump()))

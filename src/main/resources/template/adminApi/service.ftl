@@ -7,29 +7,25 @@ ${import}
 @Service
 @Transactional
 @AllArgsConstructor
-public class ${businessEnNameUpFirst}Service {
-    private ${businessEnNameUpFirst}Mapper ${businessEnName}Mapper;
+public class ${businessEnNameUpFirst}Service extends ServiceImpl<${businessEnNameUpFirst}Mapper, ${businessEnNameUpFirst}> {
 
     /**
      * 分页查询
      * @param ${businessEnName} 请求参数
      * @return ${businessCnName}分页列表
      */
-    public PageInfo<${businessEnNameUpFirst}> list(${businessEnNameUpFirst} ${businessEnName}) {
-        WeekendSqls<${businessEnNameUpFirst}> queryCondition = WeekendSqls.<${businessEnNameUpFirst}>custom()
-            .andEqualTo(${businessEnNameUpFirst}::getDeleted, 0);
+    public IPage<${businessEnNameUpFirst}> list(${businessEnNameUpFirst} ${businessEnName}) {
+        LambdaQueryWrapper<${businessEnNameUpFirst}> queryWrapper = new LambdaQueryWrapper<>();
 <#list columnList as item>
     <#if item.javaType=='String'>
         if (!StringUtils.isEmpty(${businessEnName}.get${item.columnNameHumpUpFirst}())) {
     <#else>
         if (${businessEnName}.get${item.columnNameHumpUpFirst}() != null) {
     </#if>
-            queryCondition.andEqualTo(${businessEnNameUpFirst}::get${item.columnNameHumpUpFirst}, ${businessEnName}.get${item.columnNameHumpUpFirst}());
+            queryWrapper.eq(${businessEnNameUpFirst}::get${item.columnNameHumpUpFirst}, ${businessEnName}.get${item.columnNameHumpUpFirst}());
         }
 </#list>
-        return ${businessEnName}Mapper.selectPageByExample(${businessEnName}.rowBounds(), new Example.Builder(${businessEnNameUpFirst}.class)
-            .where(queryCondition).orderByDesc("createDate")
-            .build()).toPageInfo();
+        return super.baseMapper.selectPage(${businessEnName}.toPage(), queryWrapper);
     }
 
     /**
@@ -38,7 +34,7 @@ public class ${businessEnNameUpFirst}Service {
      * @return ${businessCnName}详情
      */
     public ${businessEnNameUpFirst} queryById(Long id) {
-        return ${businessEnName}Mapper.selectByPrimaryKey(id);
+        return super.baseMapper.selectById(id);
     }
 
     /**
@@ -47,20 +43,17 @@ public class ${businessEnNameUpFirst}Service {
      * @return ${businessCnName}详情
      */
     public ${businessEnNameUpFirst} query(${businessEnNameUpFirst} ${businessEnName}) {
-        WeekendSqls<${businessEnNameUpFirst}> queryCondition = WeekendSqls.<${businessEnNameUpFirst}>custom()
-            .andEqualTo(${businessEnNameUpFirst}::getDeleted, 0);
+        LambdaQueryWrapper<${businessEnNameUpFirst}> queryWrapper = new LambdaQueryWrapper<>();
 <#list columnList as item>
     <#if item.javaType=='String'>
         if (!StringUtils.isEmpty(${businessEnName}.get${item.columnNameHumpUpFirst}())) {
     <#else>
         if (${businessEnName}.get${item.columnNameHumpUpFirst}() != null) {
     </#if>
-            queryCondition.andEqualTo(${businessEnNameUpFirst}::get${item.columnNameHumpUpFirst}, ${businessEnName}.get${item.columnNameHumpUpFirst}());
+            queryWrapper.eq(${businessEnNameUpFirst}::get${item.columnNameHumpUpFirst}, ${businessEnName}.get${item.columnNameHumpUpFirst}());
         }
 </#list>
-        return ${businessEnName}Mapper.selectOneByExample(new Example.Builder(${businessEnNameUpFirst}.class)
-            .where(queryCondition)
-            .build());
+        return super.baseMapper.selectOne(queryWrapper);
     }
 
     /**
@@ -70,7 +63,7 @@ public class ${businessEnNameUpFirst}Service {
     */
     public ResponseEntity add(${businessEnNameUpFirst} ${businessEnName}) {
         ${businessEnName}.preInsert();
-        ${businessEnName}Mapper.insertSelective(${businessEnName});
+        super.baseMapper.insert(${businessEnName});
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
@@ -81,7 +74,7 @@ public class ${businessEnNameUpFirst}Service {
     */
     public ResponseEntity update(${businessEnNameUpFirst} ${businessEnName}) {
         ${businessEnName}.preUpdate();
-        ${businessEnName}Mapper.updateByPrimaryKeySelective(${businessEnName});
+        super.baseMapper.updateById(${businessEnName});
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
@@ -91,11 +84,7 @@ public class ${businessEnNameUpFirst}Service {
      * @return ResponseEntity
      */
     public ResponseEntity delete(Long id) {
-        ${businessEnNameUpFirst} delete = new ${businessEnNameUpFirst}();
-        delete.setId(id);
-        delete.setDeleted(1);
-        delete.preUpdate();
-        ${businessEnName}Mapper.updateByPrimaryKeySelective(delete);
+        super.baseMapper.deleteById(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
