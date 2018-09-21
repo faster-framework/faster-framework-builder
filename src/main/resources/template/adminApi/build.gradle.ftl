@@ -3,7 +3,7 @@ plugins {
     id 'org.springframework.boot' version '2.0.2.RELEASE'
 }
 
-group '${projectName}'
+group '${basePackagePath}'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
@@ -14,6 +14,6 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.faster-framework:faster-framework-core-spring-boot-starter:${dependencyVersion}'
-    compile 'com.github.faster-framework:faster-framework-admin-spring-boot-starter:${dependencyVersion}'
+    compile 'cn.org.faster:faster-framework-core-spring-boot-starter:${dependencyVersion}'
+    compile 'cn.org.faster:faster-framework-admin-spring-boot-starter:${dependencyVersion}'
 }

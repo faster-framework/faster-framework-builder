@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.org.faster.framework.builder.mapper.TableMapper">
+    <resultMap id="selectWithColumnMap" type="cn.org.faster.framework.builder.model.TableColumnModel">
+        <result column="table_schema" property="tableSchema"/>
+        <result column="table_name" property="tableName"/>
+        <result column="table_comment" property="tableComment"/>
+        <collection property="columnList" ofType="cn.org.faster.framework.builder.model.ColumnModel">
+            <result column="column_name" property="columnName"/>
+            <result column="data_type" property="dataType"/>
+            <result column="ordinal_position" property="ordinalPosition"/>
+            <result column="column_comment" property="columnComment"/>
+            <result column="is_nullable" property="isNullable"/>
+        </collection>
+    </resultMap>
+    <!--查询携带列的数据-->
+    <select id="selectWithColumn" resultMap="selectWithColumnMap">
+        SELECT
+        tables.table_schema,
+        tables.table_name,
+        tables.table_comment,
+        columns.column_name,
+        columns.data_type,
+        columns.ordinal_position,
+        columns.column_comment,
+        columns.is_nullable
+        FROM tables
+        inner join columns
+        on tables.table_schema = columns.table_schema and tables.table_name=columns.table_name
+        WHERE tables.table_schema = #{tableSchema}
+        <if test="tableName!=null and tableName!=''">
+            and tables.table_name=#{tableName}
+        </if>
+        and tables.table_name not like 'sys_%'
+        ORDER BY columns.ordinal_position
+    </select>
+</mapper>
