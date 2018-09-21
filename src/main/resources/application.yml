@@ -4,13 +4,13 @@ spring:
       - web
       - mybatis
     active: dev
----
-spring:
-  profiles: dev
 mybatis-plus:
   global-config:
     db-config:
       db-type: mysql
+---
+spring:
+  profiles: dev
 ---
 spring:
   profiles: test
