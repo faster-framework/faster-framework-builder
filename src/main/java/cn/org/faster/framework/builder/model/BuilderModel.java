@@ -31,6 +31,14 @@ public class BuilderModel {
      */
     private String dbPwd;
     /**
+     * 数据库加密后的密码
+     */
+    private String dbEncryptPwd;
+    /**
+     * 数据库公钥
+     */
+    private String dbPublicKey;
+    /**
      * 项目名称
      */
     private String projectName;

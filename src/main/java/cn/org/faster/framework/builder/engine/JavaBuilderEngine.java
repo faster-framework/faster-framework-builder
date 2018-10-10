@@ -5,6 +5,7 @@ import cn.org.faster.framework.builder.model.TableColumnModel;
 import cn.org.faster.framework.builder.model.request.BuilderRequest;
 import cn.org.faster.framework.builder.utils.FreemarkerUtils;
 import cn.org.faster.framework.core.utils.Utils;
+import com.alibaba.druid.filter.config.ConfigTools;
 import freemarker.template.Template;
 
 import java.io.IOException;
@@ -44,6 +45,13 @@ public abstract class JavaBuilderEngine extends BuilderEngine {
     protected void init(BuilderRequest builderRequest, List<TableColumnModel> tableColumnList) {
         super.init(builderRequest, tableColumnList);
         super.builderParam.setDependencyVersion(builderParam.getDependencyVersion().replace("v",""));
+        try {
+            String[] arr = ConfigTools.genKeyPair(512);
+            super.builderParam.setDbEncryptPwd(ConfigTools.encrypt(arr[0], builderParam.getDbPwd()));
+            super.builderParam.setDbPublicKey(arr[1]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

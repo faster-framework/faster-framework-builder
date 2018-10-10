@@ -12,7 +12,8 @@ spring:
     druid:
         url: jdbc:mysql://${dbHost}:${dbPort}/${dbName}?allowMultiQueries=true&useSSL=false
         username: ${dbUsername}
-        password: ${dbPwd}
+        password: ${dbEncryptPwd}
+        public-key: ${dbPublicKey}
 #faster:
 #  upload:
 #    local:
@@ -29,7 +30,8 @@ spring:
     druid:
         url: jdbc:mysql://${dbHost}:${dbPort}/${dbName}?allowMultiQueries=true&useSSL=false
         username: ${dbUsername}
-        password: ${dbPwd}
+        password: ${dbEncryptPwd}
+        public-key: ${dbPublicKey}
 
 #faster:
 #  upload:
@@ -44,7 +46,8 @@ spring:
     druid:
         url: jdbc:mysql://${dbHost}:${dbPort}/${dbName}?allowMultiQueries=true&useSSL=false
         username: ${dbUsername}
-        password: ${dbPwd}
+        password: ${dbEncryptPwd}
+        public-key: ${dbPublicKey}
 #faster:
 #  upload:
 #    local:
