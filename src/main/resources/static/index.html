@@ -143,14 +143,10 @@
                 }
                 url += "/releases";
                 var self = this;
-                self.dependencyList.push({
-                    zipball_url:"a",
-                    name:"1.0.0.RELEASE"
-                });
-                // axios.get(url).then(function (response) {
-                //     self.form.dependency = null;
-                //     self.dependencyList = response.data;
-                // })
+                axios.get(url).then(function (response) {
+                    self.form.dependency = null;
+                    self.dependencyList = response.data;
+                })
             }
         },
         methods: {
