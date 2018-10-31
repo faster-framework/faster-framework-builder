@@ -1,6 +1,6 @@
 package cn.org.faster.framework.builder.engine;
 
-import cn.org.faster.framework.builder.engine.BuilderEngine;
+import cn.org.faster.framework.builder.model.DependencyModel;
 import cn.org.faster.framework.builder.model.TableColumnModel;
 import cn.org.faster.framework.builder.model.request.BuilderRequest;
 import cn.org.faster.framework.builder.utils.FreemarkerUtils;
@@ -21,22 +21,23 @@ public abstract class JavaBuilderEngine extends BuilderEngine {
     protected final String JAVA_PATH = "/src/main/java/";
     protected final String TEST_JAVA_PATH = "/src/test/java/";
     protected final String RESOURCES_PATH = "/src/main/resources/";
-    private Template settingsGradleTemp = FreemarkerUtils.cfg.getTemplate(JAVA_TEMPLATE_DIR + "/settings.gradle.ftl");
     private Template mapperTemp = FreemarkerUtils.cfg.getTemplate(JAVA_TEMPLATE_DIR + "/mapper.ftl");
     private Template gitIgnoreTemp = FreemarkerUtils.cfg.getTemplate(JAVA_TEMPLATE_DIR + "/gitIgnore.ftl");
     private Template applicationTemp = FreemarkerUtils.cfg.getTemplate(JAVA_TEMPLATE_DIR + "/application.ftl");
+    private Template applicationDevYmlTemp = FreemarkerUtils.cfg.getTemplate(JAVA_TEMPLATE_DIR + "/application-dev.yml.ftl");
+    private Template applicationTestYmlTemp = FreemarkerUtils.cfg.getTemplate(JAVA_TEMPLATE_DIR + "/application-test.yml.ftl");
+    private Template applicationProdYmlTemp = FreemarkerUtils.cfg.getTemplate(JAVA_TEMPLATE_DIR + "/application-prod.yml.ftl");
+    private Template pomTemp = FreemarkerUtils.cfg.getTemplate(JAVA_TEMPLATE_DIR + "/pom.xml.ftl");
 
     protected JavaBuilderEngine() throws IOException {
     }
 
     /**
-     *
      * @return 模块路径
      */
     protected abstract String getBaseModulePath();
 
     /**
-     *
      * @return 模块包
      */
     protected abstract String getBaseModulePackage();
@@ -44,7 +45,7 @@ public abstract class JavaBuilderEngine extends BuilderEngine {
     @Override
     protected void init(BuilderRequest builderRequest, List<TableColumnModel> tableColumnList) {
         super.init(builderRequest, tableColumnList);
-        super.builderParam.setDependencyVersion(builderParam.getDependencyVersion().replace("v",""));
+        super.builderParam.setDependencyVersion(builderParam.getDependencyVersion().replace("v", ""));
         try {
             String[] arr = ConfigTools.genKeyPair(512);
             super.builderParam.setDbEncryptPwd(ConfigTools.encrypt(arr[0], builderParam.getDbPwd()));
@@ -77,18 +78,6 @@ public abstract class JavaBuilderEngine extends BuilderEngine {
         zipOutputStream.closeEntry();
     }
 
-    /**
-     * 生成settings.gradle
-     *
-     * @param zipOutputStream 压缩流
-     * @throws IOException io异常
-     */
-    protected void processSettingsGradle(ZipOutputStream zipOutputStream) throws IOException {
-        String zipFileName = "settings.gradle";
-        zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
-        zipOutputStream.write(FreemarkerUtils.processIntoStream(settingsGradleTemp, builderParam));
-        zipOutputStream.closeEntry();
-    }
 
     /**
      * 生成gitIgnore
@@ -126,4 +115,66 @@ public abstract class JavaBuilderEngine extends BuilderEngine {
         zipOutputStream.closeEntry();
     }
 
+    /**
+     * 生成yml文件
+     *
+     * @param zipOutputStream 压缩流
+     * @throws IOException io异常
+     */
+    protected void processEnvYml(ZipOutputStream zipOutputStream) throws IOException {
+        String zipFileName = RESOURCES_PATH + "application-dev.yml";
+        zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
+        zipOutputStream.write(FreemarkerUtils.processIntoStream(applicationDevYmlTemp, builderParam));
+        zipOutputStream.closeEntry();
+        zipFileName = RESOURCES_PATH + "application-test.yml";
+        zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
+        zipOutputStream.write(FreemarkerUtils.processIntoStream(applicationTestYmlTemp, builderParam));
+        zipOutputStream.closeEntry();
+        zipFileName = RESOURCES_PATH + "application-prod.yml";
+        zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
+        zipOutputStream.write(FreemarkerUtils.processIntoStream(applicationProdYmlTemp, builderParam));
+        zipOutputStream.closeEntry();
+    }
+
+    /**
+     * 生成pom文件
+     *
+     * @param zipOutputStream     压缩流
+     * @param dependencyModelList 依赖列表
+     * @throws IOException io异常
+     */
+    protected void processPom(ZipOutputStream zipOutputStream, List<DependencyModel> dependencyModelList) throws IOException {
+        String zipFileName = "pom.xml";
+        Map<String, Object> map = Utils.beanToMap(builderParam);
+        map.put("dependencies", dependencyModelList);
+        zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
+        zipOutputStream.write(FreemarkerUtils.processIntoStream(pomTemp, map));
+        zipOutputStream.closeEntry();
+    }
+
+    /**
+     * 生成项目主框架
+     *
+     * @param zipOutputStream 压缩流
+     * @throws IOException io异常
+     */
+    protected void processProject(ZipOutputStream zipOutputStream) throws IOException {
+        this.processGitIgnore(zipOutputStream);
+        this.processApplication(zipOutputStream);
+        this.processEnvYml(zipOutputStream);
+    }
+
+    /**
+     * 生成ApplicationYml文件
+     *
+     * @param zipOutputStream 压缩流
+     * @param ymlTemp 文件模板地址
+     * @throws IOException io异常
+     */
+    protected void processApplicationYml(ZipOutputStream zipOutputStream, Template ymlTemp) throws IOException {
+        String zipFileName = RESOURCES_PATH + "application.yml";
+        zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
+        zipOutputStream.write(FreemarkerUtils.processIntoStream(ymlTemp, builderParam));
+        zipOutputStream.closeEntry();
+    }
 }

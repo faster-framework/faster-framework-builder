@@ -2,6 +2,7 @@ package cn.org.faster.framework.builder.engine.adminApi;
 
 import cn.org.faster.framework.builder.engine.JavaBuilderEngine;
 import cn.org.faster.framework.builder.model.ColumnModel;
+import cn.org.faster.framework.builder.model.DependencyModel;
 import cn.org.faster.framework.builder.model.TableColumnModel;
 import cn.org.faster.framework.builder.utils.BuilderUtils;
 import cn.org.faster.framework.builder.utils.FreemarkerUtils;
@@ -13,6 +14,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,8 +28,7 @@ public class AdminApiBuilderEngine extends JavaBuilderEngine {
     private Template entityTemp = FreemarkerUtils.cfg.getTemplate(ADMIN_TEMPLATE_DIR + "/entity.ftl");
     private Template serviceTemp = FreemarkerUtils.cfg.getTemplate(ADMIN_TEMPLATE_DIR + "/service.ftl");
     private Template controllerTemp = FreemarkerUtils.cfg.getTemplate(ADMIN_TEMPLATE_DIR + "/controller.ftl");
-    private Template propertyTemp = FreemarkerUtils.cfg.getTemplate(ADMIN_TEMPLATE_DIR + "/application.yml.ftl");
-    private Template buildGradleTemp = FreemarkerUtils.cfg.getTemplate(ADMIN_TEMPLATE_DIR + "/build.gradle.ftl");
+    private Template ymlTemp = FreemarkerUtils.cfg.getTemplate(ADMIN_TEMPLATE_DIR + "/application.yml.ftl");
 
     public AdminApiBuilderEngine() throws IOException {
     }
@@ -47,11 +48,18 @@ public class AdminApiBuilderEngine extends JavaBuilderEngine {
         baseModulePath = JAVA_PATH + super.builderParam.getBasePath() + "/modules/";
         baseModulePackage = super.builderParam.getBasePackagePath() + ".modules";
         //创建压缩文件
-        File  zipFile= File.createTempFile(builderParam.getProjectName(), ".zip");
+        File zipFile = File.createTempFile(builderParam.getProjectName(), ".zip");
         //创建模板
         List<TableColumnModel> columnModelList = builderParam.getTableColumnList();
+        //依赖
+        List<DependencyModel> dependencyModelList = new ArrayList<>();
+        dependencyModelList.add(new DependencyModel("cn.org.faster", "spring-boot-starter-web"));
+        dependencyModelList.add(new DependencyModel("cn.org.faster", "spring-boot-starter-mybatis"));
+        dependencyModelList.add(new DependencyModel("cn.org.faster", "spring-boot-starter-admin"));
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(zipFile))) {
-            processProject(zipOutputStream);
+            super.processProject(zipOutputStream);
+            super.processPom(zipOutputStream, dependencyModelList);
+            super.processApplicationYml(zipOutputStream,ymlTemp);
             for (TableColumnModel tableColumnModel : columnModelList) {
                 super.processMapper(tableColumnModel, zipOutputStream);
                 this.processEntity(entityTemp, tableColumnModel, zipOutputStream);
@@ -62,46 +70,6 @@ public class AdminApiBuilderEngine extends JavaBuilderEngine {
         return Utils.inputStreamToByteArray(new FileInputStream(zipFile));
     }
 
-    /**
-     * 生成项目主框架
-     *
-     * @param zipOutputStream 压缩流
-     * @throws IOException io异常
-     */
-    private void processProject(ZipOutputStream zipOutputStream) throws IOException {
-        super.processSettingsGradle(zipOutputStream);
-        super.processGitIgnore(zipOutputStream);
-        super.processApplication(zipOutputStream);
-        processYml(zipOutputStream);
-        processBuildGradle(zipOutputStream);
-    }
-
-
-    /**
-     * 生成yml文件
-     *
-     * @param zipOutputStream 压缩流
-     * @throws IOException io异常
-     */
-    private void processYml(ZipOutputStream zipOutputStream) throws IOException {
-        String zipFileName = RESOURCES_PATH + "application.yml";
-        zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
-        zipOutputStream.write(FreemarkerUtils.processIntoStream(propertyTemp, builderParam));
-        zipOutputStream.closeEntry();
-    }
-
-    /**
-     * 生成build.gradle
-     *
-     * @param zipOutputStream 压缩流
-     * @throws IOException io异常
-     */
-    private void processBuildGradle(ZipOutputStream zipOutputStream) throws IOException {
-        String zipFileName = "build.gradle";
-        zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
-        zipOutputStream.write(FreemarkerUtils.processIntoStream(buildGradleTemp, builderParam));
-        zipOutputStream.closeEntry();
-    }
 
     /**
      * 处理service
@@ -182,7 +150,7 @@ public class AdminApiBuilderEngine extends JavaBuilderEngine {
         //包名
         String packageStr = "package " + baseModulePackage + "." + tableColumnModel.getBusinessEnName() + ".entity;\n";
         StringBuffer importStr = new StringBuffer();
-        importStr.append("import cn.org.faster.framework.core.entity.BaseEntity;\n")
+        importStr.append("import cn.org.faster.framework.mybatis.entity.BaseEntity;\n")
                 .append("import lombok.Data;\n")
                 .append("import com.baomidou.mybatisplus.annotation.TableName;\n")
                 .append("import lombok.EqualsAndHashCode;\n")

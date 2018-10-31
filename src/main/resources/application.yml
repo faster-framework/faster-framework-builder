@@ -1,16 +1,9 @@
 spring:
   profiles:
     include:
-      - web
-      - mybatis
-    active: dev
+    - web
+    - mybatis
 mybatis-plus:
   global-config:
     db-config:
       db-type: mysql
----
-spring:
-  profiles: dev
----
-spring:
-  profiles: test

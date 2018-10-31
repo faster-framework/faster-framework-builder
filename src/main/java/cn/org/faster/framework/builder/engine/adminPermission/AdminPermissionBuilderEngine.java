@@ -46,36 +46,36 @@ public class AdminPermissionBuilderEngine extends BuilderEngine {
      */
     private void processPermission(ZipOutputStream zipOutputStream) throws IOException {
         String zipFileName = builderParam.getProjectName() + ".sql";
-        List<cn.org.faster.framework.builder.engine.adminPermission.PermissionModel> permissionModelList = builderParam.getTableColumnList().stream().flatMap(item -> {
-            List<cn.org.faster.framework.builder.engine.adminPermission.PermissionModel> businessPermissionModelList = new ArrayList<>();
+        List<PermissionModel> permissionModelList = builderParam.getTableColumnList().stream().flatMap(item -> {
+            List<PermissionModel> businessPermissionModelList = new ArrayList<>();
             PermissionModel parent = new PermissionModel();
             parent.setName(item.getBusinessCnName() + "管理");
             parent.setCode(item.getBusinessEnName() + ":manage");
             parent.setParentId(0L);
             parent.setParentIds("[0]");
             parent.preInsert();
-            cn.org.faster.framework.builder.engine.adminPermission.PermissionModel add = new cn.org.faster.framework.builder.engine.adminPermission.PermissionModel();
+            PermissionModel add = new PermissionModel();
             add.setName(item.getBusinessCnName() + "添加");
             add.setCode(item.getBusinessEnName() + ":add");
             add.setParentId(parent.getId());
             add.setParentIds(parent.getParentIds() + ",[" + parent.getId() + "]");
             add.preInsert();
-            cn.org.faster.framework.builder.engine.adminPermission.PermissionModel update = new cn.org.faster.framework.builder.engine.adminPermission.PermissionModel();
+            PermissionModel update = new PermissionModel();
             BeanUtils.copyProperties(add, update);
             update.setName(item.getBusinessCnName() + "编辑");
             update.setCode(item.getBusinessEnName() + ":modify");
             update.preInsert();
-            cn.org.faster.framework.builder.engine.adminPermission.PermissionModel list = new cn.org.faster.framework.builder.engine.adminPermission.PermissionModel();
+            PermissionModel list = new PermissionModel();
             BeanUtils.copyProperties(add, list);
             list.setName(item.getBusinessCnName() + "列表");
             list.setCode(item.getBusinessEnName() + ":list");
             list.preInsert();
-            cn.org.faster.framework.builder.engine.adminPermission.PermissionModel delete = new cn.org.faster.framework.builder.engine.adminPermission.PermissionModel();
+            PermissionModel delete = new PermissionModel();
             BeanUtils.copyProperties(add, delete);
             delete.setName(item.getBusinessCnName() + "删除");
             delete.setCode(item.getBusinessEnName() + ":delete");
             delete.preInsert();
-            cn.org.faster.framework.builder.engine.adminPermission.PermissionModel info = new PermissionModel();
+            PermissionModel info = new PermissionModel();
             BeanUtils.copyProperties(add, info);
             info.setName(item.getBusinessCnName() + "详情");
             info.setCode(item.getBusinessEnName() + ":info");

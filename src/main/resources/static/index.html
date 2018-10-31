@@ -133,9 +133,9 @@
             'form.type': function (type) {
                 var url = "https://api.github.com/repos/";
                 if (type === "1") {
-                    url += "faster-framework/faster-framework-core";
+                    url += "faster-framework/faster-framework-project";
                 } else if (type === "2") {
-                    url += "faster-framework/faster-framework-admin";
+                    url += "faster-framework/faster-framework-project";
                 } else if (type === "3") {
                     url += "faster-framework/faster-framework-admin-web";
                 } else {
@@ -143,10 +143,14 @@
                 }
                 url += "/releases";
                 var self = this;
-                axios.get(url).then(function (response) {
-                    self.form.dependency = null;
-                    self.dependencyList = response.data;
-                })
+                self.dependencyList.push({
+                    zipball_url:"a",
+                    name:"1.0.0.RELEASE"
+                });
+                // axios.get(url).then(function (response) {
+                //     self.form.dependency = null;
+                //     self.dependencyList = response.data;
+                // })
             }
         },
         methods: {

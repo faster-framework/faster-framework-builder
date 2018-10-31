@@ -1,6 +1,6 @@
 package cn.org.faster.framework.builder.utils;
 
-import cn.org.faster.framework.core.entity.BaseEntity;
+import cn.org.faster.framework.mybatis.entity.BaseEntity;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 

@@ -1,6 +1,5 @@
 package cn.org.faster.framework.builder.model;
 
-import cn.org.faster.framework.builder.model.TableColumnModel;
 import lombok.Data;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package cn.org.faster.framework.builder.engine.adminPermission;
 
-import cn.org.faster.framework.core.entity.BaseEntity;
+import cn.org.faster.framework.mybatis.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
