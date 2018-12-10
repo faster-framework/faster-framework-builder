@@ -53,7 +53,7 @@ public class ${businessEnNameUpFirst}Service extends ServiceImpl<${businessEnNam
             queryWrapper.eq(${businessEnNameUpFirst}::get${item.columnNameHumpUpFirst}, ${businessEnName}.get${item.columnNameHumpUpFirst}());
         }
 </#list>
-        return super.baseMapper.selectOne(queryWrapper);
+        return super.getOne(queryWrapper);
     }
 
     /**

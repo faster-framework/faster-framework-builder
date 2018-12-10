@@ -10,6 +10,6 @@ spring:
 #    local:
 #      file-dir: {yourPath}
 #      url-prefix: http://127.0.0.1:8080
-mybatis:
- configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  level:
+    ${basePackagePath}: DEBUG
