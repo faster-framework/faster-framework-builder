@@ -3,4 +3,4 @@ spring:
     include:
       - web
       - mybatis
-    active: dev
+    active: local

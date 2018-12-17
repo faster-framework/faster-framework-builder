@@ -25,16 +25,8 @@ public class ${businessEnNameUpFirst}Service extends ServiceImpl<${businessEnNam
             queryWrapper.eq(${businessEnNameUpFirst}::get${item.columnNameHumpUpFirst}, ${businessEnName}.get${item.columnNameHumpUpFirst}());
         }
 </#list>
+        queryWrapper.orderByDesc(${businessEnNameUpFirst}::getCreateDate);
         return super.baseMapper.selectPage(${businessEnName}.toPage(), queryWrapper);
-    }
-
-    /**
-     * 根据主键id查询详情
-     * @param id ${businessCnName}id
-     * @return ${businessCnName}详情
-     */
-    public ${businessEnNameUpFirst} queryById(Long id) {
-        return super.baseMapper.selectById(id);
     }
 
     /**
@@ -56,6 +48,15 @@ public class ${businessEnNameUpFirst}Service extends ServiceImpl<${businessEnNam
         return super.getOne(queryWrapper);
     }
 
+     /**
+     * 根据主键id查询详情
+     * @param id ${businessCnName}id
+     * @return ${businessCnName}详情
+     */
+    public ${businessEnNameUpFirst} queryById(Long id) {
+        return super.getById(id);
+    }
+
     /**
     * 添加${businessCnName}
     * @param ${businessEnName} 实体
@@ -63,7 +64,7 @@ public class ${businessEnNameUpFirst}Service extends ServiceImpl<${businessEnNam
     */
     public ResponseEntity add(${businessEnNameUpFirst} ${businessEnName}) {
         ${businessEnName}.preInsert();
-        super.baseMapper.insert(${businessEnName});
+        super.save(${businessEnName});
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
@@ -74,7 +75,7 @@ public class ${businessEnNameUpFirst}Service extends ServiceImpl<${businessEnNam
     */
     public ResponseEntity update(${businessEnNameUpFirst} ${businessEnName}) {
         ${businessEnName}.preUpdate();
-        super.baseMapper.updateById(${businessEnName});
+        super.updateById(${businessEnName});
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
@@ -84,7 +85,7 @@ public class ${businessEnNameUpFirst}Service extends ServiceImpl<${businessEnNam
      * @return ResponseEntity
      */
     public ResponseEntity delete(Long id) {
-        super.baseMapper.deleteById(id);
+        super.removeById(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }

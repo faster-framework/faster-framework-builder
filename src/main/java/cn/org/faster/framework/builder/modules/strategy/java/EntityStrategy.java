@@ -1,4 +1,4 @@
-package cn.org.faster.framework.builder.modules.strategy;
+package cn.org.faster.framework.builder.modules.strategy.java;
 
 import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.model.ColumnModel;
@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * @author zhangbowen
@@ -27,7 +28,7 @@ public class EntityStrategy extends JavaStrategyAdapter {
     }
 
     @Override
-    public void process() throws IOException {
+    public void process(ZipOutputStream zipOutputStream) throws IOException {
         Template entityTemp = FreemarkerUtils.cfg.getTemplate("java/entity.ftl");
         List<TableColumnModel> columnModelList = builderModel.getTableColumnList();
         for (TableColumnModel tableColumnModel : columnModelList) {

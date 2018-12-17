@@ -8,5 +8,5 @@ spring:
 #faster:
 #  upload:
 #    local:
-#      file-dir: {yourPath}
+#      file-dir: /data/upload/${dbName}
 #      url-prefix: http://127.0.0.1:8080

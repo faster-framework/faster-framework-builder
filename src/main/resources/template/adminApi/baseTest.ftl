@@ -6,11 +6,15 @@ ${import}
 public abstract class BaseTest {
     @Autowired
     protected WebApplicationContext wac;
+    @Autowired
+    private AuthProperties authProperties;
     protected MockMvc mockMvc;
 
     @Before
     public void setup() {
         DefaultMockMvcBuilder builder = webAppContextSetup(this.wac);
+        AbstractShiroFilter shiroFilter = wac.getBean(AbstractShiroFilter.class);
+        builder.addFilter(shiroFilter);
         this.mockMvc = builder.build();
     }
 

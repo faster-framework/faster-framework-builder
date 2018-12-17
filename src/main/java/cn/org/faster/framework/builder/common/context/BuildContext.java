@@ -38,9 +38,8 @@ public abstract class BuildContext {
         //创建压缩文件
         File zipFile = File.createTempFile(builderModel.getProjectName(), ".zip");
         try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(zipFile))) {
-            strategyList.forEach(item -> item.setZipOutputStream(zipOutputStream));
             for (BuildStrategy buildStrategy : strategyList) {
-                buildStrategy.process();
+                buildStrategy.process(zipOutputStream);
             }
         }
         return Utils.inputStreamToByteArray(new FileInputStream(zipFile));
@@ -51,5 +50,5 @@ public abstract class BuildContext {
      *
      * @param strategyList 策略集合
      */
-    public abstract void initBuildStrategy(List<BuildStrategy> strategyList);
+    protected abstract void initBuildStrategy(List<BuildStrategy> strategyList);
 }

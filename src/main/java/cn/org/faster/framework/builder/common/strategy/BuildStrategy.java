@@ -14,7 +14,6 @@ import java.util.zip.ZipOutputStream;
 public abstract class BuildStrategy {
     protected BuilderModel builderModel;
     protected String basePath;
-    protected ZipOutputStream zipOutputStream;
 
     public BuildStrategy(BuilderModel builderModel) {
         this.builderModel = builderModel;
@@ -25,6 +24,6 @@ public abstract class BuildStrategy {
      *
      * @return 字节数组
      */
-    public abstract void process() throws IOException;
+    public abstract void process(ZipOutputStream zipOutputStream) throws IOException;
 
 }

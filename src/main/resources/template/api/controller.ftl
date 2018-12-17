@@ -17,7 +17,9 @@ public class ${businessEnNameUpFirst}Controller {
      * @return ResponseEntity
      */
     @GetMapping
-    public ResponseEntity list(${businessEnNameUpFirst} ${businessEnName}) {
+    public ResponseEntity list(${businessEnNameUpFirst}ListRequest request) {
+        ${businessEnNameUpFirst} ${businessEnName} = new ${businessEnNameUpFirst}();
+        BeanUtils.copyProperties(request, ${businessEnName});
         return ResponseEntity.ok(${businessEnName}Service.list(${businessEnName}));
     }
 
@@ -29,7 +31,7 @@ public class ${businessEnNameUpFirst}Controller {
      */
     @GetMapping("/{id}")
     public ResponseEntity queryById(@PathVariable Long id) {
-        return ResponseEntity.ok(${businessEnName}Service.queryById(id));
+        return ResponseEntity.ok(${businessEnName}Service.getById(id));
     }
 
     /**
@@ -38,7 +40,9 @@ public class ${businessEnNameUpFirst}Controller {
      * @return ResponseEntity
      */
     @GetMapping("/query")
-    public ResponseEntity query(${businessEnNameUpFirst} ${businessEnName}) {
+    public ResponseEntity query(${businessEnNameUpFirst}QueryRequest request) {
+        ${businessEnNameUpFirst} ${businessEnName} = new ${businessEnNameUpFirst}();
+        BeanUtils.copyProperties(request, ${businessEnName});
         return ResponseEntity.ok(${businessEnName}Service.query(${businessEnName}));
     }
 
@@ -49,8 +53,10 @@ public class ${businessEnNameUpFirst}Controller {
      * @return ResponseEntity
      */
     @PostMapping
-    public ResponseEntity add(@Validated @RequestBody ${businessEnNameUpFirst}Model request) {
-        return ${businessEnName}Service.add(request);
+    public ResponseEntity add(@Validated @RequestBody ${businessEnNameUpFirst}AddRequest request) {
+        ${businessEnNameUpFirst} ${businessEnName} = new ${businessEnNameUpFirst}();
+        BeanUtils.copyProperties(request, ${businessEnName});
+        return ${businessEnName}Service.add(${businessEnName});
     }
 
     /**
@@ -61,8 +67,11 @@ public class ${businessEnNameUpFirst}Controller {
      * @return ResponseEntity
      */
     @PutMapping("/{id}")
-    public ResponseEntity update(@RequestBody ${businessEnNameUpFirst}Model request, @PathVariable Long id) {
-        return ${businessEnName}Service.update(request, id);
+    public ResponseEntity update(@PathVariable Long id,@RequestBody ${businessEnNameUpFirst}UpdateRequest request) {
+        ${businessEnNameUpFirst} ${businessEnName} = new ${businessEnNameUpFirst}();
+        BeanUtils.copyProperties(request, ${businessEnName});
+        ${businessEnName}.setId(id);
+        return ${businessEnName}Service.update(${businessEnName});
     }
 
     /**

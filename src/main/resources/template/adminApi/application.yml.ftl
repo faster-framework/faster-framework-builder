@@ -4,4 +4,4 @@ spring:
       - web
       - mybatis
       - admin
-    active: dev
+    active: local
