@@ -26,7 +26,7 @@ public class AdminApiBaseTestStrategy extends BuildStrategy {
         Template baseTestTemp = FreemarkerUtils.cfg.getTemplate("adminApi/baseTest.ftl");
         String zipFileName = BuilderConstants.JAVA_TEST_PATH + builderModel.getBasePath() + "/test/BaseTest.java";
         //包名
-        String packageStr = "package " + builderModel.getBasePackagePath() + ";\n";
+        String packageStr = "package " + builderModel.getBasePackagePath() + ".test;\n";
         String importStr = "import org.junit.Before;\n" +
                 "import cn.org.faster.framework.web.spring.boot.autoconfigure.auth.AuthProperties;\n" +
                 "import org.apache.shiro.web.servlet.AbstractShiroFilter;\n" +

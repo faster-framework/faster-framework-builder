@@ -9,6 +9,9 @@ import cn.org.faster.framework.builder.common.model.ColumnModel;
 import cn.org.faster.framework.builder.common.model.TableColumnModel;
 import cn.org.faster.framework.builder.common.model.request.BuilderRequest;
 import cn.org.faster.framework.builder.common.utils.BuilderUtils;
+import cn.org.faster.framework.builder.modules.context.AdminApiContext;
+import cn.org.faster.framework.builder.modules.context.AdminPermissionContext;
+import cn.org.faster.framework.builder.modules.context.AdminWebContext;
 import cn.org.faster.framework.builder.modules.context.ApiContext;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -84,13 +87,13 @@ public class BuilderService {
                 return new ApiContext(builderModel).process();
             case BuilderConstants
                     .ADMIN_API:
-                return new ApiContext(builderModel).process();
+                return new AdminApiContext(builderModel).process();
             case BuilderConstants
                     .ADMIN_WEB:
-                return new ApiContext(builderModel).process();
+                return new AdminWebContext(builderModel).process();
             case BuilderConstants
                     .ADMIN_PERMISSION:
-                return new ApiContext(builderModel).process();
+                return new AdminPermissionContext(builderModel).process();
             default:
                 return new ApiContext(builderModel).process();
         }

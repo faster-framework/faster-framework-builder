@@ -27,10 +27,10 @@ public class PageListStrategy extends WebStrategyAdapter {
 
     @Override
     public void process(ZipOutputStream zipOutputStream) throws IOException {
-        Template listTemp = FreemarkerUtils.cfg.getTemplate("/adminWeb/Edit.jsx.ftl");
+        Template listTemp = FreemarkerUtils.cfg.getTemplate("/adminWeb/List.jsx.ftl");
         List<TableColumnModel> columnModelList = builderModel.getTableColumnList();
         for (TableColumnModel tableColumnModel : columnModelList) {
-            String zipFileName = basePath + tableColumnModel.getBusinessEnName() + "/" + tableColumnModel.getBusinessEnNameUpFirst() + "Edit.jsx";
+            String zipFileName = basePath + tableColumnModel.getBusinessEnName() + "/" + tableColumnModel.getBusinessEnNameUpFirst() + "List.jsx";
             List<ColumnModel> columnList = tableColumnModel.getColumnList().stream()
                     .filter(item -> BuilderUtils.baseNotContainsProperty(item.getColumnNameHump()))
                     .collect(Collectors.toList());

@@ -5,6 +5,7 @@ ${import}
  * ${businessCnName} request
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class ${businessEnNameUpFirst}${requestType} extends BaseEntity{
 <#list columnList as item>
     /**

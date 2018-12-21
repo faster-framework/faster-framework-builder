@@ -13,7 +13,7 @@ public class ${businessEnNameUpFirst}Controller {
     /**
      * ${businessCnName}分页列表
      *
-     * @param ${businessEnName} ${businessCnName}实体
+     * @param request ${businessCnName}实体
      * @return ResponseEntity
      */
     @GetMapping

@@ -39,10 +39,10 @@ public class ApiControllerStrategy extends JavaStrategyAdapter {
                     .append("import org.springframework.validation.annotation.Validated;\n")
                     .append("import org.springframework.beans.BeanUtils;\n")
                     .append("import ").append(basePackage).append(".").append(tableColumnModel.getBusinessEnName()).append(".service.").append(tableColumnModel.getBusinessEnNameUpFirst()).append("Service;\n")
-                    .append("import ").append(basePackage).append(".").append(tableColumnModel.getBusinessEnName()).append(".model.request").append(tableColumnModel.getBusinessEnNameUpFirst()).append("AddRequest;\n")
-                    .append("import ").append(basePackage).append(".").append(tableColumnModel.getBusinessEnName()).append(".model.request").append(tableColumnModel.getBusinessEnNameUpFirst()).append("QueryRequest;\n")
-                    .append("import ").append(basePackage).append(".").append(tableColumnModel.getBusinessEnName()).append(".model.request").append(tableColumnModel.getBusinessEnNameUpFirst()).append("ListRequest;\n")
-                    .append("import ").append(basePackage).append(".").append(tableColumnModel.getBusinessEnName()).append(".model.request").append(tableColumnModel.getBusinessEnNameUpFirst()).append("UpdateRequest;\n")
+                    .append("import ").append(basePackage).append(".").append(tableColumnModel.getBusinessEnName()).append(".model.request.").append(tableColumnModel.getBusinessEnNameUpFirst()).append("AddRequest;\n")
+                    .append("import ").append(basePackage).append(".").append(tableColumnModel.getBusinessEnName()).append(".model.request.").append(tableColumnModel.getBusinessEnNameUpFirst()).append("QueryRequest;\n")
+                    .append("import ").append(basePackage).append(".").append(tableColumnModel.getBusinessEnName()).append(".model.request.").append(tableColumnModel.getBusinessEnNameUpFirst()).append("ListRequest;\n")
+                    .append("import ").append(basePackage).append(".").append(tableColumnModel.getBusinessEnName()).append(".model.request.").append(tableColumnModel.getBusinessEnNameUpFirst()).append("UpdateRequest;\n")
                     .append("import ").append(basePackage).append(".").append(tableColumnModel.getBusinessEnName()).append(".entity.").append(tableColumnModel.getBusinessEnNameUpFirst()).append(";\n");
             Map<String, Object> map = Utils.beanToMap(tableColumnModel);
             map.put("package", packageStr);
