@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: ${projectName}-admin-api
   profiles:
     include:
       - web
@@ -6,5 +8,4 @@ spring:
       - admin
     active: local
 faster:
-  project-name: ${projectName}-admin-api
   cluster-name: ${projectName}
