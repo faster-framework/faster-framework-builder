@@ -6,8 +6,8 @@ import cn.org.faster.framework.builder.common.model.TableColumnModel;
 import cn.org.faster.framework.builder.common.strategy.BuildStrategy;
 import cn.org.faster.framework.builder.common.utils.FreemarkerUtils;
 import cn.org.faster.framework.core.utils.Utils;
+import cn.org.faster.framework.web.jwt.service.JwtService;
 import cn.org.faster.framework.web.spring.boot.autoconfigure.ProjectProperties;
-import cn.org.faster.framework.web.web.service.JwtService;
 import freemarker.template.Template;
 
 import java.io.IOException;
@@ -51,7 +51,7 @@ public class TestStrategy extends BuildStrategy {
             map.put("import", importStr);
             JwtService jwtService = new JwtService();
             jwtService.setBase64Security(new ProjectProperties().getBase64Secret());
-            map.put("headerToken", jwtService.createToken(0L, 0));
+            map.put("headerToken", jwtService.createToken("0", 0));
             zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
             zipOutputStream.write(FreemarkerUtils.processIntoStream(testTemp, map));
             zipOutputStream.closeEntry();

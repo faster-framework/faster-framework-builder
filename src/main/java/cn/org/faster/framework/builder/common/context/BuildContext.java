@@ -4,6 +4,7 @@ import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.strategy.BuildStrategy;
 import cn.org.faster.framework.core.utils.Utils;
 import lombok.Data;
+import org.springframework.util.StreamUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,7 +43,7 @@ public abstract class BuildContext {
                 buildStrategy.process(zipOutputStream);
             }
         }
-        return Utils.inputStreamToByteArray(new FileInputStream(zipFile));
+        return StreamUtils.copyToByteArray(new FileInputStream(zipFile));
     }
 
     /**
