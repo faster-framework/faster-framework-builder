@@ -146,7 +146,9 @@
                 axios.get(url).then(function (response) {
                     self.form.dependency = null;
                     if(response.data){
-                        self.dependencyList = response.data[0];
+                        var dependencyResponse = [];
+                        dependencyResponse.push(response.data[0]);
+                        self.dependencyList = dependencyResponse;
                     }
 
                 })
