@@ -50,6 +50,7 @@ public class TestStrategy extends BuildStrategy {
             map.put("package", packageStr);
             map.put("import", importStr);
             JwtService jwtService = new JwtService();
+            jwtService.setEnv("local");
             jwtService.setBase64Security(new ProjectProperties().getBase64Secret());
             map.put("headerToken", jwtService.createToken("0", 0));
             zipOutputStream.putNextEntry(new ZipEntry(zipFileName));

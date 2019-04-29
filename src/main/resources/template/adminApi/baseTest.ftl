@@ -6,8 +6,6 @@ ${import}
 public abstract class BaseTest {
     @Autowired
     protected WebApplicationContext wac;
-    @Autowired
-    private AuthProperties authProperties;
     protected MockMvc mockMvc;
 
     @Before

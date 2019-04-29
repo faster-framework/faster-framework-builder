@@ -28,7 +28,6 @@ public class AdminApiBaseTestStrategy extends BuildStrategy {
         //包名
         String packageStr = "package " + builderModel.getBasePackagePath() + ".test;\n";
         String importStr = "import org.junit.Before;\n" +
-                "import cn.org.faster.framework.web.spring.boot.autoconfigure.auth.AuthProperties;\n" +
                 "import org.apache.shiro.web.servlet.AbstractShiroFilter;\n" +
                 "import "+builderModel.getBasePackagePath()+".Application;\n" +
                 "import org.junit.runner.RunWith;\n" +
