@@ -5,7 +5,7 @@ ${import}
  * ${businessCnName} Controller
  */
 @RestController
-@RequestMapping("/{version}/${businessEnName}")
+@RequestMapping("/${businessEnName}")
 @AllArgsConstructor
 public class ${businessEnNameUpFirst}Controller {
     private ${businessEnNameUpFirst}Service ${businessEnName}Service;
