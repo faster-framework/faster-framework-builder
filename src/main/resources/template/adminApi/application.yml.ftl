@@ -7,5 +7,3 @@ spring:
       - mybatis
       - admin
     active: local
-faster:
-  cluster-name: ${projectName}

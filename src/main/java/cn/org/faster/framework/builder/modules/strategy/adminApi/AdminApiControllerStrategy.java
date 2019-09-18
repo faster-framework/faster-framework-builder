@@ -36,6 +36,7 @@ public class AdminApiControllerStrategy extends JavaStrategyAdapter {
                     .append("import lombok.AllArgsConstructor;\n")
                     .append("import org.springframework.http.ResponseEntity;\n")
                     .append("import org.springframework.web.bind.annotation.*;\n")
+                    .append("import org.springframework.beans.factory.annotation.Autowired;\n")
                     .append("import org.springframework.validation.annotation.Validated;\n")
                     .append("import org.springframework.beans.BeanUtils;\n")
                     .append("import org.apache.shiro.authz.annotation.RequiresPermissions;\n")

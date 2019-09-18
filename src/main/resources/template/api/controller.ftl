@@ -6,8 +6,8 @@ ${import}
  */
 @RestController
 @RequestMapping("/{version}/${businessEnName}")
-@AllArgsConstructor
 public class ${businessEnNameUpFirst}Controller {
+    @Autowired
     private ${businessEnNameUpFirst}Service ${businessEnName}Service;
 
     /**

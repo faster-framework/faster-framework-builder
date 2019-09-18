@@ -6,7 +6,6 @@ ${import}
  */
 @Service
 @Transactional
-@AllArgsConstructor
 public class ${businessEnNameUpFirst}Service extends ServiceImpl<${businessEnNameUpFirst}Mapper, ${businessEnNameUpFirst}> {
 
     /**

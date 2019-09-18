@@ -4,7 +4,6 @@ import cn.org.faster.framework.builder.common.constants.BuilderConstants;
 import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.strategy.BuildStrategy;
 import cn.org.faster.framework.builder.common.utils.FreemarkerUtils;
-import com.alibaba.druid.filter.config.ConfigTools;
 import freemarker.template.Template;
 
 import java.io.IOException;
@@ -23,13 +22,6 @@ public class ApplicationEnvYmlStrategy extends BuildStrategy {
 
     @Override
     public void process(ZipOutputStream zipOutputStream) throws IOException {
-        try {
-            String[] arr = ConfigTools.genKeyPair(512);
-            builderModel.setDbEncryptPwd(ConfigTools.encrypt(arr[0], builderModel.getDbPwd()));
-            builderModel.setDbPublicKey(arr[1]);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         Template localYmlTemp = FreemarkerUtils.cfg.getTemplate("java/application-local.yml.ftl");
         String zipFileName = BuilderConstants.JAVA_RESOURCES_PATH + "application-local.yml";
         zipOutputStream.putNextEntry(new ZipEntry(zipFileName));

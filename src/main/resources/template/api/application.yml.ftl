@@ -6,5 +6,3 @@ spring:
       - web
       - mybatis
     active: local
-faster:
-  cluster-name: ${projectName}

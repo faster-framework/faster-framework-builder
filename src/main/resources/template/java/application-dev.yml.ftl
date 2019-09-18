@@ -3,8 +3,7 @@ spring:
     druid:
         url: jdbc:mysql://${dbHost}:${dbPort}/${dbName}?allowMultiQueries=true&useSSL=false
         username: ${dbUsername}
-        password: ${dbEncryptPwd}
-        public-key: ${dbPublicKey}
+        password: ${dbPwd}
 #faster:
 #  upload:
 #    local:
