@@ -30,7 +30,7 @@ public class PageAddStrategy extends WebStrategyAdapter {
         Template template = FreemarkerUtils.cfg.getTemplate("/adminWeb/Add.jsx.ftl");
         List<TableColumnModel> columnModelList = builderModel.getTableColumnList();
         for (TableColumnModel tableColumnModel : columnModelList) {
-            String zipFileName = basePath + tableColumnModel.getBusinessEnName() + "/" + tableColumnModel.getBusinessEnNameUpFirst() + "Add.jsx";
+            String zipFileName = srcPath + tableColumnModel.getBusinessEnName() + "/" + tableColumnModel.getBusinessEnNameUpFirst() + "Add.jsx";
             List<ColumnModel> columnList = tableColumnModel.getColumnList().stream()
                     .filter(item -> BuilderUtils.baseNotContainsProperty(item.getColumnNameHump()))
                     .collect(Collectors.toList());

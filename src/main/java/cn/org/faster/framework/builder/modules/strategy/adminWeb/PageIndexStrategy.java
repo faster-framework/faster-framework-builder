@@ -1,13 +1,18 @@
 package cn.org.faster.framework.builder.modules.strategy.adminWeb;
 
 import cn.org.faster.framework.builder.common.model.BuilderModel;
+import cn.org.faster.framework.builder.common.model.ColumnModel;
 import cn.org.faster.framework.builder.common.model.TableColumnModel;
 import cn.org.faster.framework.builder.common.strategy.adapter.WebStrategyAdapter;
+import cn.org.faster.framework.builder.common.utils.BuilderUtils;
 import cn.org.faster.framework.builder.common.utils.FreemarkerUtils;
+import cn.org.faster.framework.core.utils.Utils;
 import freemarker.template.Template;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -22,12 +27,17 @@ public class PageIndexStrategy extends WebStrategyAdapter {
 
     @Override
     public void process(ZipOutputStream zipOutputStream) throws IOException {
-        Template template = FreemarkerUtils.cfg.getTemplate("/adminWeb/index.js.ftl");
+        Template listTemp = FreemarkerUtils.cfg.getTemplate("/adminWeb/index.jsx.ftl");
         List<TableColumnModel> columnModelList = builderModel.getTableColumnList();
         for (TableColumnModel tableColumnModel : columnModelList) {
-            String zipFileName = basePath + tableColumnModel.getBusinessEnName() + "/index.js";
+            String zipFileName = srcPath + tableColumnModel.getBusinessEnName() + "/index.jsx";
+            List<ColumnModel> columnList = tableColumnModel.getColumnList().stream()
+                    .filter(item -> BuilderUtils.baseNotContainsProperty(item.getColumnNameHump()))
+                    .collect(Collectors.toList());
+            Map<String, Object> map = Utils.beanToMap(tableColumnModel);
+            map.put("columnList", columnList);
             zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
-            zipOutputStream.write(FreemarkerUtils.processIntoStream(template, tableColumnModel));
+            zipOutputStream.write(FreemarkerUtils.processIntoStream(listTemp, map));
             zipOutputStream.closeEntry();
         }
     }

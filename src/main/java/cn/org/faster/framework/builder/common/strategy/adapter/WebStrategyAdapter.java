@@ -10,6 +10,6 @@ import cn.org.faster.framework.builder.common.strategy.BuildStrategy;
 public abstract class WebStrategyAdapter extends BuildStrategy {
     public WebStrategyAdapter(BuilderModel builderModel) {
         super(builderModel);
-        basePath = "/src/modules/";
+        srcPath = "/src/pages/";
     }
 }

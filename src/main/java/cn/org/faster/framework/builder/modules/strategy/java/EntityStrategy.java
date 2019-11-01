@@ -33,7 +33,7 @@ public class EntityStrategy extends JavaStrategyAdapter {
         List<TableColumnModel> columnModelList = builderModel.getTableColumnList();
         for (TableColumnModel tableColumnModel : columnModelList) {
             //文件名称
-            String zipFileName = basePath + tableColumnModel.getBusinessEnName() + "/entity/" + tableColumnModel.getBusinessEnNameUpFirst() + ".java";
+            String zipFileName = srcPath + tableColumnModel.getBusinessEnName() + "/entity/" + tableColumnModel.getBusinessEnNameUpFirst() + ".java";
             //包名
             String packageStr = "package " + basePackage + "." + tableColumnModel.getBusinessEnName() + ".entity;\n";
             StringBuffer importStr = new StringBuffer();

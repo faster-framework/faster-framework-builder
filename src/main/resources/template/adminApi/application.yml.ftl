@@ -6,4 +6,3 @@ spring:
       - web
       - mybatis
       - admin
-    active: local

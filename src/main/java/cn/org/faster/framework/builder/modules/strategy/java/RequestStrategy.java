@@ -40,7 +40,7 @@ public class RequestStrategy extends JavaStrategyAdapter {
         for (String requestType : requestTypes) {
             for (TableColumnModel tableColumnModel : columnModelList) {
                 //文件名称
-                String zipFileName = basePath + tableColumnModel.getBusinessEnName() + "/model/request/" + tableColumnModel.getBusinessEnNameUpFirst() + requestType + ".java";
+                String zipFileName = srcPath + tableColumnModel.getBusinessEnName() + "/model/request/" + tableColumnModel.getBusinessEnNameUpFirst() + requestType + ".java";
                 //包名
                 String packageStr = "package " + basePackage + "." + tableColumnModel.getBusinessEnName() + ".model.request;\n";
                 StringBuffer importStr = new StringBuffer();

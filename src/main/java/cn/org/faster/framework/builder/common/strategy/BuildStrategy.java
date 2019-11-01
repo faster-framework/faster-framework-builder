@@ -13,7 +13,7 @@ import java.util.zip.ZipOutputStream;
 @Data
 public abstract class BuildStrategy {
     protected BuilderModel builderModel;
-    protected String basePath;
+    protected String srcPath;
 
     public BuildStrategy(BuilderModel builderModel) {
         this.builderModel = builderModel;

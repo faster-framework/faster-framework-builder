@@ -13,17 +13,17 @@ import java.util.zip.ZipOutputStream;
  * @author zhangbowen
  * @since 2018/12/17
  */
-public class WebRouterConfigStrategy extends WebStrategyAdapter {
-    public WebRouterConfigStrategy(BuilderModel builderModel) {
+public class WebDefaultSettingsStrategy extends WebStrategyAdapter {
+    public WebDefaultSettingsStrategy(BuilderModel builderModel) {
         super(builderModel);
     }
 
     @Override
     public void process(ZipOutputStream zipOutputStream) throws IOException {
-        Template routerConfigTemp = FreemarkerUtils.cfg.getTemplate("/adminWeb/routerConfig.js.ftl");
-        String zipFileName = basePath + "routerConfig.js";
+        Template defaultSettingsTemp = FreemarkerUtils.cfg.getTemplate("/adminWeb/defaultSettings.js.ftl");
+        String zipFileName =  "/config/defaultSettings.js";
         zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
-        zipOutputStream.write(FreemarkerUtils.processIntoStream(routerConfigTemp, builderModel));
+        zipOutputStream.write(FreemarkerUtils.processIntoStream(defaultSettingsTemp, builderModel));
         zipOutputStream.closeEntry();
     }
 }

@@ -5,4 +5,3 @@ spring:
     include:
       - web
       - mybatis
-    active: local

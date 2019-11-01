@@ -25,7 +25,7 @@ import java.util.zip.ZipOutputStream;
  * @since 2018/12/17
  */
 public class WebProjectFrameworkStrategy extends WebStrategyAdapter {
-    private List<String> skipFileNames = Arrays.asList("/src/modules/menuConfig.js", "/package.json", "/src/modules/routerConfig.js", "/config/.webpackrc.dev.js", "/config/.webpackrc.prod.js");
+    private List<String> skipFileNames = Arrays.asList("/config/router-modules.js", "/config/defaultSettings.js");
 
     public WebProjectFrameworkStrategy(BuilderModel builderModel) {
         super(builderModel);

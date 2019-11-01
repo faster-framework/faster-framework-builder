@@ -22,12 +22,8 @@ public class AdminWebContext extends BuildContext {
         strategyList.add(new WebProjectFrameworkStrategy(builderModel));
         strategyList.add(new PageAddStrategy(builderModel));
         strategyList.add(new PageEditStrategy(builderModel));
-        strategyList.add(new PageListStrategy(builderModel));
         strategyList.add(new PageIndexStrategy(builderModel));
-        strategyList.add(new WebMenuConfigStrategy(builderModel));
-        strategyList.add(new WebPackageJsonStrategy(builderModel));
-        strategyList.add(new WebPackRcDevStrategy(builderModel));
-        strategyList.add(new WebPackRcProdStrategy(builderModel));
-        strategyList.add(new WebRouterConfigStrategy(builderModel));
+        strategyList.add(new WebRouterStrategy(builderModel));
+        strategyList.add(new WebDefaultSettingsStrategy(builderModel));
     }
 }

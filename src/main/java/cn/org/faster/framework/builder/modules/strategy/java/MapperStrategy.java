@@ -28,7 +28,7 @@ public class MapperStrategy extends JavaStrategyAdapter {
         List<TableColumnModel> columnModelList = builderModel.getTableColumnList();
         for (TableColumnModel tableColumnModel : columnModelList) {
             //文件名称
-            String zipFileName = basePath + tableColumnModel.getBusinessEnName() + "/mapper/" + tableColumnModel.getBusinessEnNameUpFirst() + "Mapper.java";
+            String zipFileName = srcPath + tableColumnModel.getBusinessEnName() + "/mapper/" + tableColumnModel.getBusinessEnNameUpFirst() + "Mapper.java";
             //包名
             String packageStr = "package " + basePackage + "." + tableColumnModel.getBusinessEnName() + ".mapper;\n";
             StringBuffer importStr = new StringBuffer();

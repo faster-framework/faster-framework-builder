@@ -30,11 +30,11 @@ public class TestStrategy extends BuildStrategy {
     public void process(ZipOutputStream zipOutputStream) throws IOException {
         Template testTemp = FreemarkerUtils.cfg.getTemplate("java/test.ftl");
         List<TableColumnModel> columnModelList = builderModel.getTableColumnList();
-        basePath = BuilderConstants.JAVA_TEST_PATH + builderModel.getBasePath() + "/test/modules/v1/";
+        srcPath = BuilderConstants.JAVA_TEST_PATH + builderModel.getBasePath() + "/test/modules/v1/";
         String basePackage = builderModel.getBasePackagePath() + ".test.modules.v1";
         for (TableColumnModel tableColumnModel : columnModelList) {
             //文件名称
-            String zipFileName = basePath + tableColumnModel.getBusinessEnName() + "/" + tableColumnModel.getBusinessEnNameUpFirst() + "Test.java";
+            String zipFileName = srcPath + tableColumnModel.getBusinessEnName() + "/" + tableColumnModel.getBusinessEnNameUpFirst() + "Test.java";
             //包名
             String packageStr = "package " + basePackage + "." + tableColumnModel.getBusinessEnName() + ";\n";
             StringBuffer importStr = new StringBuffer()

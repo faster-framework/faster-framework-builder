@@ -29,7 +29,7 @@ public class ServiceStrategy extends JavaStrategyAdapter {
         List<TableColumnModel> columnModelList = builderModel.getTableColumnList();
         for (TableColumnModel tableColumnModel : columnModelList) {
             //文件名称
-            String zipFileName = basePath + tableColumnModel.getBusinessEnName() + "/service/" + tableColumnModel.getBusinessEnNameUpFirst() + "Service.java";
+            String zipFileName = srcPath + tableColumnModel.getBusinessEnName() + "/service/" + tableColumnModel.getBusinessEnNameUpFirst() + "Service.java";
             //包名
             String packageStr = "package " + basePackage + "." + tableColumnModel.getBusinessEnName() + ".service;\n";
             StringBuffer importStr = new StringBuffer()

@@ -13,17 +13,17 @@ import java.util.zip.ZipOutputStream;
  * @author zhangbowen
  * @since 2018/12/17
  */
-public class WebPackageJsonStrategy extends WebStrategyAdapter {
-    public WebPackageJsonStrategy(BuilderModel builderModel) {
+public class WebRouterStrategy extends WebStrategyAdapter {
+    public WebRouterStrategy(BuilderModel builderModel) {
         super(builderModel);
     }
 
     @Override
     public void process(ZipOutputStream zipOutputStream) throws IOException {
-        Template packageJsonTemp = FreemarkerUtils.cfg.getTemplate("/adminWeb/package.json.ftl");
-        String zipFileName = "package.json";
+        Template routerConfigTemp = FreemarkerUtils.cfg.getTemplate("/adminWeb/router-modules.js.ftl");
+        String zipFileName =  "/config/router-modules.js";
         zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
-        zipOutputStream.write(FreemarkerUtils.processIntoStream(packageJsonTemp, builderModel));
+        zipOutputStream.write(FreemarkerUtils.processIntoStream(routerConfigTemp, builderModel));
         zipOutputStream.closeEntry();
     }
 }

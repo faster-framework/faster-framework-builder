@@ -30,7 +30,7 @@ public class PageEditStrategy extends WebStrategyAdapter {
         Template editTemp = FreemarkerUtils.cfg.getTemplate("/adminWeb/Edit.jsx.ftl");
         List<TableColumnModel> columnModelList = builderModel.getTableColumnList();
         for (TableColumnModel tableColumnModel : columnModelList) {
-            String zipFileName = basePath + tableColumnModel.getBusinessEnName() + "/" + tableColumnModel.getBusinessEnNameUpFirst() + "Edit.jsx";
+            String zipFileName = srcPath + tableColumnModel.getBusinessEnName() + "/" + tableColumnModel.getBusinessEnNameUpFirst() + "Edit.jsx";
             List<ColumnModel> columnList = tableColumnModel.getColumnList().stream()
                     .filter(item -> BuilderUtils.baseNotContainsProperty(item.getColumnNameHump()))
                     .collect(Collectors.toList());

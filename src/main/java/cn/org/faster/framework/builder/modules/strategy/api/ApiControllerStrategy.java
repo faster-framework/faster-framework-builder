@@ -29,7 +29,7 @@ public class ApiControllerStrategy extends JavaStrategyAdapter {
         List<TableColumnModel> columnModelList = builderModel.getTableColumnList();
         for (TableColumnModel tableColumnModel : columnModelList) {
             //文件名称
-            String zipFileName = basePath + tableColumnModel.getBusinessEnName() + "/controller/" + tableColumnModel.getBusinessEnNameUpFirst() + "Controller.java";
+            String zipFileName = srcPath + tableColumnModel.getBusinessEnName() + "/controller/" + tableColumnModel.getBusinessEnNameUpFirst() + "Controller.java";
             //包名
             String packageStr = "package " + basePackage + "." + tableColumnModel.getBusinessEnName() + ".controller;\n";
             StringBuffer importStr = new StringBuffer()
