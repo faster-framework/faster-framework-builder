@@ -85,9 +85,15 @@ public class ${businessEnNameUpFirst}Controller {
      * @param id 主键id
      * @return ResponseEntity
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete")
     @RequiresPermissions("${businessEnName}:delete")
-    public ResponseEntity delete(@PathVariable Long id) {
-        return ${businessEnName}Service.delete(id);
+    public ResponseEntity delete(@RequestBody List<Long>  ids) {
+        ids.forEach(item -> {
+            if (item == 0L) {
+                return;
+            }
+            ${businessEnName}Service.delete(item);
+        });
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
