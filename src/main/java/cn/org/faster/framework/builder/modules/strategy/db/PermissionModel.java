@@ -1,4 +1,4 @@
-package cn.org.faster.framework.builder.modules.strategy.adminPermission;
+package cn.org.faster.framework.builder.modules.strategy.db;
 
 import cn.org.faster.framework.mybatis.entity.BaseEntity;
 import lombok.Data;

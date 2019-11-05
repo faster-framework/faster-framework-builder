@@ -10,7 +10,7 @@ import cn.org.faster.framework.builder.common.model.TableColumnModel;
 import cn.org.faster.framework.builder.common.model.request.BuilderRequest;
 import cn.org.faster.framework.builder.common.utils.BuilderUtils;
 import cn.org.faster.framework.builder.modules.context.AdminApiContext;
-import cn.org.faster.framework.builder.modules.context.AdminPermissionContext;
+import cn.org.faster.framework.builder.modules.context.DbContext;
 import cn.org.faster.framework.builder.modules.context.AdminWebContext;
 import cn.org.faster.framework.builder.modules.context.ApiContext;
 import lombok.AllArgsConstructor;
@@ -93,7 +93,7 @@ public class BuilderService {
                 return new AdminWebContext(builderModel).process();
             case BuilderConstants
                     .ADMIN_PERMISSION:
-                return new AdminPermissionContext(builderModel).process();
+                return new DbContext(builderModel).process();
             default:
                 return new ApiContext(builderModel).process();
         }

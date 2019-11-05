@@ -1,4 +1,4 @@
-package cn.org.faster.framework.builder.modules.strategy.adminPermission;
+package cn.org.faster.framework.builder.modules.strategy.db;
 
 import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.strategy.BuildStrategy;
@@ -26,7 +26,7 @@ public class PermissionStrategy extends BuildStrategy {
 
     @Override
     public void process(ZipOutputStream zipOutputStream) throws IOException {
-        Template permissionTemp = FreemarkerUtils.cfg.getTemplate("/adminPermission/permission.sql.ftl");
+        Template permissionTemp = FreemarkerUtils.cfg.getTemplate("/db/permission.sql.ftl");
         String zipFileName = builderModel.getProjectName() + ".sql";
         List<PermissionModel> permissionModelList = builderModel.getTableColumnList().stream().flatMap(item -> {
             List<PermissionModel> businessPermissionModelList = new ArrayList<>();
