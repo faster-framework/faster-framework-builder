@@ -1,8 +1,8 @@
-package cn.org.faster.framework.builder.modules.strategy.java;
+package cn.org.faster.framework.builder.modules.strategy.adminApi;
 
 import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.model.TableColumnModel;
-import cn.org.faster.framework.builder.common.strategy.adapter.JavaStrategyAdapter;
+import cn.org.faster.framework.builder.common.strategy.adapter.AdminApiStrategyAdapter;
 import cn.org.faster.framework.builder.common.utils.FreemarkerUtils;
 import cn.org.faster.framework.core.utils.Utils;
 import freemarker.template.Template;
@@ -17,7 +17,7 @@ import java.util.zip.ZipOutputStream;
  * @author zhangbowen
  * @since 2018/12/15
  */
-public class MapperStrategy extends JavaStrategyAdapter {
+public class MapperStrategy extends AdminApiStrategyAdapter {
     public MapperStrategy(BuilderModel builderModel) {
         super(builderModel);
     }

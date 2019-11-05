@@ -3,11 +3,10 @@ package cn.org.faster.framework.builder.modules.context;
 import cn.org.faster.framework.builder.common.context.BuildContext;
 import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.strategy.BuildStrategy;
-import cn.org.faster.framework.builder.modules.strategy.adminApi.AdminApiApplicationYmlStrategy;
-import cn.org.faster.framework.builder.modules.strategy.adminApi.AdminApiBaseTestStrategy;
-import cn.org.faster.framework.builder.modules.strategy.adminApi.AdminApiControllerStrategy;
-import cn.org.faster.framework.builder.modules.strategy.adminApi.AdminApiPomStrategy;
-import cn.org.faster.framework.builder.modules.strategy.java.*;
+import cn.org.faster.framework.builder.modules.strategy.adminApi.*;
+import cn.org.faster.framework.builder.modules.strategy.java.ApplicationEnvYmlStrategy;
+import cn.org.faster.framework.builder.modules.strategy.java.GitIgnoreStrategy;
+import cn.org.faster.framework.builder.modules.strategy.java.SpringBootApplicationStrategy;
 
 import java.util.List;
 
@@ -31,9 +30,9 @@ public class AdminApiContext extends BuildContext {
         strategyList.add(new ServiceStrategy(builderModel));
         strategyList.add(new SpringBootApplicationStrategy(builderModel));
         strategyList.add(new TestStrategy(builderModel));
-        strategyList.add(new AdminApiPomStrategy(builderModel));
-        strategyList.add(new AdminApiBaseTestStrategy(builderModel));
-        strategyList.add(new AdminApiApplicationYmlStrategy(builderModel));
-        strategyList.add(new AdminApiControllerStrategy(builderModel));
+        strategyList.add(new PomStrategy(builderModel));
+        strategyList.add(new BaseTestStrategy(builderModel));
+        strategyList.add(new ApplicationYmlStrategy(builderModel));
+        strategyList.add(new ControllerStrategy(builderModel));
     }
 }

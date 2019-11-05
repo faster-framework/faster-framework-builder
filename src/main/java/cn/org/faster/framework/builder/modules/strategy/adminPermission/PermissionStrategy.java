@@ -19,8 +19,8 @@ import java.util.zip.ZipOutputStream;
  * @author zhangbowen
  * @since 2018/12/15
  */
-public class AdminPermissionStrategy extends BuildStrategy {
-    public AdminPermissionStrategy(BuilderModel builderModel) {
+public class PermissionStrategy extends BuildStrategy {
+    public PermissionStrategy(BuilderModel builderModel) {
         super(builderModel);
     }
 

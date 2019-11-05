@@ -13,8 +13,8 @@ import java.util.zip.ZipOutputStream;
  * @author zhangbowen
  * @since 2018/12/17
  */
-public class WebRouterStrategy extends WebStrategyAdapter {
-    public WebRouterStrategy(BuilderModel builderModel) {
+public class RouterStrategy extends WebStrategyAdapter {
+    public RouterStrategy(BuilderModel builderModel) {
         super(builderModel);
     }
 

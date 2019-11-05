@@ -3,7 +3,7 @@ import { Input, Form, message } from 'antd';
 import FixedRow from '@/common/components/FixedRow';
 import request from '@/common/utils/request';
 
-export default class ${businessEnNameUpFirst}Add extends Component {
+class ${businessEnNameUpFirst}Add extends Component {
   constructor(props) {
     super(props)
   }
@@ -38,3 +38,4 @@ export default class ${businessEnNameUpFirst}Add extends Component {
     );
   }
 }
+export default Form.create()(${businessEnNameUpFirst}Add);

@@ -18,8 +18,8 @@ import java.util.zip.ZipOutputStream;
  * @author zhangbowen
  * @since 2018/12/15
  */
-public class ApiPomStrategy extends BuildStrategy {
-    public ApiPomStrategy(BuilderModel builderModel) {
+public class PomStrategy extends BuildStrategy {
+    public PomStrategy(BuilderModel builderModel) {
         super(builderModel);
     }
 

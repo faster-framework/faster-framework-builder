@@ -1,4 +1,4 @@
-package cn.org.faster.framework.builder.modules.strategy.api;
+package cn.org.faster.framework.builder.modules.strategy.adminApi;
 
 import cn.org.faster.framework.builder.common.constants.BuilderConstants;
 import cn.org.faster.framework.builder.common.model.BuilderModel;
@@ -16,20 +16,21 @@ import java.util.zip.ZipOutputStream;
  * @author zhangbowen
  * @since 2018/12/15
  */
-public class ApiBaseTestStrategy extends BuildStrategy {
-    public ApiBaseTestStrategy(BuilderModel builderModel) {
+public class BaseTestStrategy extends BuildStrategy {
+    public BaseTestStrategy(BuilderModel builderModel) {
         super(builderModel);
     }
 
     @Override
     public void process(ZipOutputStream zipOutputStream) throws IOException {
-        Template baseTestTemp = FreemarkerUtils.cfg.getTemplate("api/baseTest.ftl");
+        Template baseTestTemp = FreemarkerUtils.cfg.getTemplate("adminApi/baseTest.ftl");
         String zipFileName = BuilderConstants.JAVA_TEST_PATH + builderModel.getBasePath() + "/test/BaseTest.java";
         //包名
         String packageStr = "package " + builderModel.getBasePackagePath() + ".test;\n";
         String importStr = "import org.junit.Before;\n" +
-                "import org.junit.runner.RunWith;\n" +
+                "import org.apache.shiro.web.servlet.AbstractShiroFilter;\n" +
                 "import "+builderModel.getBasePackagePath()+".Application;\n" +
+                "import org.junit.runner.RunWith;\n" +
                 "import org.springframework.beans.factory.annotation.Autowired;\n" +
                 "import org.springframework.boot.test.context.SpringBootTest;\n" +
                 "import org.springframework.http.HttpHeaders;\n" +
@@ -43,7 +44,7 @@ public class ApiBaseTestStrategy extends BuildStrategy {
                 "import java.nio.charset.StandardCharsets;\n" +
                 "import java.util.function.Supplier;\n" +
                 "import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;\n" +
-                "import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;\n"
+                "import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;\n";
         ;
         Map<String, Object> map = Utils.beanToMap(builderModel);
         map.put("package", packageStr);

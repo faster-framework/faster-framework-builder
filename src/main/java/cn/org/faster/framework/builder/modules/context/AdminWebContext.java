@@ -19,11 +19,11 @@ public class AdminWebContext extends BuildContext {
 
     @Override
     protected void initBuildStrategy(List<BuildStrategy> strategyList) {
-        strategyList.add(new WebProjectFrameworkStrategy(builderModel));
+        strategyList.add(new ProjectFrameworkStrategy(builderModel));
         strategyList.add(new PageAddStrategy(builderModel));
         strategyList.add(new PageEditStrategy(builderModel));
         strategyList.add(new PageIndexStrategy(builderModel));
-        strategyList.add(new WebRouterStrategy(builderModel));
-        strategyList.add(new WebDefaultSettingsStrategy(builderModel));
+        strategyList.add(new RouterStrategy(builderModel));
+        strategyList.add(new DefaultSettingsStrategy(builderModel));
     }
 }

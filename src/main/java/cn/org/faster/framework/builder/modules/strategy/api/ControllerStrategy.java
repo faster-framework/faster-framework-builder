@@ -2,7 +2,7 @@ package cn.org.faster.framework.builder.modules.strategy.api;
 
 import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.model.TableColumnModel;
-import cn.org.faster.framework.builder.common.strategy.adapter.JavaStrategyAdapter;
+import cn.org.faster.framework.builder.common.strategy.adapter.ApiStrategyAdapter;
 import cn.org.faster.framework.builder.common.utils.FreemarkerUtils;
 import cn.org.faster.framework.core.utils.Utils;
 import freemarker.template.Template;
@@ -17,9 +17,9 @@ import java.util.zip.ZipOutputStream;
  * @author zhangbowen
  * @since 2018/12/14
  */
-public class ApiControllerStrategy extends JavaStrategyAdapter {
+public class ControllerStrategy extends ApiStrategyAdapter {
 
-    public ApiControllerStrategy(BuilderModel builderModel) {
+    public ControllerStrategy(BuilderModel builderModel) {
         super(builderModel);
     }
 
@@ -33,7 +33,6 @@ public class ApiControllerStrategy extends JavaStrategyAdapter {
             //包名
             String packageStr = "package " + basePackage + "." + tableColumnModel.getBusinessEnName() + ".controller;\n";
             StringBuffer importStr = new StringBuffer()
-                    .append("import lombok.AllArgsConstructor;\n")
                     .append("import org.springframework.http.ResponseEntity;\n")
                     .append("import org.springframework.web.bind.annotation.*;\n")
                     .append("import org.springframework.beans.factory.annotation.Autowired;\n")

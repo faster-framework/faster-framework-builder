@@ -13,8 +13,8 @@ import java.util.zip.ZipOutputStream;
  * @author zhangbowen
  * @since 2018/12/17
  */
-public class WebDefaultSettingsStrategy extends WebStrategyAdapter {
-    public WebDefaultSettingsStrategy(BuilderModel builderModel) {
+public class DefaultSettingsStrategy extends WebStrategyAdapter {
+    public DefaultSettingsStrategy(BuilderModel builderModel) {
         super(builderModel);
     }
 

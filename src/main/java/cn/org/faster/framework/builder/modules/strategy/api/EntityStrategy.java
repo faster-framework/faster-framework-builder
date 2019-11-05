@@ -1,9 +1,9 @@
-package cn.org.faster.framework.builder.modules.strategy.java;
+package cn.org.faster.framework.builder.modules.strategy.api;
 
 import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.model.ColumnModel;
 import cn.org.faster.framework.builder.common.model.TableColumnModel;
-import cn.org.faster.framework.builder.common.strategy.adapter.JavaStrategyAdapter;
+import cn.org.faster.framework.builder.common.strategy.adapter.ApiStrategyAdapter;
 import cn.org.faster.framework.builder.common.utils.BuilderUtils;
 import cn.org.faster.framework.builder.common.utils.FreemarkerUtils;
 import cn.org.faster.framework.core.utils.Utils;
@@ -19,10 +19,9 @@ import java.util.zip.ZipOutputStream;
 
 /**
  * @author zhangbowen
- * @since 2018/12/14
+ * @since 2019-11-05
  */
-public class EntityStrategy extends JavaStrategyAdapter {
-
+public class EntityStrategy extends ApiStrategyAdapter {
     public EntityStrategy(BuilderModel builderModel) {
         super(builderModel);
     }

@@ -14,8 +14,8 @@ import java.util.zip.ZipOutputStream;
  * @author zhangbowen
  * @since 2018/12/15
  */
-public class AdminApiApplicationYmlStrategy extends BuildStrategy {
-    public AdminApiApplicationYmlStrategy(BuilderModel builderModel) {
+public class ApplicationYmlStrategy extends BuildStrategy {
+    public ApplicationYmlStrategy(BuilderModel builderModel) {
         super(builderModel);
 
     }

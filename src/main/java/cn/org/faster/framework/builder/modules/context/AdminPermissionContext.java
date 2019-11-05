@@ -3,7 +3,7 @@ package cn.org.faster.framework.builder.modules.context;
 import cn.org.faster.framework.builder.common.context.BuildContext;
 import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.strategy.BuildStrategy;
-import cn.org.faster.framework.builder.modules.strategy.adminPermission.AdminPermissionStrategy;
+import cn.org.faster.framework.builder.modules.strategy.adminPermission.PermissionStrategy;
 
 import java.util.List;
 
@@ -19,6 +19,6 @@ public class AdminPermissionContext extends BuildContext {
 
     @Override
     protected void initBuildStrategy(List<BuildStrategy> strategyList) {
-        strategyList.add(new AdminPermissionStrategy(builderModel));
+        strategyList.add(new PermissionStrategy(builderModel));
     }
 }

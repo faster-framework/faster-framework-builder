@@ -24,10 +24,10 @@ import java.util.zip.ZipOutputStream;
  * @author zhangbowen
  * @since 2018/12/17
  */
-public class WebProjectFrameworkStrategy extends WebStrategyAdapter {
+public class ProjectFrameworkStrategy extends WebStrategyAdapter {
     private List<String> skipFileNames = Arrays.asList("/config/router-modules.js", "/config/defaultSettings.js");
 
-    public WebProjectFrameworkStrategy(BuilderModel builderModel) {
+    public ProjectFrameworkStrategy(BuilderModel builderModel) {
         super(builderModel);
     }
 

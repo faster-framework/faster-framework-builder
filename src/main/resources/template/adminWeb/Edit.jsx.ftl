@@ -3,7 +3,7 @@ import { Input, Form, message } from 'antd';
 import FixedRow from '@/common/components/FixedRow';
 import request from '@/common/utils/request';
 
-export default class ${businessEnNameUpFirst}Edit extends Component {
+class ${businessEnNameUpFirst}Edit extends Component {
   constructor(props) {
     super(props)
     request.get('/${businessEnName}/' + this.props.currentRecord.id).then(res => {
@@ -41,3 +41,4 @@ export default class ${businessEnNameUpFirst}Edit extends Component {
     );
   }
 }
+export default Form.create()(${businessEnNameUpFirst}Edit);

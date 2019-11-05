@@ -1,8 +1,8 @@
-package cn.org.faster.framework.builder.modules.strategy.java;
+package cn.org.faster.framework.builder.modules.strategy.adminApi;
 
 import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.model.TableColumnModel;
-import cn.org.faster.framework.builder.common.strategy.adapter.JavaStrategyAdapter;
+import cn.org.faster.framework.builder.common.strategy.adapter.AdminApiStrategyAdapter;
 import cn.org.faster.framework.builder.common.utils.FreemarkerUtils;
 import cn.org.faster.framework.core.utils.Utils;
 import freemarker.template.Template;
@@ -17,7 +17,7 @@ import java.util.zip.ZipOutputStream;
  * @author zhangbowen
  * @since 2018/12/14
  */
-public class ServiceStrategy extends JavaStrategyAdapter {
+public class ServiceStrategy extends AdminApiStrategyAdapter {
 
     public ServiceStrategy(BuilderModel builderModel) {
         super(builderModel);
@@ -34,7 +34,6 @@ public class ServiceStrategy extends JavaStrategyAdapter {
             String packageStr = "package " + basePackage + "." + tableColumnModel.getBusinessEnName() + ".service;\n";
             StringBuffer importStr = new StringBuffer()
                     .append("import com.baomidou.mybatisplus.core.metadata.IPage;\n")
-                    .append("import lombok.AllArgsConstructor;\n")
                     .append("import org.springframework.util.StringUtils;\n")
                     .append("import org.springframework.http.HttpStatus;\n")
                     .append("import org.springframework.http.ResponseEntity;\n")

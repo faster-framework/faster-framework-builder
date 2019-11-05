@@ -4,7 +4,7 @@ spring:
         url: jdbc:mysql://${dbHost}:${dbPort}/${dbName}?allowMultiQueries=true&useSSL=false
         username: ${dbUsername}
         password: ${dbPwd}
-#faster:
+#app:
 #  upload:
 #    local:
 #      file-dir: /data/upload/${dbName}
