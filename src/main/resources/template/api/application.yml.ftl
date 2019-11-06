@@ -1,7 +1,9 @@
 spring:
   application:
-    name: ${projectName}-api
+    name: ${projectName}
   profiles:
     include:
       - web
       - mybatis
+app:
+  group: ${dbName}

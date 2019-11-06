@@ -1,10 +1,10 @@
-spring:
+app:
   datasource:
-    druid:
-        url: jdbc:mysql://${dbHost}:${dbPort}/${dbName}?allowMultiQueries=true&useSSL=false
-        username: ${dbUsername}
-        password: ${dbPwd}
-#app:
+    name: ${dbName}
+    host: ${dbHost}
+    port: ${dbPort}
+    username: ${dbUsername}
+    password: ${dbPwd}
 #  upload:
 #    local:
 #      file-dir: /data/upload/${dbName}

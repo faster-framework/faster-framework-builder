@@ -1,8 +1,10 @@
 spring:
   application:
-    name: ${projectName}-admin-api
+    name: ${projectName}
   profiles:
     include:
       - web
       - mybatis
       - admin
+app:
+  group: ${dbName}
