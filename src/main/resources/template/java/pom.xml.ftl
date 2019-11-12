@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.org.faster</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
+        <artifactId>spring-boot-starters</artifactId>
         <version>${dependencyVersion}</version>
     </parent>
     <groupId>${basePackagePath}</groupId>
