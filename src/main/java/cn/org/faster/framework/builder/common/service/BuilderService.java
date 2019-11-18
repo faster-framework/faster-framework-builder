@@ -10,14 +10,16 @@ import cn.org.faster.framework.builder.common.model.TableColumnModel;
 import cn.org.faster.framework.builder.common.model.request.BuilderRequest;
 import cn.org.faster.framework.builder.common.utils.BuilderUtils;
 import cn.org.faster.framework.builder.modules.context.AdminApiContext;
-import cn.org.faster.framework.builder.modules.context.DbContext;
 import cn.org.faster.framework.builder.modules.context.AdminWebContext;
 import cn.org.faster.framework.builder.modules.context.ApiContext;
+import cn.org.faster.framework.builder.modules.context.DbContext;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
@@ -43,19 +45,25 @@ public class BuilderService {
     }
 
     /**
-     * @param projectName 项目名称
-     * @param outputBytes 输出下载的字节
+     * @param projectName     项目名称
+     * @param fileInputStream 输出下载流
      * @throws IOException 写回下载流
      */
-    private void outputDownloadStream(String projectName, byte[] outputBytes) throws IOException {
+    private void outputDownloadStream(String projectName, FileInputStream fileInputStream) throws IOException {
         String fileName = projectName + ".zip";
         httpServletResponse.setContentType("application/octet-stream; charset=utf-8");
         httpServletResponse.setHeader("Content-Disposition", "attachment;filename="
                 .concat(String.valueOf(URLEncoder.encode(fileName, "UTF-8"))));
         httpServletResponse.setStatus(201);
-        try (OutputStream outputStream = httpServletResponse.getOutputStream()) {
-            outputStream.write(outputBytes);
-            outputStream.flush();
+        byte[] buffer = new byte[1024];
+        try (OutputStream outputStream = httpServletResponse.getOutputStream();
+             BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream)
+        ) {
+            int i;
+            while ((i = bufferedInputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, i);
+                outputStream.flush();
+            }
         }
     }
 
@@ -69,9 +77,9 @@ public class BuilderService {
         MultipleDataSourceContext.setMultipleDataSourceThreadLocal(builderRequest.getDatabase());
         //获取本次需要生成的表以及列数据
         List<TableColumnModel> tableColumnModelList = selectTableWithColumn(builderRequest);
-        byte[] zipBytes = process(builderRequest, tableColumnModelList);
+        FileInputStream fileInputStream = process(builderRequest, tableColumnModelList);
         //写回下载流
-        outputDownloadStream(builderRequest.getBusiness().getProjectName(), zipBytes);
+        outputDownloadStream(builderRequest.getBusiness().getProjectName(), fileInputStream);
     }
 
     /**
@@ -79,7 +87,7 @@ public class BuilderService {
      * @param tableColumnList 要生成的数据表，携带列信息
      * @return 具体的生成器引擎
      */
-    private byte[] process(BuilderRequest builderRequest, List<TableColumnModel> tableColumnList) throws IOException {
+    private FileInputStream process(BuilderRequest builderRequest, List<TableColumnModel> tableColumnList) throws IOException {
         BuilderModel builderModel = initBuildModel(builderRequest, tableColumnList);
         switch (builderRequest.getType()) {
             case BuilderConstants

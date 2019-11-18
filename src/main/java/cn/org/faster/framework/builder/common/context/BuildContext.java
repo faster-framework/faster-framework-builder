@@ -2,9 +2,7 @@ package cn.org.faster.framework.builder.common.context;
 
 import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.strategy.BuildStrategy;
-import cn.org.faster.framework.core.utils.Utils;
 import lombok.Data;
-import org.springframework.util.StreamUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,7 +31,7 @@ public abstract class BuildContext {
      *
      * @return
      */
-    public byte[] process() throws IOException {
+    public FileInputStream process() throws IOException {
         //初始化生成策略
         initBuildStrategy(strategyList);
         //创建压缩文件
@@ -43,7 +41,7 @@ public abstract class BuildContext {
                 buildStrategy.process(zipOutputStream);
             }
         }
-        return StreamUtils.copyToByteArray(new FileInputStream(zipFile));
+        return new FileInputStream(zipFile);
     }
 
     /**
