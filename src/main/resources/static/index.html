@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Faster-Framework-Builder</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
@@ -24,17 +25,15 @@
                         <option value="1">接口</option>
                         <option value="2">后台管理接口</option>
                         <option value="3">后台管理前端</option>
-                        <option value="4">数据库sql</option>
+<!--                        <option value="4">后台管理、接口合一</option>-->
+                        <option value="5">数据库sql</option>
                     </select>
                 </div>
             </div>
-            <div class="form-group" v-show="form.type!=4">
+            <div class="form-group" v-show="form.type!=5">
                 <label class="col-sm-4 control-label">版本号：</label>
                 <div class="col-sm-6">
-                    <select v-model="form.dependency" class="form-control">
-                        <option disabled value="">请选择</option>
-                        <option v-for="item in dependencyList" v-bind:value="item">{{item.name}}</option>
-                    </select>
+                    <input type="text" class="form-control" v-model="form.dependency.version" disabled/>
                 </div>
             </div>
             <div class="form-group">
@@ -97,6 +96,28 @@
 </body>
 <script>
     axios.defaults.timeout = 10000;
+    var projectVersion = {
+        "1": {//接口端
+            version: "v1.3.0.RELEASE",
+            url: ""
+        },
+        "2": {//后台管理接口
+            version: "v1.3.0.RELEASE",
+            url: "https://github.com/faster-framework/faster-framework-admin-api/archive/v1.0.0.RELEASE.zip"
+        },
+        "3": {//后台管理前端
+            version: "v2.0.0.RELEASE",
+            url: "https://github.com/faster-framework/faster-framework-admin-web/archive/v2.0.0.RELEASE.zip"
+        },
+        "4": {//后台管理、接口端合一
+            version: "v1.3.0.RELEASE",
+            url: "https://github.com/faster-framework/faster-framework-admin-api/archive/v1.0.0.RELEASE.zip"
+        },
+        "5": {//数据库sql
+            version: "v1.0.0.RELEASE",
+            url: ""
+        },
+    };
     var app = new Vue({
         el: '#app',
         created: function () {
@@ -107,7 +128,6 @@
         },
         data: function () {
             return {
-                dependencyList: [],
                 form: {
                     database: {
                         host: "",
@@ -131,27 +151,7 @@
         },
         watch: {
             'form.type': function (type) {
-                var url = "https://api.github.com/repos/";
-                if (type === "1") {
-                    url += "faster-framework/faster-framework-project";
-                } else if (type === "2") {
-                    url += "faster-framework/faster-framework-project";
-                } else if (type === "3") {
-                    url += "faster-framework/faster-framework-admin-web";
-                } else {
-                    return;
-                }
-                url += "/releases";
-                var self = this;
-                axios.get(url).then(function (response) {
-                    self.form.dependency = null;
-                    if(response.data){
-                        var dependencyResponse = [];
-                        dependencyResponse.push(response.data[0]);
-                        self.dependencyList = dependencyResponse;
-                    }
-
-                })
+                this.form.dependency = projectVersion[type];
             }
         },
         methods: {
@@ -169,10 +169,6 @@
             },
             submit: function () {
                 var form = Object.assign({}, this.form);
-                if (form.dependency) {
-                    form.dependency.url = form.dependency.zipball_url;
-                    form.dependency.version = form.dependency.name;
-                }
                 if ((form.type === "1" || form.type === "2") && !form.business.basePackagePath) {
                     layer.msg("请填写根包路径");
                     return;

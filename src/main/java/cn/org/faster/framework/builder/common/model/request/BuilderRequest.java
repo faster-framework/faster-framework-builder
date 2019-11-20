@@ -31,7 +31,7 @@ public class BuilderRequest {
      * 生成类型
      */
     @NotNull(message = "类型不能为空")
-    @Range(min = 1, max = 4, message = "类型选择错误")
+    @Range(min = 1, max = 5, message = "类型选择错误")
     private Integer type;
 
 

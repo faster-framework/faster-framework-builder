@@ -7,6 +7,7 @@ public interface BuilderConstants {
     int API = 1;
     int ADMIN_API = 2;
     int ADMIN_WEB = 3;
-    int ADMIN_PERMISSION = 4;
+    int ADMIN_API_MERGE = 4;
+    int SQL = 5;
 
 }

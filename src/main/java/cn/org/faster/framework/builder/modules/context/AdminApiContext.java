@@ -4,6 +4,7 @@ import cn.org.faster.framework.builder.common.context.BuildContext;
 import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.strategy.BuildStrategy;
 import cn.org.faster.framework.builder.modules.strategy.adminApi.*;
+import cn.org.faster.framework.builder.modules.strategy.java.ApplicationYmlStrategy;
 import cn.org.faster.framework.builder.modules.strategy.java.ApplicationEnvYmlStrategy;
 import cn.org.faster.framework.builder.modules.strategy.java.GitIgnoreStrategy;
 import cn.org.faster.framework.builder.modules.strategy.java.SpringBootApplicationStrategy;
@@ -22,6 +23,7 @@ public class AdminApiContext extends BuildContext {
 
     @Override
     protected void initBuildStrategy(List<BuildStrategy> strategyList) {
+        strategyList.add(new ProjectFrameworkStrategy(builderModel));
         strategyList.add(new EntityStrategy(builderModel));
         strategyList.add(new ApplicationEnvYmlStrategy(builderModel));
         strategyList.add(new GitIgnoreStrategy(builderModel));

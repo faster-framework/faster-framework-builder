@@ -14,6 +14,7 @@ import java.util.zip.ZipOutputStream;
 public abstract class BuildStrategy {
     protected BuilderModel builderModel;
     protected String srcPath;
+    protected String modulesName = "modules";
 
     public BuildStrategy(BuilderModel builderModel) {
         this.builderModel = builderModel;

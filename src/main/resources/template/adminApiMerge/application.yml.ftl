@@ -5,6 +5,8 @@ spring:
     include:
       - web
       - mybatis
-      - admin
 app:
   group: ${dbName}
+  shiro:
+    filter-chain-definition-map:
+      "[/api/**]": anon

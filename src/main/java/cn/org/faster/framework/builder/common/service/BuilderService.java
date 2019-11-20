@@ -100,7 +100,10 @@ public class BuilderService {
                     .ADMIN_WEB:
                 return new AdminWebContext(builderModel).process();
             case BuilderConstants
-                    .ADMIN_PERMISSION:
+                    .ADMIN_API_MERGE:
+                return new AdminWebContext(builderModel).process();
+            case BuilderConstants
+                    .SQL:
                 return new DbContext(builderModel).process();
             default:
                 return new ApiContext(builderModel).process();

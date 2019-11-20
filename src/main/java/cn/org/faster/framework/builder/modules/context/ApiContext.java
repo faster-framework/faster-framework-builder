@@ -5,6 +5,7 @@ import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.strategy.BuildStrategy;
 import cn.org.faster.framework.builder.modules.strategy.api.*;
 import cn.org.faster.framework.builder.modules.strategy.java.ApplicationEnvYmlStrategy;
+import cn.org.faster.framework.builder.modules.strategy.java.ApplicationYmlStrategy;
 import cn.org.faster.framework.builder.modules.strategy.java.GitIgnoreStrategy;
 import cn.org.faster.framework.builder.modules.strategy.java.SpringBootApplicationStrategy;
 import cn.org.faster.framework.builder.modules.strategy.api.TestStrategy;

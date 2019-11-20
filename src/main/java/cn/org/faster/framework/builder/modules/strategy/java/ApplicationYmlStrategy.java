@@ -1,4 +1,4 @@
-package cn.org.faster.framework.builder.modules.strategy.adminApi;
+package cn.org.faster.framework.builder.modules.strategy.java;
 
 import cn.org.faster.framework.builder.common.constants.BuilderConstants;
 import cn.org.faster.framework.builder.common.model.BuilderModel;
@@ -17,12 +17,11 @@ import java.util.zip.ZipOutputStream;
 public class ApplicationYmlStrategy extends BuildStrategy {
     public ApplicationYmlStrategy(BuilderModel builderModel) {
         super(builderModel);
-
     }
 
     @Override
     public void process(ZipOutputStream zipOutputStream) throws IOException {
-        Template ymlTemp = FreemarkerUtils.cfg.getTemplate("adminApi/application.yml.ftl");
+        Template ymlTemp = FreemarkerUtils.cfg.getTemplate("java/application.yml.ftl");
         String zipFileName = BuilderConstants.JAVA_RESOURCES_PATH + "application.yml";
         zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
         zipOutputStream.write(FreemarkerUtils.processIntoStream(ymlTemp, builderModel));

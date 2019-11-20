@@ -13,7 +13,7 @@ public abstract class ApiStrategyAdapter extends BuildStrategy {
 
     public ApiStrategyAdapter(BuilderModel builderModel) {
         super(builderModel);
-        srcPath = BuilderConstants.JAVA_PATH + builderModel.getBasePath() + "/modules/v1/";
-        basePackage = builderModel.getBasePackagePath() + ".modules.v1";
+        srcPath = BuilderConstants.JAVA_PATH + builderModel.getBasePath() + "/" + modulesName + "/";
+        basePackage = builderModel.getBasePackagePath() + "." + modulesName;
     }
 }

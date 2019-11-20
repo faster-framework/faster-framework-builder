@@ -32,6 +32,7 @@ public class PomStrategy extends BuildStrategy {
         List<DependencyModel> dependencyModelList = new ArrayList<>();
         dependencyModelList.add(new DependencyModel("cn.org.faster", "spring-boot-starter-web"));
         dependencyModelList.add(new DependencyModel("cn.org.faster", "spring-boot-starter-mybatis"));
+        dependencyModelList.add(new DependencyModel("cn.org.faster", "spring-boot-starter-auth-app"));
         map.put("dependencies", dependencyModelList);
         zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
         zipOutputStream.write(FreemarkerUtils.processIntoStream(pomTemp, map));
