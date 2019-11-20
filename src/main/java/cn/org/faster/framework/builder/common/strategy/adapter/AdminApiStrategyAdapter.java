@@ -17,7 +17,7 @@ public abstract class AdminApiStrategyAdapter extends BuildStrategy {
 
     public AdminApiStrategyAdapter(BuilderModel builderModel) {
         super(builderModel);
-        srcPath = BuilderConstants.JAVA_PATH + builderModel.getBasePath() + "/" + modulesName + "/";
-        basePackage = builderModel.getBasePackagePath() + "." + modulesName;
+        srcPath = BuilderConstants.JAVA_PATH + builderModel.getBasePath() + "/modules/";
+        basePackage = builderModel.getBasePackagePath() + ".modules";
     }
 }

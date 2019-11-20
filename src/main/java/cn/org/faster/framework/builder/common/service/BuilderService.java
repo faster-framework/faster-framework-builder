@@ -9,10 +9,7 @@ import cn.org.faster.framework.builder.common.model.ColumnModel;
 import cn.org.faster.framework.builder.common.model.TableColumnModel;
 import cn.org.faster.framework.builder.common.model.request.BuilderRequest;
 import cn.org.faster.framework.builder.common.utils.BuilderUtils;
-import cn.org.faster.framework.builder.modules.context.AdminApiContext;
-import cn.org.faster.framework.builder.modules.context.AdminWebContext;
-import cn.org.faster.framework.builder.modules.context.ApiContext;
-import cn.org.faster.framework.builder.modules.context.DbContext;
+import cn.org.faster.framework.builder.modules.context.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -101,7 +98,7 @@ public class BuilderService {
                 return new AdminWebContext(builderModel).process();
             case BuilderConstants
                     .ADMIN_API_MERGE:
-                return new AdminWebContext(builderModel).process();
+                return new AdminApiMergeContext(builderModel).process();
             case BuilderConstants
                     .SQL:
                 return new DbContext(builderModel).process();

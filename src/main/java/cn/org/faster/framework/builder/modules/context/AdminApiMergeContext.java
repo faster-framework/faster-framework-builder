@@ -3,19 +3,19 @@ package cn.org.faster.framework.builder.modules.context;
 import cn.org.faster.framework.builder.common.context.BuildContext;
 import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.strategy.BuildStrategy;
-import cn.org.faster.framework.builder.common.strategy.adapter.AdminApiStrategyAdapter;
-import cn.org.faster.framework.builder.modules.strategy.adminApi.*;
-import cn.org.faster.framework.builder.modules.strategy.adminApiMerge.AdminControllerStrategy;
-import cn.org.faster.framework.builder.modules.strategy.adminApiMerge.ApplicationYmlStrategy;
+import cn.org.faster.framework.builder.modules.strategy.adminApi.BaseTestStrategy;
+import cn.org.faster.framework.builder.modules.strategy.adminApi.PomStrategy;
+import cn.org.faster.framework.builder.modules.strategy.adminApi.ProjectFrameworkStrategy;
+import cn.org.faster.framework.builder.modules.strategy.adminApiMerge.*;
 import cn.org.faster.framework.builder.modules.strategy.java.ApplicationEnvYmlStrategy;
 import cn.org.faster.framework.builder.modules.strategy.java.GitIgnoreStrategy;
 import cn.org.faster.framework.builder.modules.strategy.java.SpringBootApplicationStrategy;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 后台管理、接口合一
+ *
  * @author zhangbowen
  * @since 2018/12/14
  */
@@ -27,44 +27,36 @@ public class AdminApiMergeContext extends BuildContext {
 
     @Override
     protected void initBuildStrategy(List<BuildStrategy> strategyList) {
+        String adminModuleName = "admin";
+        String apiModuleName = "api.v1";
 
-        List<BuildStrategy> apiStrategyAdapters = new ArrayList<>();
 
-        apiStrategyAdapters.add(new cn.org.faster.framework.builder.modules.strategy.api.EntityStrategy(builderModel));
-        apiStrategyAdapters.add(new cn.org.faster.framework.builder.modules.strategy.api.MapperStrategy(builderModel));
-        apiStrategyAdapters.add(new cn.org.faster.framework.builder.modules.strategy.api.RequestStrategy(builderModel));
-        apiStrategyAdapters.add(new cn.org.faster.framework.builder.modules.strategy.api.ServiceStrategy(builderModel));
-        apiStrategyAdapters.add(new cn.org.faster.framework.builder.modules.strategy.api.ControllerStrategy(builderModel));
-        apiStrategyAdapters.add(new cn.org.faster.framework.builder.modules.strategy.api.TestStrategy(builderModel));
+        //创建api策略
+        strategyList.add(new EntityStrategy(builderModel, apiModuleName));
+        strategyList.add(new MapperStrategy(builderModel, apiModuleName));
+        strategyList.add(new ServiceStrategy(builderModel, apiModuleName));
+        strategyList.add(new RequestStrategy(builderModel, apiModuleName));
+        strategyList.add(new ApiControllerStrategy(builderModel, apiModuleName));
 
-        apiStrategyAdapters.forEach(item->{
-            item.setModulesName("api");
-        });
 
         //创建admin策略
-        List<BuildStrategy> adminApiStrategyAdapters = new ArrayList<>();
-
-        adminApiStrategyAdapters.add(new ProjectFrameworkStrategy(builderModel));
-        adminApiStrategyAdapters.add(new EntityStrategy(builderModel));
-        adminApiStrategyAdapters.add(new ApplicationEnvYmlStrategy(builderModel));
-        adminApiStrategyAdapters.add(new GitIgnoreStrategy(builderModel));
-        adminApiStrategyAdapters.add(new MapperStrategy(builderModel));
-        adminApiStrategyAdapters.add(new RequestStrategy(builderModel));
-        adminApiStrategyAdapters.add(new ServiceStrategy(builderModel));
-        adminApiStrategyAdapters.add(new SpringBootApplicationStrategy(builderModel));
-        adminApiStrategyAdapters.add(new TestStrategy(builderModel));
-        adminApiStrategyAdapters.add(new PomStrategy(builderModel));
-        adminApiStrategyAdapters.add(new BaseTestStrategy(builderModel));
-        adminApiStrategyAdapters.add(new ApplicationYmlStrategy(builderModel));
-        adminApiStrategyAdapters.add(new ControllerStrategy(builderModel));
-
-        adminApiStrategyAdapters.forEach(item->{
-            item.setModulesName("admin");
-        });
-
-        strategyList.addAll(apiStrategyAdapters);
-        strategyList.addAll(adminApiStrategyAdapters);
+        strategyList.add(new EntityStrategy(builderModel, adminModuleName));
+        strategyList.add(new MapperStrategy(builderModel, adminModuleName));
+        strategyList.add(new ServiceStrategy(builderModel, adminModuleName));
+        strategyList.add(new RequestStrategy(builderModel, adminModuleName));
+        strategyList.add(new AdminControllerStrategy(builderModel, adminModuleName));
 
 
+
+        //公共策略
+        strategyList.add(new ProjectFrameworkStrategy(builderModel));
+        strategyList.add(new PomStrategy(builderModel));
+        strategyList.add(new GitIgnoreStrategy(builderModel));
+        strategyList.add(new ApplicationYmlStrategy(builderModel));
+        strategyList.add(new ApplicationEnvYmlStrategy(builderModel));
+        strategyList.add(new SpringBootApplicationStrategy(builderModel));
+        strategyList.add(new BaseTestStrategy(builderModel));
+        strategyList.add(new AdminTestStrategy(builderModel));
+        strategyList.add(new ApiTestStrategy(builderModel));
     }
 }

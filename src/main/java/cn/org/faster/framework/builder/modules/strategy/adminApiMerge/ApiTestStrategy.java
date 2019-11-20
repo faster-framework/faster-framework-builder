@@ -1,4 +1,4 @@
-package cn.org.faster.framework.builder.modules.strategy.adminApi;
+package cn.org.faster.framework.builder.modules.strategy.adminApiMerge;
 
 import cn.org.faster.framework.builder.common.constants.BuilderConstants;
 import cn.org.faster.framework.builder.common.model.BuilderModel;
@@ -20,18 +20,18 @@ import java.util.zip.ZipOutputStream;
  * @author zhangbowen
  * @since 2018/12/14
  */
-public class TestStrategy extends BuildStrategy {
+public class ApiTestStrategy extends BuildStrategy {
 
-    public TestStrategy(BuilderModel builderModel) {
+    public ApiTestStrategy(BuilderModel builderModel) {
         super(builderModel);
     }
 
     @Override
     public void process(ZipOutputStream zipOutputStream) throws IOException {
-        Template testTemp = FreemarkerUtils.cfg.getTemplate("adminApi/test.ftl");
+        Template testTemp = FreemarkerUtils.cfg.getTemplate("adminApiMerge/apiTest.ftl");
         List<TableColumnModel> columnModelList = builderModel.getTableColumnList();
-        srcPath = BuilderConstants.JAVA_TEST_PATH + builderModel.getBasePath() + "/test/modules/";
-        String basePackage = builderModel.getBasePackagePath() + ".test.modules";
+        srcPath = BuilderConstants.JAVA_TEST_PATH + builderModel.getBasePath() + "/test/api/v1/";
+        String basePackage = builderModel.getBasePackagePath() + ".test.api.v1";
         for (TableColumnModel tableColumnModel : columnModelList) {
             //文件名称
             String zipFileName = srcPath + tableColumnModel.getBusinessEnName() + "/" + tableColumnModel.getBusinessEnNameUpFirst() + "Test.java";
@@ -44,8 +44,8 @@ public class TestStrategy extends BuildStrategy {
                     .append("import com.alibaba.fastjson.JSON;\n")
                     .append("import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;\n")
                     .append("import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;\n")
-                    .append("import ").append(builderModel.getBasePackagePath()).append(".modules.").append(tableColumnModel.getBusinessEnName()).append(".model.request.").append(tableColumnModel.getBusinessEnNameUpFirst()).append("AddRequest;\n")
-                    .append("import ").append(builderModel.getBasePackagePath()).append(".modules.").append(tableColumnModel.getBusinessEnName()).append(".model.request.").append(tableColumnModel.getBusinessEnNameUpFirst()).append("UpdateRequest;\n");
+                    .append("import ").append(builderModel.getBasePackagePath()).append(".api.v1").append(".").append(tableColumnModel.getBusinessEnName()).append(".model.request.").append(tableColumnModel.getBusinessEnNameUpFirst()).append("AddRequest;\n")
+                    .append("import ").append(builderModel.getBasePackagePath()).append(".api.v1").append(".").append(tableColumnModel.getBusinessEnName()).append(".model.request.").append(tableColumnModel.getBusinessEnNameUpFirst()).append("UpdateRequest;\n");
             Map<String, Object> map = Utils.beanToMap(tableColumnModel);
             map.put("package", packageStr);
             map.put("import", importStr);

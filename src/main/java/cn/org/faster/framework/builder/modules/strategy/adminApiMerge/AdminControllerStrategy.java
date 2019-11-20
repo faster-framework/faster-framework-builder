@@ -2,7 +2,7 @@ package cn.org.faster.framework.builder.modules.strategy.adminApiMerge;
 
 import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.model.TableColumnModel;
-import cn.org.faster.framework.builder.common.strategy.adapter.AdminApiStrategyAdapter;
+import cn.org.faster.framework.builder.common.strategy.adapter.AdminApiMergeStrategyAdapter;
 import cn.org.faster.framework.builder.common.utils.FreemarkerUtils;
 import cn.org.faster.framework.core.utils.Utils;
 import freemarker.template.Template;
@@ -17,10 +17,10 @@ import java.util.zip.ZipOutputStream;
  * @author zhangbowen
  * @since 2018/12/14
  */
-public class AdminControllerStrategy extends AdminApiStrategyAdapter {
+public class AdminControllerStrategy extends AdminApiMergeStrategyAdapter {
 
-    public AdminControllerStrategy(BuilderModel builderModel) {
-        super(builderModel);
+    public AdminControllerStrategy(BuilderModel builderModel, String modulesName) {
+        super(builderModel, modulesName);
     }
 
     @Override
