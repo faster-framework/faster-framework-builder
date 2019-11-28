@@ -16,7 +16,7 @@ class ${businessEnNameUpFirst}Edit extends Component {
       if (!!err) {
         return;
       };
-      request.put('/${businessEnName}', { data: values }).then(res => {
+      request.put('/${businessEnName}/' + this.props.currentRecord.id, { data: values }).then(res => {
         //提交成功
         message.success('保存成功');
         modal.hideAndRefresh();
