@@ -31,6 +31,7 @@ public class PomStrategy extends BuildStrategy {
         Map<String, Object> map = Utils.beanToMap(builderModel);
         List<DependencyModel> dependencyModelList = new ArrayList<>();
         dependencyModelList.add(new DependencyModel("cn.org.faster", "spring-boot-starter-web"));
+        dependencyModelList.add(new DependencyModel("cn.org.faster", "spring-boot-starter-dict"));
         dependencyModelList.add(new DependencyModel("cn.org.faster", "spring-boot-starter-mybatis"));
         dependencyModelList.add(new DependencyModel("cn.org.faster", "spring-boot-starter-shiro"));
         map.put("dependencies", dependencyModelList);
