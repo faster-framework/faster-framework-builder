@@ -82,7 +82,7 @@ public class ${businessEnNameUpFirst}Controller {
     /**
      * 删除${businessCnName}
      *
-     * @param id 主键id
+     * @param ids 主键ids
      * @return ResponseEntity
      */
     @DeleteMapping("/delete")
