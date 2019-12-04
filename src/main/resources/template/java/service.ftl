@@ -44,6 +44,7 @@ public class ${businessEnNameUpFirst}Service extends ServiceImpl<${businessEnNam
             queryWrapper.eq(${businessEnNameUpFirst}::get${item.columnNameHumpUpFirst}, ${businessEnName}.get${item.columnNameHumpUpFirst}());
         }
 </#list>
+        queryWrapper.last("limit 1");
         return super.getOne(queryWrapper);
     }
 
