@@ -1,9 +1,13 @@
-# Faster-Framework代码生成器
+# 简介
 
-## 介绍
+Faster-Builder是针对于Faster系列产品的代码生成器，它通过拉取数据库表结构来生成业务代码。
 
-针对Faster-Framework框架，提供的代码生成器。
 
-## 文档
+[项目地址](https://github.com/faster-framework/faster-framework-builder)
 
-[用户指南](https://faster-framework.github.io/faster-framework-guide/builder/)
+[文档入口](https://builder.faster.org.cn/)
+
+
+最新版本：[![latest](https://badgen.net/github/release/faster-framework/faster-framework-builder?icon=github)](https://github.com/faster-framework/faster-framework-builder/releases/latest)
+
+您可以订阅[https://github.com/faster-framework/faster-framework-builder/releases.atom](https://github.com/faster-framework/faster-framework-builder/releases.atom)来获得稳定版发布的通知。
