@@ -13,5 +13,3 @@ app:
       "[/admin/media/**]": anon
       "[/admin/captcha/**]": anon
       "[/admin/**]": jwt
-  auth:
-    exclude-path-patterns: "/admin/**"

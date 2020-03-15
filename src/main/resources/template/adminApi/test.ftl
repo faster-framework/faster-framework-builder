@@ -19,7 +19,7 @@ public class ${businessEnNameUpFirst}Test extends BaseTest{
      */
     @Test
     public void list() throws Exception {
-        MockHttpServletRequestBuilder mockHttpServletRequestBuilder =  MockMvcRequestBuilders.get("/${businessEnName}");
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder =  MockMvcRequestBuilders.get("/admin/${businessEnName}");
         mockHttpServletRequestBuilder.param("pageSize","10");
         mockHttpServletRequestBuilder.param("pageNumber","1");
         <#list columnList as item>
@@ -33,7 +33,7 @@ public class ${businessEnNameUpFirst}Test extends BaseTest{
      */
     @Test
     public void queryById() throws Exception {
-        this.buildRequest(() -> MockMvcRequestBuilders.get("/${businessEnName}/{id}", "")).andExpect(status().is2xxSuccessful());
+        this.buildRequest(() -> MockMvcRequestBuilders.get("/admin/${businessEnName}/{id}", "")).andExpect(status().is2xxSuccessful());
     }
 
     /**
@@ -41,7 +41,7 @@ public class ${businessEnNameUpFirst}Test extends BaseTest{
      */
     @Test
     public void query() throws Exception {
-        MockHttpServletRequestBuilder mockHttpServletRequestBuilder =  MockMvcRequestBuilders.get("/${businessEnName}/query");
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder =  MockMvcRequestBuilders.get("/admin/${businessEnName}/query");
         <#list columnList as item>
         mockHttpServletRequestBuilder.param("${item.columnNameHump}","");
         </#list>
@@ -57,7 +57,7 @@ public class ${businessEnNameUpFirst}Test extends BaseTest{
         <#list columnList as item>
         request.set${item.columnNameHumpUpFirst}(null);
         </#list>
-        this.buildRequest(() -> MockMvcRequestBuilders.post("/${businessEnName}").content(JSON.toJSONString(request))).andExpect(status().is2xxSuccessful());
+        this.buildRequest(() -> MockMvcRequestBuilders.post("/admin/${businessEnName}").content(JSON.toJSONString(request))).andExpect(status().is2xxSuccessful());
     }
 
     /**
@@ -69,7 +69,7 @@ public class ${businessEnNameUpFirst}Test extends BaseTest{
         <#list columnList as item>
         request.set${item.columnNameHumpUpFirst}(null);
         </#list>
-        this.buildRequest(()-> MockMvcRequestBuilders.put("/${businessEnName}/{id}","").content(JSON.toJSONString(request))).andExpect(status().is2xxSuccessful());
+        this.buildRequest(()-> MockMvcRequestBuilders.put("/admin/${businessEnName}/{id}","").content(JSON.toJSONString(request))).andExpect(status().is2xxSuccessful());
     }
 
     /**
@@ -77,7 +77,7 @@ public class ${businessEnNameUpFirst}Test extends BaseTest{
      */
     @Test
     public void delete() throws Exception {
-        this.buildRequest(()-> MockMvcRequestBuilders.delete("/${businessEnName}/{id}","")).andExpect(status().is2xxSuccessful());
+        this.buildRequest(()-> MockMvcRequestBuilders.delete("/admin/${businessEnName}/{id}","")).andExpect(status().is2xxSuccessful());
     }
 
 }

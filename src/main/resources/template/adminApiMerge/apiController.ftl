@@ -5,7 +5,7 @@ ${import}
  * ${businessCnName} Controller
  */
 @RestController
-@RequestMapping("/api/{version}/${businessEnName}")
+@RequestMapping("/{version}/${businessEnName}")
 public class ${businessEnNameUpFirst}Controller {
     @Autowired
     private ${businessEnNameUpFirst}Service ${businessEnName}Service;
