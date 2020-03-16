@@ -11,15 +11,11 @@ public class BuilderRequest {
     /**
      * 数据库配置
      */
-    @Valid
-    @NotNull(message = "数据库参数不能为空")
     private DatabaseRequest database;
 
     /**
      * 业务配置
      */
-    @Valid
-    @NotNull(message = "业务参数不能为空")
     private BusinessRequest business;
 
     /**
@@ -30,8 +26,6 @@ public class BuilderRequest {
     /**
      * 生成类型
      */
-    @NotNull(message = "类型不能为空")
-    @Range(min = 1, max = 5, message = "类型选择错误")
     private Integer type;
 
 

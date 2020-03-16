@@ -9,5 +9,7 @@ public interface BuilderConstants {
     int ADMIN_WEB = 3;
     int ADMIN_API_MERGE = 4;
     int SQL = 5;
+    int CMS_API = 6;
+    int CMS_WEB = 7;
 
 }

@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,10 +71,15 @@ public class BuilderService {
      * @param builderRequest 请求参数
      */
     public void build(BuilderRequest builderRequest) throws IOException {
-        //设置数据源
-        MultipleDataSourceContext.setMultipleDataSourceThreadLocal(builderRequest.getDatabase());
         //获取本次需要生成的表以及列数据
-        List<TableColumnModel> tableColumnModelList = selectTableWithColumn(builderRequest);
+        List<TableColumnModel> tableColumnModelList = new ArrayList<>();
+        if (!StringUtils.isEmpty(builderRequest.getDatabase().getHost())) {
+            //设置数据源
+            MultipleDataSourceContext.setMultipleDataSourceThreadLocal(builderRequest.getDatabase());
+            //获取本次需要生成的表以及列数据
+            tableColumnModelList = selectTableWithColumn(builderRequest);
+        }
+
         FileInputStream fileInputStream = process(builderRequest, tableColumnModelList);
         //写回下载流
         outputDownloadStream(builderRequest.getBusiness().getProjectName(), fileInputStream);
@@ -102,6 +108,12 @@ public class BuilderService {
             case BuilderConstants
                     .SQL:
                 return new DbContext(builderModel).process();
+            case BuilderConstants
+                    .CMS_API:
+                return new CmsApiContext(builderModel).process();
+            case BuilderConstants
+                    .CMS_WEB:
+                return new CmsWebContext(builderModel).process();
             default:
                 return new ApiContext(builderModel).process();
         }

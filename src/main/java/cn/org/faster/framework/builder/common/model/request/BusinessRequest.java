@@ -12,7 +12,6 @@ public class BusinessRequest {
     /**
      * 项目名称
      */
-    @NotBlank(message = "项目名称不能为空")
     private String projectName;
     /**
      * 包路径
