@@ -1,21 +1,49 @@
 package cn.org.faster.framework.builder.common.utils;
 
-import cn.org.faster.framework.mybatis.entity.BaseEntity;
-import org.springframework.beans.BeanUtils;
-import org.springframework.util.StringUtils;
-
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.util.Arrays;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-public class BuilderUtils {
-    private static final List<String> TABLE_PREFIX_LIST = Arrays.asList("tb_");
+/**
+ * 命名转换与元数据推导工具。
+ *
+ * <p>与旧版的差异：</p>
+ * <ul>
+ *   <li>不再依赖框架 {@code BaseEntity}（改用显式字段集合），生成器因此可脱离 Faster 框架独立构建；</li>
+ *   <li>不再依赖 cglib {@code BeanMap}，改用 JDK {@link Introspector}；</li>
+ *   <li>不再使用 Spring 已废弃的 {@code StringUtils.isEmpty}。</li>
+ * </ul>
+ *
+ * @author zhangbowen
+ */
+public final class BuilderUtils {
+
+    private static final List<String> TABLE_PREFIX_LIST = List.of("tb_");
+
+    /**
+     * 生成实体/请求对象时应当跳过的字段：框架 {@code BaseEntity} 已提供的公共字段。
+     */
+    private static final Set<String> BASE_ENTITY_PROPERTIES = Set.of(
+            "id", "createBy", "updateBy", "createDate", "updateDate",
+            "sort", "remark", "deleted", "current", "size");
+
+    private BuilderUtils() {
+    }
 
     /**
      * @param str 待处理
      * @return 首字母大写
      */
     public static String firstCharToUpperCase(String str) {
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
         char firstChar = str.charAt(0);
         if (firstChar >= 'a' && firstChar <= 'z') {
             char[] arr = str.toCharArray();
@@ -30,6 +58,9 @@ public class BuilderUtils {
      * @return 转为驼峰
      */
     public static String hump(String str) {
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
         char[] strArray = str.toCharArray();
         for (int i = 0; i < strArray.length - 1; i++) {
             char curChar = strArray[i];
@@ -46,15 +77,18 @@ public class BuilderUtils {
      * @return 移除前缀，变驼峰
      */
     public static String delPrefixAndHump(String str) {
-        int prefixIndex = -1;
-        for (String filter : TABLE_PREFIX_LIST) {
-            prefixIndex = str.indexOf(filter);
+        if (str == null) {
+            return null;
+        }
+        String result = str;
+        for (String prefix : TABLE_PREFIX_LIST) {
+            int prefixIndex = result.indexOf(prefix);
             if (prefixIndex > -1) {
-                str = str.substring(prefixIndex + filter.length());
+                result = result.substring(prefixIndex + prefix.length());
                 break;
             }
         }
-        return hump(str);
+        return hump(result);
     }
 
     /**
@@ -62,6 +96,9 @@ public class BuilderUtils {
      * @return 过滤业务名称，移除无用注释，如：‘表‘
      */
     public static String filterBusinessCnName(String str) {
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
         int index = str.lastIndexOf("表");
         if (index == str.length() - 1) {
             return str.substring(0, index);
@@ -74,7 +111,7 @@ public class BuilderUtils {
      * @return package格式转换为path
      */
     public static String packagePathToPath(String basePackagePath) {
-        if (StringUtils.isEmpty(basePackagePath)) {
+        if (isBlank(basePackagePath)) {
             return null;
         }
         return basePackagePath.replace(".", "/");
@@ -85,34 +122,18 @@ public class BuilderUtils {
      * @return Java类型
      */
     public static String convertToJavaType(String dataType) {
-        if (StringUtils.isEmpty(dataType)) {
+        if (isBlank(dataType)) {
             return null;
         }
-        switch (dataType.toUpperCase()) {
-            case "TINYINT":
-            case "SMALLINT":
-            case "MEDIUMINT":
-            case "INT":
-            case "INTEGER":
-                return "Integer";
-            case "BIGINT":
-                return "Long";
-            case "FLOAT":
-                return "Float";
-            case "DOUBLE":
-                return "Double";
-            case "DECIMAL":
-                return "BigDecimal";
-            case "DATE":
-            case "TIME":
-            case "YEAR":
-            case "DATETIME":
-            case "TIMESTAMP":
-                return "LocalDateTime";
-            default:
-                return "String";
-
-        }
+        return switch (dataType.toUpperCase()) {
+            case "TINYINT", "SMALLINT", "MEDIUMINT", "INT", "INTEGER" -> "Integer";
+            case "BIGINT" -> "Long";
+            case "FLOAT" -> "Float";
+            case "DOUBLE" -> "Double";
+            case "DECIMAL" -> "BigDecimal";
+            case "DATE", "TIME", "YEAR", "DATETIME", "TIMESTAMP" -> "LocalDateTime";
+            default -> "String";
+        };
     }
 
     /**
@@ -120,28 +141,64 @@ public class BuilderUtils {
      * @return 需要引入的包
      */
     public static String javaImportType(String javaType) {
-        if (StringUtils.isEmpty(javaType)) {
+        if (isBlank(javaType)) {
             return null;
         }
-        switch (javaType) {
-            case "LocalDateTime":
-                return "import java.time.LocalDateTime;";
-            case "BigDecimal":
-                return "import java.math.BigDecimal;";
-            default:
-                return null;
-        }
+        return switch (javaType) {
+            case "LocalDateTime" -> "import java.time.LocalDateTime;";
+            case "BigDecimal" -> "import java.math.BigDecimal;";
+            default -> null;
+        };
     }
 
     /**
-     * BaseEntity是否含有属性
+     * 该属性是否不属于框架 BaseEntity（即需要生成到实体/请求对象中）。
      *
-     * @param property 属性
-     * @return true or false
+     * @param property 属性名（驼峰）
+     * @return true 表示需要生成
      */
     public static boolean baseNotContainsProperty(String property) {
-        PropertyDescriptor propertyDescriptor = BeanUtils.getPropertyDescriptor(BaseEntity.class, property);
-        return propertyDescriptor == null;
+        return property == null || !BASE_ENTITY_PROPERTIES.contains(property);
     }
 
+    /**
+     * JavaBean 转 Map，供 FreeMarker 模板使用。
+     *
+     * @param bean 原始对象
+     * @return 属性名 → 属性值（含继承属性）
+     */
+    public static Map<String, Object> beanToMap(Object bean) {
+        if (bean == null) {
+            return Map.of();
+        }
+        Map<String, Object> map = new HashMap<>();
+        try {
+            for (PropertyDescriptor descriptor : Introspector.getBeanInfo(bean.getClass(), Object.class)
+                    .getPropertyDescriptors()) {
+                Method readMethod = descriptor.getReadMethod();
+                if (readMethod != null && readMethod.getParameterCount() == 0) {
+                    map.put(descriptor.getName(), readMethod.invoke(bean));
+                }
+            }
+        } catch (IntrospectionException | IllegalAccessException | InvocationTargetException ex) {
+            throw new IllegalStateException("无法读取 " + bean.getClass().getName() + " 的属性", ex);
+        }
+        return map;
+    }
+
+    /**
+     * @param value 待判断
+     * @return null、空串或全空白
+     */
+    public static boolean isBlank(String value) {
+        return value == null || value.isBlank();
+    }
+
+    /**
+     * @param value 待判断
+     * @return 与 {@link #isBlank} 相反
+     */
+    public static boolean isNotBlank(String value) {
+        return !isBlank(value);
+    }
 }

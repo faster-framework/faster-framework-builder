@@ -1,15 +1,17 @@
 package cn.org.faster.framework.builder.common.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
-
+/**
+ * 表元数据。
+ *
+ * @author zhangbowen
+ */
 @Data
 public class TableEntity {
     /**
      * 表名
      */
-    @TableId
     private String tableName;
     /**
      * 数据库名称
@@ -19,5 +21,4 @@ public class TableEntity {
      * 表注释
      */
     private String tableComment;
-
 }

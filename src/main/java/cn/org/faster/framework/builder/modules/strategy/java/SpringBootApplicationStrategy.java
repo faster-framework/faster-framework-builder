@@ -1,10 +1,11 @@
 package cn.org.faster.framework.builder.modules.strategy.java;
 
+import cn.org.faster.framework.builder.common.utils.BuilderUtils;
+
 import cn.org.faster.framework.builder.common.constants.BuilderConstants;
 import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.strategy.BuildStrategy;
 import cn.org.faster.framework.builder.common.utils.FreemarkerUtils;
-import cn.org.faster.framework.core.utils.Utils;
 import freemarker.template.Template;
 
 import java.io.IOException;
@@ -27,12 +28,12 @@ public class SpringBootApplicationStrategy extends BuildStrategy {
         String zipFileName = BuilderConstants.JAVA_PATH + builderModel.getBasePath() + "/Application.java";
         //包名
         String packageStr = "package " + builderModel.getBasePackagePath() + ";\n";
-        StringBuffer importStr = new StringBuffer();
+        StringBuilder importStr = new StringBuilder();
         importStr
                 .append("import org.springframework.boot.SpringApplication;\n")
                 .append("import org.springframework.boot.autoconfigure.SpringBootApplication;\n")
         ;
-        Map<String, Object> map = Utils.beanToMap(builderModel);
+        Map<String, Object> map = BuilderUtils.beanToMap(builderModel);
         map.put("package", packageStr);
         map.put("import", importStr);
         zipOutputStream.putNextEntry(new ZipEntry(zipFileName));

@@ -6,9 +6,7 @@ import cn.org.faster.framework.builder.common.model.TableColumnModel;
 import cn.org.faster.framework.builder.common.strategy.adapter.ApiStrategyAdapter;
 import cn.org.faster.framework.builder.common.utils.BuilderUtils;
 import cn.org.faster.framework.builder.common.utils.FreemarkerUtils;
-import cn.org.faster.framework.core.utils.Utils;
 import freemarker.template.Template;
-import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,7 +41,7 @@ public class RequestStrategy extends ApiStrategyAdapter {
                 String zipFileName = srcPath + tableColumnModel.getBusinessEnName() + "/model/request/" + tableColumnModel.getBusinessEnNameUpFirst() + requestType + ".java";
                 //包名
                 String packageStr = "package " + basePackage + "." + tableColumnModel.getBusinessEnName() + ".model.request;\n";
-                StringBuffer importStr = new StringBuffer();
+                StringBuilder importStr = new StringBuilder();
                 importStr.append("import lombok.Data;\n")
                         .append("import cn.org.faster.framework.mybatis.entity.BaseEntity;\n")
                         .append("import lombok.EqualsAndHashCode;\n")
@@ -51,11 +49,11 @@ public class RequestStrategy extends ApiStrategyAdapter {
                 List<ColumnModel> columnList = tableColumnModel.getColumnList().stream()
                         .filter(item -> BuilderUtils.baseNotContainsProperty(item.getColumnNameHump()))
                         .peek(item -> {
-                            if (!StringUtils.isEmpty(item.getJavaImportType()) && importStr.indexOf(item.getJavaImportType()) == -1) {
+                            if (!BuilderUtils.isBlank(item.getJavaImportType()) && importStr.indexOf(item.getJavaImportType()) == -1) {
                                 importStr.append(item.getJavaImportType()).append("\n");
                             }
                         }).collect(Collectors.toList());
-                Map<String, Object> map = Utils.beanToMap(tableColumnModel);
+                Map<String, Object> map = BuilderUtils.beanToMap(tableColumnModel);
                 map.put("columnList", columnList);
                 map.put("requestType", requestType);
                 map.put("package", packageStr);

@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * 生成器所需model
+ * 生成器所需 model。
  */
 @Data
 public class BuilderModel {
@@ -30,14 +30,6 @@ public class BuilderModel {
      */
     private String dbPwd;
     /**
-     * 数据库加密后的密码
-     */
-    private String dbEncryptPwd;
-    /**
-     * 数据库公钥
-     */
-    private String dbPublicKey;
-    /**
      * 项目名称
      */
     private String projectName;
@@ -58,6 +50,26 @@ public class BuilderModel {
      * 依赖下载地址
      */
     private String dependencyUrl;
+
+    /**
+     * 生成单元测试用 JWT 的 Base64 密钥
+     */
+    private String jwtBase64Secret;
+
+    /**
+     * 生成单元测试用 JWT 的 env claim
+     */
+    private String jwtEnv;
+
+    /**
+     * 官方骨架下载体积上限（字节）
+     */
+    private long skeletonMaxBytes;
+
+    /**
+     * 官方骨架下载超时（毫秒）
+     */
+    private long skeletonTimeoutMillis;
 
     /**
      * 表以及列数据

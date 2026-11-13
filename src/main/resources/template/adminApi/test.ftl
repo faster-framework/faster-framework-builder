@@ -33,7 +33,7 @@ public class ${businessEnNameUpFirst}Test extends BaseTest{
      */
     @Test
     public void queryById() throws Exception {
-        this.buildRequest(() -> MockMvcRequestBuilders.get("/admin/${businessEnName}/{id}", "")).andExpect(status().is2xxSuccessful());
+        this.buildRequest(() -> MockMvcRequestBuilders.get("/admin/${businessEnName}/{id}", "0")).andExpect(status().is2xxSuccessful());
     }
 
     /**
@@ -69,7 +69,7 @@ public class ${businessEnNameUpFirst}Test extends BaseTest{
         <#list columnList as item>
         request.set${item.columnNameHumpUpFirst}(null);
         </#list>
-        this.buildRequest(()-> MockMvcRequestBuilders.put("/admin/${businessEnName}/{id}","").content(JSON.toJSONString(request))).andExpect(status().is2xxSuccessful());
+        this.buildRequest(()-> MockMvcRequestBuilders.put("/admin/${businessEnName}/{id}","0").content(JSON.toJSONString(request))).andExpect(status().is2xxSuccessful());
     }
 
     /**
@@ -77,7 +77,7 @@ public class ${businessEnNameUpFirst}Test extends BaseTest{
      */
     @Test
     public void delete() throws Exception {
-        this.buildRequest(()-> MockMvcRequestBuilders.delete("/admin/${businessEnName}/{id}","")).andExpect(status().is2xxSuccessful());
+        this.buildRequest(()-> MockMvcRequestBuilders.delete("/admin/${businessEnName}/{id}","0")).andExpect(status().is2xxSuccessful());
     }
 
 }

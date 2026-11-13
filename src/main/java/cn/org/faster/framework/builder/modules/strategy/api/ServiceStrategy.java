@@ -1,10 +1,11 @@
 package cn.org.faster.framework.builder.modules.strategy.api;
 
+import cn.org.faster.framework.builder.common.utils.BuilderUtils;
+
 import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.model.TableColumnModel;
 import cn.org.faster.framework.builder.common.strategy.adapter.ApiStrategyAdapter;
 import cn.org.faster.framework.builder.common.utils.FreemarkerUtils;
-import cn.org.faster.framework.core.utils.Utils;
 import freemarker.template.Template;
 
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class ServiceStrategy extends ApiStrategyAdapter {
             String zipFileName = srcPath + tableColumnModel.getBusinessEnName() + "/service/" + tableColumnModel.getBusinessEnNameUpFirst() + "Service.java";
             //包名
             String packageStr = "package " + basePackage + "." + tableColumnModel.getBusinessEnName() + ".service;\n";
-            StringBuffer importStr = new StringBuffer()
+            StringBuilder importStr = new StringBuilder()
                     .append("import com.baomidou.mybatisplus.core.metadata.IPage;\n")
                     .append("import org.springframework.util.StringUtils;\n")
                     .append("import org.springframework.http.HttpStatus;\n")
@@ -43,7 +44,7 @@ public class ServiceStrategy extends ApiStrategyAdapter {
                     .append("import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;\n")
                     .append("import ").append(basePackage).append(".").append(tableColumnModel.getBusinessEnName()).append(".mapper.").append(tableColumnModel.getBusinessEnNameUpFirst()).append("Mapper;\n")
                     .append("import ").append(basePackage).append(".").append(tableColumnModel.getBusinessEnName()).append(".entity.").append(tableColumnModel.getBusinessEnNameUpFirst()).append(";\n");
-            Map<String, Object> map = Utils.beanToMap(tableColumnModel);
+            Map<String, Object> map = BuilderUtils.beanToMap(tableColumnModel);
             map.put("package", packageStr);
             map.put("import", importStr);
             map.put("columnList", tableColumnModel.getColumnList());

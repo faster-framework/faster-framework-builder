@@ -6,7 +6,6 @@ import cn.org.faster.framework.builder.common.model.TableColumnModel;
 import cn.org.faster.framework.builder.common.strategy.adapter.WebStrategyAdapter;
 import cn.org.faster.framework.builder.common.utils.BuilderUtils;
 import cn.org.faster.framework.builder.common.utils.FreemarkerUtils;
-import cn.org.faster.framework.core.utils.Utils;
 import freemarker.template.Template;
 
 import java.io.IOException;
@@ -34,7 +33,7 @@ public class PageEditStrategy extends WebStrategyAdapter {
             List<ColumnModel> columnList = tableColumnModel.getColumnList().stream()
                     .filter(item -> BuilderUtils.baseNotContainsProperty(item.getColumnNameHump()))
                     .collect(Collectors.toList());
-            Map<String, Object> map = Utils.beanToMap(tableColumnModel);
+            Map<String, Object> map = BuilderUtils.beanToMap(tableColumnModel);
             map.put("columnList", columnList);
             zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
             zipOutputStream.write(FreemarkerUtils.processIntoStream(editTemp, map));

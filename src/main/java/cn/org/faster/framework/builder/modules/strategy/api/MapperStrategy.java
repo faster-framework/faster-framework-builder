@@ -1,10 +1,11 @@
 package cn.org.faster.framework.builder.modules.strategy.api;
 
+import cn.org.faster.framework.builder.common.utils.BuilderUtils;
+
 import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.model.TableColumnModel;
 import cn.org.faster.framework.builder.common.strategy.adapter.ApiStrategyAdapter;
 import cn.org.faster.framework.builder.common.utils.FreemarkerUtils;
-import cn.org.faster.framework.core.utils.Utils;
 import freemarker.template.Template;
 
 import java.io.IOException;
@@ -31,10 +32,10 @@ public class MapperStrategy extends ApiStrategyAdapter {
             String zipFileName = srcPath + tableColumnModel.getBusinessEnName() + "/mapper/" + tableColumnModel.getBusinessEnNameUpFirst() + "Mapper.java";
             //包名
             String packageStr = "package " + basePackage + "." + tableColumnModel.getBusinessEnName() + ".mapper;\n";
-            StringBuffer importStr = new StringBuffer();
+            StringBuilder importStr = new StringBuilder();
             importStr.append("import com.baomidou.mybatisplus.core.mapper.BaseMapper;\n")
                     .append("import ").append(basePackage).append(".").append(tableColumnModel.getBusinessEnName()).append(".entity.").append(tableColumnModel.getBusinessEnNameUpFirst()).append(";\n");
-            Map<String, Object> map = Utils.beanToMap(tableColumnModel);
+            Map<String, Object> map = BuilderUtils.beanToMap(tableColumnModel);
             map.put("package", packageStr);
             map.put("import", importStr);
             zipOutputStream.putNextEntry(new ZipEntry(zipFileName));

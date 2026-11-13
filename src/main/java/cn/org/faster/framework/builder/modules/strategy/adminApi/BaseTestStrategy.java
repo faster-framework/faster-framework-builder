@@ -1,10 +1,11 @@
 package cn.org.faster.framework.builder.modules.strategy.adminApi;
 
+import cn.org.faster.framework.builder.common.utils.BuilderUtils;
+
 import cn.org.faster.framework.builder.common.constants.BuilderConstants;
 import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.strategy.BuildStrategy;
 import cn.org.faster.framework.builder.common.utils.FreemarkerUtils;
-import cn.org.faster.framework.core.utils.Utils;
 import freemarker.template.Template;
 
 import java.io.IOException;
@@ -46,7 +47,7 @@ public class BaseTestStrategy extends BuildStrategy {
                 "import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;\n" +
                 "import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;\n";
         ;
-        Map<String, Object> map = Utils.beanToMap(builderModel);
+        Map<String, Object> map = BuilderUtils.beanToMap(builderModel);
         map.put("package", packageStr);
         map.put("import", importStr);
         zipOutputStream.putNextEntry(new ZipEntry(zipFileName));

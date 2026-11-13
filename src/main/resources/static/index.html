@@ -1,217 +1,350 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>Faster-Framework-Builder</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery.cookie@1.4.1/jquery.cookie.min.js"></script>
-    <script src="https://cdn.bootcss.com/layer/3.1.0/layer.js"></script>
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Faster Framework Builder</title>
+    <style>
+        :root {
+            --bg: #f5f7fa;
+            --card: #ffffff;
+            --text: #1f2933;
+            --muted: #6b7280;
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --danger: #dc2626;
+            --border: #d7dee8;
+        }
 
-<div id="app" class="container" style="margin-top: 16px;display:none" v-show="show">
-    <form>
-        <div class="form-group row justify-content-md-center">
-            <label class="col-2 col-form-label">项目类型：</label>
-            <div class="col-6">
-                <select v-model="form.type" class="form-control">
-                    <option disabled value="">请选择</option>
-                    <option value="1">接口</option>
-                    <option value="2">后台管理接口</option>
-                    <option value="3">后台管理前端</option>
-                    <option value="4">管理端与接口合并</option>
-                    <option value="6">CMS站点</option>
-                    <option value="7">CMS后台管理前端</option>
-                    <option value="5">数据库sql</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group row justify-content-md-center" v-show="form.type!=5">
-            <label class="col-2 col-form-label">版本号：</label>
-            <div class="col-6">
-                <span class="form-text text-muted">{{form.dependency.version}}</span>
-            </div>
-        </div>
-        <div class="form-group row justify-content-md-center"  v-show="form.type!=6&&form.type!=7">
-            <label class="col-2 col-form-label">数据库主机名：</label>
-            <div class="col-6">
-                <input type="text" class="form-control" v-model="form.database.host"/>
-            </div>
-        </div>
-        <div class="form-group row justify-content-md-center"  v-show="form.type!=6&&form.type!=7">
-            <label class="col-2 col-form-label">数据库端口号：</label>
-            <div class="col-6">
-                <input type="number" class="form-control" v-model="form.database.port"/>
-            </div>
-        </div>
-        <div class="form-group row justify-content-md-center"  v-show="form.type!=6&&form.type!=7">
-            <label class="col-2 col-form-label">数据库名称：</label>
-            <div class="col-6">
-                <input type="text" class="form-control" v-model="form.database.name"/>
-            </div>
-        </div>
-        <div class="form-group row justify-content-md-center"  v-show="form.type!=6&&form.type!=7">
-            <label class="col-2 col-form-label">数据库用户名：</label>
-            <div class="col-6">
-                <input type="text" class="form-control" v-model="form.database.username"/>
-            </div>
-        </div>
-        <div class="form-group row justify-content-md-center"  v-show="form.type!=6&&form.type!=7">
-            <label class="col-2 col-form-label">数据库密码：</label>
-            <div class="col-6">
-                <input type="text" class="form-control" v-model="form.database.password"/>
-            </div>
-        </div>
-        <div class="form-group row justify-content-md-center">
-            <label class="col-2 col-form-label">项目名称：</label>
-            <div class="col-6">
-                <input type="text" class="form-control" v-model="form.business.projectName"/>
-            </div>
-        </div>
+        * {
+            box-sizing: border-box;
+        }
 
-        <div class="form-group row justify-content-md-center" v-show="form.type==1||form.type==2||form.type==4||form.type==6">
-            <label class="col-2 col-form-label">根包路径：</label>
-            <div class="col-6">
-                <input type="text" class="form-control" v-model="form.business.basePackagePath"
-                       placeholder="示例:com.test"/>
-            </div>
-        </div>
-        <div class="form-group row justify-content-md-center" v-show="form.type!=6&&form.type!=7">
-            <label class="col-2 col-form-label">表名称：</label>
-            <div class="col-6">
-                <input type="text" class="form-control" v-model="form.business.tableName" placeholder="单独生成一张表使用"/>
-            </div>
-        </div>
-        <div class="form-group row justify-content-md-center">
-            <div class="col-8 row justify-content-md-end">
-                <button type="button" class="btn btn-danger" @click="submit">下载项目</button>
-            </div>
-        </div>
-    </form>
-</div>
-</body>
-<script>
-    axios.defaults.timeout = 10000;
-    var projectVersion = {
-        "1": {//接口端
-            version: "v1.3.8.RELEASE",
-            url: ""
-        },
-        "2": {//后台管理接口
-            version: "v1.3.8.RELEASE",
-            url: "https://github.com/faster-framework/faster-framework-admin-api/archive/v1.0.3.RELEASE.zip"
-        },
-        "3": {//后台管理前端
-            version: "v2.0.2.RELEASE",
-            url: "https://github.com/faster-framework/faster-framework-admin-web/archive/v2.0.2.RELEASE.zip"
-        },
-        "4": {//后台管理、接口端合一
-            version: "v1.3.8.RELEASE",
-            url: "https://github.com/faster-framework/faster-framework-admin-api/archive/v1.0.3.RELEASE.zip"
-        },
-        "6": {//cms接口
-            version: "v1.0.1.RELEASE",
-            url: "https://github.com/faster-framework/faster-framework-cms-api/archive/v1.0.1.RELEASE.zip"
-        },
-        "7": {//cms前端
-            version: "v1.0.1.RELEASE",
-            url: "https://github.com/faster-framework/faster-framework-cms-web/archive/v1.0.1.RELEASE.zip"
-        },
-        "5": {//数据库sql
-            version: "v1.0.0.RELEASE",
-            url: ""
-        },
-    };
-    var app = new Vue({
-        el: '#app',
-        mounted: function () {
-            this.show = true;
-        },
-        data: function () {
-            return {
-                form: {
-                    database: {
-                        host: "",
-                        port: "",
-                        name: "",
-                        username: "",
-                        password: ""
-                    },
-                    business: {
-                        projectName: "",
-                        basePackagePath: "",
-                        tableName: ""
-                    },
-                    dependency: projectVersion["1"],
-                    type: "1"
-                },
-                show: false
+        body {
+            margin: 0;
+            padding: 32px 16px 64px;
+            background: var(--bg);
+            color: var(--text);
+            font: 14px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+            "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+        }
+
+        .wrap {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 24px;
+        }
+
+        header h1 {
+            margin: 0 0 4px;
+            font-size: 22px;
+        }
+
+        header p {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 24px;
+        }
+
+        .field {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .field > label {
+            color: var(--muted);
+            text-align: right;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 9px 11px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font: inherit;
+            color: inherit;
+            background: #fff;
+        }
+
+        input:focus, select:focus {
+            outline: 2px solid rgba(37, 99, 235, .25);
+            border-color: var(--primary);
+        }
+
+        .hint {
+            grid-column: 2;
+            margin: -6px 0 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 22px;
+            border: 0;
+            border-radius: 8px;
+            background: var(--primary);
+            color: #fff;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        button:hover:not(:disabled) {
+            background: var(--primary-dark);
+        }
+
+        button:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .alert {
+            margin-top: 16px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .alert.error {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: var(--danger);
+        }
+
+        .alert.success {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #15803d;
+        }
+
+        footer {
+            margin-top: 20px;
+            color: var(--muted);
+            font-size: 12px;
+            text-align: center;
+        }
+
+        @media (max-width: 520px) {
+            .field {
+                grid-template-columns: 1fr;
             }
-        },
-        watch: {
-            'form.type': function (type) {
-                this.form.dependency = projectVersion[type];
-            }
-        },
-        methods: {
-            download(response) {
-                if (!response.data) {
-                    return
-                }
-                var url = window.URL.createObjectURL(new Blob([response.data]));
-                var link = document.createElement('a');
-                link.style.display = 'none';
-                link.href = url;
-                link.setAttribute('download', response.headers['content-disposition'].substring(response.headers['content-disposition'].indexOf("filename=") + "filename=".length));
-                document.body.appendChild(link)
-                link.click()
-            },
-            submit: function () {
-                var form = Object.assign({}, this.form);
-                if ((form.type === "1" || form.type === "2") && !form.business.basePackagePath) {
-                    layer.msg("请填写根包路径");
-                    return;
-                }
 
-                if (form.type !== "4") {
-                    var dependencyNull = !form.dependency;
-                    if (dependencyNull) {
-                        layer.msg("请选择版本");
-                        return;
-                    }
-                    var dependencyVersionNull = !form.dependency.version;
-                    if (dependencyVersionNull) {
-                        layer.msg("请选择版本");
-                        return;
-                    }
-                }
-                layer.msg('代码生成中，请稍后', {
-                    icon: 16,
-                    time: 15*1000
-                });
-                var self = this;
-                axios({
-                    method: 'post',
-                    url: '/builder',
-                    data: form,
-                    responseType: 'arraybuffer',
-                }).then(function (response) {
-                    self.download(response);
-                }).catch(function (response) {
-                    if (response.data) {
-                        var uInt8Array = new Uint8Array(response.data);
-                        var dataJson = new TextDecoder().decode(uInt8Array);
-                        var data = JSON.parse(dataJson);
-                        layer.msg(data.message);
-                    } else {
-                        layer.msg("网络异常");
-                    }
-                })
+            .field > label {
+                text-align: left;
+            }
+
+            .hint {
+                grid-column: 1;
             }
         }
-    })
+    </style>
+</head>
+<body>
+<div id="app" class="wrap">
+    <header>
+        <h1>Faster Framework Builder</h1>
+        <p>读取 MySQL 表结构，生成接口 / 管理端 / 前端 / SQL 代码。</p>
+    </header>
+
+    <div class="card">
+        <form @submit.prevent="submit">
+            <div class="field">
+                <label for="type">项目类型</label>
+                <select id="type" v-model.number="form.type">
+                    <option v-for="item in typeOptions" :key="item.value" :value="item.value">{{ item.label }}</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>框架版本</label>
+                <input :value="current.version || '—'" readonly>
+                <p class="hint" v-if="needsSkeleton">骨架来源：{{ current.url || '未配置' }}</p>
+            </div>
+
+            <template v-if="needsDatabase">
+                <div class="field">
+                    <label for="host">数据库地址</label>
+                    <input id="host" v-model.trim="form.database.host" placeholder="127.0.0.1" autocomplete="off">
+                </div>
+                <div class="field">
+                    <label for="port">端口</label>
+                    <input id="port" v-model.trim="form.database.port" placeholder="3306" inputmode="numeric">
+                </div>
+                <div class="field">
+                    <label for="name">数据库名</label>
+                    <input id="name" v-model.trim="form.database.name" autocomplete="off">
+                </div>
+                <div class="field">
+                    <label for="username">用户名</label>
+                    <input id="username" v-model.trim="form.database.username" autocomplete="off">
+                </div>
+                <div class="field">
+                    <label for="password">密码</label>
+                    <input id="password" v-model="form.database.password" type="password" autocomplete="off">
+                </div>
+            </template>
+
+            <div class="field">
+                <label for="projectName">项目名称</label>
+                <input id="projectName" v-model.trim="form.business.projectName" placeholder="作为压缩包文件名" autocomplete="off">
+            </div>
+
+            <div class="field" v-if="needsPackage">
+                <label for="basePackagePath">根包路径</label>
+                <input id="basePackagePath" v-model.trim="form.business.basePackagePath" placeholder="com.example" autocomplete="off">
+            </div>
+
+            <div class="field" v-if="needsDatabase">
+                <label for="tableName">表名</label>
+                <input id="tableName" v-model.trim="form.business.tableName" placeholder="留空则生成整库" autocomplete="off">
+            </div>
+
+            <div class="actions">
+                <span v-if="loading" class="hint">生成中，请稍候…</span>
+                <button type="submit" :disabled="loading">{{ loading ? '生成中…' : '下载项目' }}</button>
+            </div>
+        </form>
+
+        <div v-if="error" class="alert error">{{ error }}</div>
+        <div v-if="message" class="alert success">{{ message }}</div>
+    </div>
+
+    <footer>Faster Framework Builder · JDK 17+ / Spring Boot 4</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@3.5.13/dist/vue.global.prod.js"></script>
+<script>
+    const {createApp, reactive, ref, computed, onMounted} = Vue;
+
+    const TYPE_LABELS = {
+        1: '接口',
+        2: '后台管理接口',
+        3: '后台管理前端',
+        4: '管理端与接口合并',
+        5: '数据库 SQL',
+        6: 'CMS 接口',
+        7: 'CMS 后台管理前端'
+    };
+    const NEEDS_DATABASE = [1, 2, 3, 4];
+    const NEEDS_PACKAGE = [1, 2, 4, 6];
+    const NEEDS_SKELETON = [2, 3, 4, 6, 7];
+
+    function filenameFromDisposition(header) {
+        if (!header) {
+            return 'project.zip';
+        }
+        const encoded = /filename\*=UTF-8''([^;]+)/i.exec(header);
+        if (encoded) {
+            try {
+                return decodeURIComponent(encoded[1]);
+            } catch (ignored) {
+                // 回落到普通 filename
+            }
+        }
+        const plain = /filename="?([^";]+)"?/i.exec(header);
+        return plain ? plain[1] : 'project.zip';
+    }
+
+    createApp({
+        setup() {
+            const options = ref([]);
+            const loading = ref(false);
+            const error = ref('');
+            const message = ref('');
+            const form = reactive({
+                type: 1,
+                database: {host: '', port: '3306', name: '', username: '', password: ''},
+                business: {projectName: '', basePackagePath: '', tableName: ''}
+            });
+
+            const typeOptions = computed(() => options.value.length
+                ? options.value.map(item => ({value: item.type, label: TYPE_LABELS[item.type] || ('类型 ' + item.type)}))
+                : Object.keys(TYPE_LABELS).map(key => ({value: Number(key), label: TYPE_LABELS[key]})));
+            const current = computed(() => options.value.find(item => item.type === Number(form.type)) || {});
+            const needsDatabase = computed(() => NEEDS_DATABASE.includes(Number(form.type)));
+            const needsPackage = computed(() => NEEDS_PACKAGE.includes(Number(form.type)));
+            const needsSkeleton = computed(() => NEEDS_SKELETON.includes(Number(form.type)));
+
+            onMounted(async () => {
+                try {
+                    const response = await fetch('builder/options', {headers: {Accept: 'application/json'}});
+                    if (response.ok) {
+                        options.value = await response.json();
+                    }
+                } catch (ignored) {
+                    // 选项加载失败不影响手动填写，使用内置标签
+                }
+            });
+
+            async function submit() {
+                error.value = '';
+                message.value = '';
+                loading.value = true;
+                try {
+                    const dependency = current.value.url ? {version: current.value.version, url: current.value.url} : null;
+                    const payload = {
+                        type: Number(form.type),
+                        business: {...form.business},
+                        database: needsDatabase.value ? {...form.database} : null,
+                        dependency: dependency ? {...dependency} : null
+                    };
+                    const response = await fetch('builder', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json', Accept: 'application/zip'},
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) {
+                        const text = await response.text();
+                        let detail = text;
+                        try {
+                            detail = JSON.parse(text).message || text;
+                        } catch (ignored) {
+                            // 非 JSON 错误体，直接展示原文
+                        }
+                        throw new Error(detail || ('生成失败，HTTP ' + response.status));
+                    }
+                    const fileName = filenameFromDisposition(response.headers.get('Content-Disposition'));
+                    const url = URL.createObjectURL(await response.blob());
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = fileName;
+                    document.body.appendChild(link);
+                    link.click();
+                    link.remove();
+                    setTimeout(() => URL.revokeObjectURL(url), 10000);
+                    message.value = '生成完成：' + fileName;
+                } catch (ex) {
+                    error.value = ex.message || '网络异常，请稍后重试';
+                } finally {
+                    loading.value = false;
+                }
+            }
+
+            return {
+                form, current, typeOptions, needsDatabase, needsPackage, needsSkeleton,
+                loading, error, message, submit
+            };
+        }
+    }).mount('#app');
 </script>
+</body>
 </html>

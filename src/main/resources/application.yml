@@ -1,9 +1,27 @@
+server:
+  port: 8080
+
 spring:
-  profiles:
-    include:
-    - web
-    - mybatis
-mybatis-plus:
-  global-config:
-    db-config:
-      db-type: mysql
+  application:
+    name: faster-framework-builder
+
+builder:
+  # 生成单元测试用 JWT 的密钥与 env，需与被生成工程的 faster.base64-secret / 运行环境一致
+  jwt-base64-secret: ZmFzdGVyLWZyYW1ld29yaw==
+  jwt-env: local
+  jwt-subject: "0"
+  # 连接用户数据库与读取元数据的超时
+  connect-timeout: 5s
+  query-timeout: 15s
+  # 下载官方骨架 ZIP 的限制
+  skeleton-max-bytes: 67108864
+  skeleton-timeout: 60s
+  # 各生成类型的框架版本与骨架地址；不配置时使用内置默认值（可通过 GET /builder/options 查看）
+  # projects:
+  #   - type: 2
+  #     version: 1.4.2.RELEASE
+  #     url: https://github.com/faster-framework/faster-framework-admin-api/archive/v1.0.3.RELEASE.zip
+
+logging:
+  level:
+    cn.org.faster.framework.builder: INFO

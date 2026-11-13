@@ -1,10 +1,11 @@
 package cn.org.faster.framework.builder.modules.strategy.api;
 
+import cn.org.faster.framework.builder.common.utils.BuilderUtils;
+
 import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.model.DependencyModel;
 import cn.org.faster.framework.builder.common.strategy.BuildStrategy;
 import cn.org.faster.framework.builder.common.utils.FreemarkerUtils;
-import cn.org.faster.framework.core.utils.Utils;
 import freemarker.template.Template;
 
 import java.io.IOException;
@@ -28,7 +29,7 @@ public class PomStrategy extends BuildStrategy {
         builderModel.setDependencyVersion(builderModel.getDependencyVersion().replace("v", ""));
         Template pomTemp = FreemarkerUtils.cfg.getTemplate("java/pom.xml.ftl");
         String zipFileName = "pom.xml";
-        Map<String, Object> map = Utils.beanToMap(builderModel);
+        Map<String, Object> map = BuilderUtils.beanToMap(builderModel);
         List<DependencyModel> dependencyModelList = new ArrayList<>();
         dependencyModelList.add(new DependencyModel("cn.org.faster", "spring-boot-starter-web"));
         dependencyModelList.add(new DependencyModel("cn.org.faster", "spring-boot-starter-mybatis"));

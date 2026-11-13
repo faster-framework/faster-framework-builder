@@ -82,6 +82,18 @@ public class ${businessEnNameUpFirst}Controller {
     /**
      * 删除${businessCnName}
      *
+     * @param id 主键id
+     * @return ResponseEntity
+     */
+    @DeleteMapping("/{id}")
+    @RequiresPermissions("${businessEnName}:delete")
+    public ResponseEntity delete(@PathVariable Long id) {
+        return ${businessEnName}Service.delete(id);
+    }
+
+    /**
+     * 批量删除${businessCnName}
+     *
      * @param ids 主键ids
      * @return ResponseEntity
      */

@@ -1,13 +1,13 @@
 package cn.org.faster.framework.builder.modules.strategy.adminApi;
 
+import cn.org.faster.framework.builder.common.utils.BuilderUtils;
+
 import cn.org.faster.framework.builder.common.constants.BuilderConstants;
 import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.model.TableColumnModel;
 import cn.org.faster.framework.builder.common.strategy.BuildStrategy;
+import cn.org.faster.framework.builder.common.token.JwtTokenGenerator;
 import cn.org.faster.framework.builder.common.utils.FreemarkerUtils;
-import cn.org.faster.framework.core.utils.Utils;
-import cn.org.faster.framework.web.jwt.service.JwtService;
-import cn.org.faster.framework.web.spring.boot.autoconfigure.ProjectProperties;
 import freemarker.template.Template;
 
 import java.io.IOException;
@@ -37,7 +37,7 @@ public class TestStrategy extends BuildStrategy {
             String zipFileName = srcPath + tableColumnModel.getBusinessEnName() + "/" + tableColumnModel.getBusinessEnNameUpFirst() + "Test.java";
             //包名
             String packageStr = "package " + basePackage + "." + tableColumnModel.getBusinessEnName() + ";\n";
-            StringBuffer importStr = new StringBuffer()
+            StringBuilder importStr = new StringBuilder()
                     .append("import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;\n")
                     .append("import org.junit.Test;\n")
                     .append("import ").append(builderModel.getBasePackagePath()).append(".test.BaseTest;\n")
@@ -46,13 +46,11 @@ public class TestStrategy extends BuildStrategy {
                     .append("import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;\n")
                     .append("import ").append(builderModel.getBasePackagePath()).append(".modules.").append(tableColumnModel.getBusinessEnName()).append(".model.request.").append(tableColumnModel.getBusinessEnNameUpFirst()).append("AddRequest;\n")
                     .append("import ").append(builderModel.getBasePackagePath()).append(".modules.").append(tableColumnModel.getBusinessEnName()).append(".model.request.").append(tableColumnModel.getBusinessEnNameUpFirst()).append("UpdateRequest;\n");
-            Map<String, Object> map = Utils.beanToMap(tableColumnModel);
+            Map<String, Object> map = BuilderUtils.beanToMap(tableColumnModel);
             map.put("package", packageStr);
             map.put("import", importStr);
-            JwtService jwtService = new JwtService();
-            jwtService.setEnv("local");
-            jwtService.setBase64Security(new ProjectProperties().getBase64Secret());
-            map.put("headerToken", jwtService.createToken("0", 0));
+            map.put("headerToken", JwtTokenGenerator.createToken(
+                    builderModel.getJwtBase64Secret(), builderModel.getJwtEnv(), "0", 0));
             zipOutputStream.putNextEntry(new ZipEntry(zipFileName));
             zipOutputStream.write(FreemarkerUtils.processIntoStream(testTemp, map));
             zipOutputStream.closeEntry();

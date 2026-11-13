@@ -6,9 +6,7 @@ import cn.org.faster.framework.builder.common.model.TableColumnModel;
 import cn.org.faster.framework.builder.common.strategy.adapter.ApiStrategyAdapter;
 import cn.org.faster.framework.builder.common.utils.BuilderUtils;
 import cn.org.faster.framework.builder.common.utils.FreemarkerUtils;
-import cn.org.faster.framework.core.utils.Utils;
 import freemarker.template.Template;
-import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -35,7 +33,7 @@ public class EntityStrategy extends ApiStrategyAdapter {
             String zipFileName = srcPath + tableColumnModel.getBusinessEnName() + "/entity/" + tableColumnModel.getBusinessEnNameUpFirst() + ".java";
             //包名
             String packageStr = "package " + basePackage + "." + tableColumnModel.getBusinessEnName() + ".entity;\n";
-            StringBuffer importStr = new StringBuffer();
+            StringBuilder importStr = new StringBuilder();
             importStr.append("import cn.org.faster.framework.mybatis.entity.BaseEntity;\n")
                     .append("import lombok.Data;\n")
                     .append("import com.baomidou.mybatisplus.annotation.TableName;\n")
@@ -44,11 +42,11 @@ public class EntityStrategy extends ApiStrategyAdapter {
             List<ColumnModel> columnList = tableColumnModel.getColumnList().stream()
                     .filter(item -> BuilderUtils.baseNotContainsProperty(item.getColumnNameHump()))
                     .peek(item -> {
-                        if (!StringUtils.isEmpty(item.getJavaImportType()) && importStr.indexOf(item.getJavaImportType()) == -1) {
+                        if (!BuilderUtils.isBlank(item.getJavaImportType()) && importStr.indexOf(item.getJavaImportType()) == -1) {
                             importStr.append(item.getJavaImportType()).append("\n");
                         }
                     }).collect(Collectors.toList());
-            Map<String, Object> map = Utils.beanToMap(tableColumnModel);
+            Map<String, Object> map = BuilderUtils.beanToMap(tableColumnModel);
             map.put("columnList", columnList);
             map.put("package", packageStr);
             map.put("import", importStr);

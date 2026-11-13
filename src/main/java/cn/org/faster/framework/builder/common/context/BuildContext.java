@@ -1,47 +1,44 @@
 package cn.org.faster.framework.builder.common.context;
 
+import cn.org.faster.framework.builder.common.compression.EntryNormalizingZipOutputStream;
 import cn.org.faster.framework.builder.common.model.BuilderModel;
 import cn.org.faster.framework.builder.common.strategy.BuildStrategy;
-import lombok.Data;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.ZipOutputStream;
 
 /**
+ * 生成流程骨架：由子类决定"用哪些策略、按什么顺序"，父类负责组装 ZIP。
+ *
  * @author zhangbowen
  * @since 2018/12/14
  */
-@Data
 public abstract class BuildContext {
-    protected BuilderModel builderModel;
-    protected List<BuildStrategy> strategyList = new ArrayList<>();
 
+    protected final BuilderModel builderModel;
+    protected final List<BuildStrategy> strategyList = new ArrayList<>();
 
-    public BuildContext(BuilderModel builderModel) {
+    protected BuildContext(BuilderModel builderModel) {
         this.builderModel = builderModel;
     }
 
     /**
-     * 处理流程
+     * 执行生成。
      *
-     * @return
+     * @return ZIP 字节内容
+     * @throws IOException 写入失败
      */
-    public FileInputStream process() throws IOException {
-        //初始化生成策略
+    public byte[] process() throws IOException {
         initBuildStrategy(strategyList);
-        //创建压缩文件
-        File zipFile = File.createTempFile(builderModel.getProjectName(), ".zip");
-        try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(zipFile))) {
+        var buffer = new ByteArrayOutputStream(128 * 1024);
+        try (var zipOutputStream = new EntryNormalizingZipOutputStream(buffer)) {
             for (BuildStrategy buildStrategy : strategyList) {
                 buildStrategy.process(zipOutputStream);
             }
         }
-        return new FileInputStream(zipFile);
+        return buffer.toByteArray();
     }
 
     /**

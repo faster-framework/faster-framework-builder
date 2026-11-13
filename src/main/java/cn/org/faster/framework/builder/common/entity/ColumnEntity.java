@@ -1,18 +1,20 @@
 package cn.org.faster.framework.builder.common.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
-
+/**
+ * 列元数据。
+ *
+ * @author zhangbowen
+ */
 @Data
 public class ColumnEntity {
     /**
      * 列名称
      */
-    @TableId
     private String columnName;
     /**
-     * 数据类型
+     * 数据类型（information_schema.COLUMNS.DATA_TYPE）
      */
     private String dataType;
     /**
@@ -23,9 +25,8 @@ public class ColumnEntity {
      * 注释
      */
     private String columnComment;
-
     /**
-     * 是否为空（NO，YES)
+     * 是否为空（NO / YES）
      */
     private String isNullable;
 }
